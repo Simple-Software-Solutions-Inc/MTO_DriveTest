@@ -1,0 +1,68 @@
+.logoFont {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 58pt;
+  color: #333333;
+  /* border: solid; */
+  font-weight: bold;
+  margin-bottom: -30px;
+}
+
+.logoFont-sm {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18pt;
+  color: #333333;
+  padding-left: 5px;
+}
+
+.imglogo{
+	width: 100px;
+	margin-top: 8px;
+	/* height: 30px; */
+}
+
+.logoText{
+	
+	margin-left: -10px;
+}
+
+.footerText{
+	  color: #000000;
+	  font-weight: bold;
+}
+
+.mainBackground{
+	margin-top: -10px;
+	background-image: url("/media/images/mto-background.jpg");
+	background-repeat: repeat;
+  	background-size:cover;
+  
+}
+
+.borderThick-b{
+	border-bottom: 5px solid black;
+}
+
+.borderThick-t{
+	border-top: 5px solid black;
+}
+
+body{
+	background-color: #F2F2F2;
+}
+
+
+.form-box {
+  width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.appText{
+	font-family: Arial, Helvetica, sans-serif;
+  	font-size: 20pt;
+  	font-weight: bold;
+}
+
+.answerColor{
+	background-color: blue;
+}

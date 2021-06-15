@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="container mainBackground pb-5" th:fragment="main_content">
+		<div class="p-5 col text-center text-white appText">DriveTest
+			Application</div>
+		<div
+			class="bg-white  rounded border-secondary border p-3 mb-5 mx-auto col-10">
+			<div class="row">
+				<h5 class="pl-4" th:text="'Question #' + ${ques.id}">Question
+					#1</h5>
+			</div>
+			<form method="post" th:action="@{'/quiz/' + ${ques.id}}"
+				th:object="${answerObj}">
+				<div class="row mt-1 mx-2">
+					<div class="col rounded border-secondary border mx-auto bg-light"
+						th:text="${ques.question}">Question</div>
+					<div class="col px-2 mx-auto" id="options">
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<input type="radio" value="A" name="answer" th:checked="${questionAns =='A'} ? 'True'"
+										aria-label="Checkbox for following text input">
+								</div>
+							</div>
+							<div th:text="${ques.option_A}" class="form-control"
+								aria-label="Text input with radio"></div>
+						</div>
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<input type="radio" value="B" name="answer"   th:checked="${questionAns =='B'} ? 'True'"
+										aria-label="Checkbox for following text input">
+								</div>
+							</div>
+							<div th:text="${ques.option_B}" class="form-control"
+								aria-label="Text input with radio"></div>
+						</div>
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<input type="radio" value="C" name="answer"  th:checked="${questionAns =='C'} ? 'True'"
+										aria-label="Checkbox for following text input">
+								</div>
+							</div>
+							<div th:text="${ques.option_C}" class="form-control"
+								aria-label="Text input with radio"></div>
+						</div>
+
+						<div class="input-group mb-3">
+							<div class="input-group-prepend ">
+								<div class="input-group-text">
+									<input type="radio" value="D" name="answer"  th:checked="${questionAns =='D'} ? 'True'"
+										aria-label="Checkbox for following text input">
+								</div>
+							</div>
+							<div th:text="${ques.option_D}" class="form-control"
+								aria-label="Text input with radio"></div>
+						</div>
+
+
+
+					</div>
+
+					<!-- <div id="option_A"
+						class="row rounded border-primary border ml-2 bg-light mb-2 p-2"
+						th:text="${ques.option_A}">Answer 1</div>
+					<div id="option_B"
+						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
+						th:text="${ques.option_B}">Answer 2</div>
+					<div id="option_C"
+						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
+						th:text="${ques.option_C}">Answer 3</div>
+					<div id="option_D"
+						class="row rounded border-primary border ml-2 bg-light mt-2 p-2"
+						th:text="${ques.option_D}">Answer 4</div>
+				</div> -->
+				</div>
+
+				<div class="row mt-3">
+
+					
+					<div class="col mx-2">
+						<input type="submit" value="PREVIOUS" name="next"
+							class="float-right btn btn-secondary btn-sm" />
+					</div>
+					<div th:if="${ques.id}<5" class="col mx-2">
+						<input type="submit" value="NEXT" name="next"
+							class=" btn btn-secondary btn-sm" />
+					</div>
+					<div th:if="${ques.id}==5" class="col mx-2">
+						<input type="submit" value="SUBMIT QUIZ" name="next"
+							class=" btn btn-primary btn-sm" />
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>

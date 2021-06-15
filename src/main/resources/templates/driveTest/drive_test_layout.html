@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="head">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Spring App</title>
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css" />
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="/css/newsite.css" />
+
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/popper.js/cjs/popper.min.js"></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="/lib/jquery-validate/jquery.validate.min.js"></script>
+<script
+	src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+<script type="text/javascript">
+	    $(document).ready(function() {
+	    	$("#cpwd1").click(function(){
+	    		  $("#requestPwd").hide(1000);
+	    		  //$("#changePwd").hide(1000);
+	    		   $("#loginRequest").hide(1000);
+	    		  
+	    		});
+	    });
+    	
+    </script>
+</head>
+<body>
+	<header th:fragment="header">
+		<nav
+			class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
+			<div class="container  box-shadow pb-2 borderThick-b bg-white">
+				<div class="row pl-2">
+				<div class="imglogo">
+					<img class="imglogo" src="/media/images/ca1.png" alt="logo">
+				</div>
+			<div class="col logoText">
+				<div class="logoFont">Ontario</div>
+				<div class="logoFont-sm">Ministry of Transportation</div>
+			</div>
+			</div>
+			
+				
+				<button type="button" class="btn btn-sm btn-light float-left">
+					Login
+				</button>
+			</div>
+		</nav>
+	</header>
+	<div class="container mainBackground" th:fragment="main_content">
+		<main role="main" class="pb-3">
+			<div class="p-5 col text-center text-white">DriveTest Application</div>
+			<div class="row" th:fragment="main_content1"></div>
+			
+			
+		</main>
+	</div>
+
+	<footer class="footer text-muted" th:fragment="footer">
+		<div class="container borderThick-t bg-white">
+			<div class="row">
+				<div class="col text-right footerText">
+					<a>Privacy</a>
+				</div>
+				<div class="col text-center footerText">
+					<a>Terms of Use</a>
+				</div>
+				<div class="col text-left footerText">
+					<a>Contact Us</a>
+				</div>
+			</div>
+			<div class="row">
+			<div class="col text-center">
+				&copy; Copyright 2021. All Rights Reserved
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script src="/lib/jquery/jquery.js"></script>
+	<script src="/lib/bootstrap/js/bootstrap.js"></script>
+	<script src="/js/site.js"></script>
+</body>
+</html>

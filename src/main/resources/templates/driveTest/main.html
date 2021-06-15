@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="container mainBackground pb-5" th:fragment="main_content">
+		<div class="p-5 col text-center text-white appText">DriveTest
+			Application</div>
+		<div class="mb-5">
+			<div class="row gx-2">
+				<div class="mx-auto col-6 border rounded p-3 bg-white">
+					<h5>About the DriveTest Quiz</h5>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+						Vivamus vehicula risus et ligula hendrerit tincidunt. Aenean sit
+						amet ornare tellus, sit amet mattis lacus. Nulla id felis dui.
+						Maecenas vestibulum elit accumsan enim aliquet, nec mollis nisi
+						pulvinar. Vestibulum fermentum scelerisque orci, imperdiet iaculis
+						augue mattis vel. Ut et magna vestibulum dui posuere euismod.
+						Morbi nibh purus, iaculis eu ligula id, interdum sodales ex. Fusce
+						condimentum massa mollis diam egestas vulputate. Morbi vulputate
+						mattis risus nec vulputate. Aenean mattis, velit quis luctus
+						fermentum, eros erat tincidunt tortor, vel tincidunt velit mi a
+						nulla. Morbi hendrerit neque viverra mi porttitor malesuada.
+						Aenean consectetur non elit non egestas. Nam iaculis faucibus
+						magna, ut sodales purus sollicitudin eu. Phasellus ac tortor
+						tellus. Maecenas dolor massa, tincidunt et viverra nec,
+						consectetur vel dolor. Phasellus in enim efficitur felis lacinia
+						dignissim. Ut non nunc tempus, vulputate leo tincidunt, dapibus
+						tortor. Pellentesque rutrum ante sit amet ornare aliquam. Ut
+						vestibulum fermentum semper. Proin in blandit lacus. Suspendisse
+						malesuada dolor sit amet scelerisque maximus.</p>
+				</div>
+				<div class=" mx-auto ml-1 col-4">
+						<div class="col border rounded p-3 bg-white ">
+							<h5>Your Quiz Attempt</h5>
+							<table class="table table-bordered">
+								<thead class="table-dark">
+									<tr>
+										<th>Date</th>
+										<th>Score</th>
+										<th>Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Jun 05, 2021</td>
+										<td>2/5</td>
+										<td><img src="/media/images/close.png" alt="fail" width="40"></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="row">
+							<div class="col mx-auto">
+							<span class="h5"><img src="/media/images/checkmark.png" alt="pass" width="40"> Pass</span>
+							</div>
+							<div class="col mx-auto">
+							<span class="h5"><img src="/media/images/close.png" alt="fail" width="40"> Fail</span>
+							</div>
+							</div>
+						</div>
+						
+						<div class="mt-5 text-right">
+							<a th:href="@{/quiz}"
+								class="btn btn-success btn-lg">Start
+								Quiz</a>
+						</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+
+</body>
+</html>

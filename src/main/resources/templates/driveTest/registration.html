@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="container mainBackground pb-5" th:fragment="main_content">
+		<div class="p-5 col text-center text-white appText">DriveTest
+			Application</div>
+		<div
+			class="bg-white rounded border border-secondary mx-auto col-10 mb-5 pt-5">
+			<h5>Register to create a DriveTest account</h5>
+			<form method="post" th:action=" @{'/registration'}"
+				th:object="${prospect}" enctype="multipart/form-data">
+				
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>First Name</label> <input class="form-control"
+							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.first_name}"
+							placeholder="Enter first name" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<label>Last Name</label> <input class="form-control"
+							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.last_name}"
+							placeholder="Enter last name" />
+					</div>
+				</div>
+
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>Nationality</label> <input class="form-control"
+							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.nationality}"
+							placeholder="Enter nationality" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<label>D.O.B</label> <input class="form-control"
+							aria-describedby="" type="date" name="" id="usr" th:field="*{applicant.dob}"/>
+					</div>
+				</div>
+
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>Height</label> <input class="form-control"
+							aria-describedby="" type="number" name="" id="usr" th:field="*{applicant.height}"
+							placeholder="Enter height in centimeters" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<fieldset class="form-group">
+							<legend class="col-form-label">Gender</legend>
+							<div class="row ">
+								<div class="col form-check ml-2">
+									<input class="form-check-input" type="radio" name="gender"
+										id="female" value="F" th:field="*{applicant.gender}"/> <label class="form-check-label"
+										for="female"> Female </label>
+								</div>
+
+								<div class="col form-check">
+									<input class="form-check-input" type="radio" name="gender"
+										id="male" value="M" th:field="*{applicant.gender}"/> <label class="form-check-label"
+										for="male"> Male </label>
+								</div>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>Address</label> <input class="form-control"
+							aria-describedby="" type="text" name="address" id="address" th:field="*{applicant.address}"
+							placeholder="Enter street # and name" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<label>Zip Code</label> <!-- <input class="form-control"
+							aria-describedby="" type="text" name="zip" id="zip" th:field="*{applicant.location_id}"
+							placeholder="Enter zip code" /> -->
+							
+							<select class="custom-select"
+								aria-label=".form-select-lg example"
+								th:field="*{applicant.location_id}" th:value="*{applicant.location_id}">
+								<th:block th:if="${foreign} != null">
+								
+								<option
+									
+									th:each="fm : ${foreignModel['Zip']}"
+									th:value="${fm[Num]}" th:text="${fm[Name]}"></option>
+								</th:block>
+								
+
+							</select>
+							
+					</div>
+				</div>
+
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>Phone Number</label> <input class="form-control"
+							aria-describedby="" type="tel" name="phone" id="phone" th:field="*{applicant.phone_no}"
+							placeholder="555-555-5555" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<label>Email</label> <input class="form-control"
+							aria-describedby="" type="email" name="email" id="email" th:field="*{applicant.email}"
+							placeholder="example@mto.com" />
+					</div>
+				</div>
+
+				<div class="form row mb-2">
+					<div class="col-6 form-group text-start">
+						<label>Password</label> <input class="form-control"
+							aria-describedby="" type="password" name="pwd" id="pwd" th:field="*{password}"
+							placeholder="Enter password" />
+					</div>
+					<div class="col-6 form-group text-start">
+						<label>Confirm Password</label> <input class="form-control"
+							aria-describedby="" type="password" name="pwd2" id="pwd2"
+							placeholder="Confirm password" />
+					</div>
+				</div>
+
+
+				<!-- proof section -->
+				<fieldset class="form-group">
+					<legend class="col-form-label">Proof of Identity</legend>
+					<div class="form row mb-2">
+						<div class="col-6 form-group text-start">
+							<label>ID Type</label> <input class="form-control"
+								aria-describedby="" type="text" name="" id="pwd" th:field="*{proof.identification_type}"
+								placeholder="Enter type example Passport" />
+						</div>
+						<div class="col-6 form-group text-start">
+							<label>Serial Number</label> <input class="form-control"
+								aria-describedby="" type="text" name="pwd2" id="pwd2" th:field="*{proof.serial_no}"
+								placeholder="ID number" />
+						</div>
+					</div>
+
+
+					<div class="form row mb-2">
+						<div class="col-6 form-group text-start">
+							<label>Date Issued</label> <input class="form-control"
+								aria-describedby="" type="date" name="pwd" id="pwd" th:field="*{proof.issue_date}"/>
+						</div>
+						<div class="col-6 form-group text-start">
+							<label>Expiry Date</label> <input class="form-control"
+								aria-describedby="" type="date" name="pwd2" id="pwd2" th:field="*{proof.expiry_date}"/>
+						</div>
+					</div>
+
+
+					<div class="form row mb-2">
+						<div class="col-6 form-group text-start">
+							<label>Place of Issued</label> <input class="form-control"
+								aria-describedby="" type="text" name="pwd" id="pwd"
+								placeholder="Enter country/region" th:field="*{proof.issued_location}"/>
+						</div>
+						<div class="col-6 form-group text-start">
+							<label>Upload ID</label> <input class="form-control"
+								aria-describedby="" type="file" name="file" id="file"
+								placeholder="Upload file here" />
+						</div>
+
+					</div>
+				</fieldset>
+
+				<!-- proof section -->
+
+				<div class="form row mb-2">
+					<div class="col form-group text-start">
+						<input class="btn btn-danger btn-sm float-right"
+							aria-describedby="" type="submit" name="submit" value="Cancel"
+							id="btn1" />
+					</div>
+					<div class="col form-group text-start">
+						<input class="btn btn-success btn-sm " aria-describedby=""
+							type="submit" name="submit" value="Submit" id="btn2" />
+					</div>
+				</div>
+
+
+
+
+			</form>
+		</div>
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+
+</body>
+</html>
