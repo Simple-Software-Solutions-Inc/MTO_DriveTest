@@ -140,6 +140,8 @@ public class Utilities {
 				String arrayString = m.getQuestion() + "\n" + objectMapper.writeValueAsString(options);
 
 				question.setAnswer(m.getAnswer());
+				question.setMediaPath(m.getMediaPath());
+				question.setMediaType(m.getMediaType());
 				question.setQuestion(arrayString);
 				question.setQuestionType("Multiple Choice");
 			} catch (Exception e) {
@@ -157,6 +159,8 @@ public class Utilities {
 			MultipleChoice mq = new MultipleChoice();
 			try {
 				mq.setAnswer(q.getAnswer());
+				mq.setMediaPath(q.getMediaPath());
+				mq.setMediaType(q.getMediaType());
 				mq.setId(q.getQues_id().toString());
 
 				String qText = q.getQuestion();
@@ -181,14 +185,14 @@ public class Utilities {
 			int high = mcq.size();
 			int result = new Random().nextInt(high);
 			MultipleChoice random_mq = mcq.get(result);
-			random_mq.setId(""+ (i+1));
+			//random_mq.setId(""+ (i+1));
 			mcq2.add(random_mq);
 			mcq.remove(result);
 		}
 		return mcq2;
 	}
 	
-	public static String quizScore(List<MultipleChoice> lstQ, List<String> lstAns) {
+	public static double quizScore(List<MultipleChoice> lstQ, List<String> lstAns) {
 		int score = 0;
 		for(int i=0; i<5; i++ ) {
 			if (lstQ.get(i).getAnswer().equals(lstAns.get(i))) {
@@ -196,7 +200,7 @@ public class Utilities {
 			}
 		}
 		
-		return score +"/"+ 5;
+		return (score / 5) * 100;
 	}
 
 }

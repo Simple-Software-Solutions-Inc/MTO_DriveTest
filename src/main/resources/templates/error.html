@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head th:replace="layouts/main_layout :: head">
+<head th:replace="driveTest/drive_test_layout :: head">
 <meta charset="ISO-8859-1">
 <title>Homepage</title>
 </head>
 <body>
- 	<header th:replace="layouts/main_layout :: header" class="bg-dark"> </header>
+ 	<header th:replace="driveTest/drive_test_layout :: header" class="bg-dark"> </header>
  	<main>
- 		<div class="container" th:fragment="main_content">
+ 		<div class="container bg-white" th:fragment="main_content">
  			<div>
  				<h1 class="display-2">Ooops! </h1>
  				<h3 class="display-6">Looks like you've spilled your coffee.</h3>
@@ -16,6 +16,6 @@
  			</div>
  		</div>
  	</main>
- 	<footer th:replace="layouts/main_layout :: footer"></footer>
+ 	<footer th:replace="driveTest/drive_test_layout :: footer"></footer>
 </body>
 </html>

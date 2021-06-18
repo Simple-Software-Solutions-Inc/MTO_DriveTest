@@ -35,7 +35,7 @@
 				<div class=" mx-auto ml-1 col-4">
 						<div class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
-							<table class="table table-bordered">
+							<table class="table table-bordered table-sm">
 								<thead class="table-dark">
 									<tr>
 										<th>Date</th>
@@ -44,10 +44,10 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
+									<tr th:each="attempt : ${attempts}">
 										<td>Jun 05, 2021</td>
-										<td>2/5</td>
-										<td><img src="/media/images/close.png" alt="fail" width="40"></td>
+										<td th:text="${attempt.result}">2/5</td>
+										<td><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  alt="result" width="40"></td>
 									</tr>
 								</tbody>
 							</table>

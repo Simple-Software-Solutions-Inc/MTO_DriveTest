@@ -29,6 +29,9 @@ public class MultipleChoice {
 		   
 		    private String answer;
 		
+		    private String mediaType;
+		    
+		    private String mediaPath;
 		
 		
 		/**
@@ -47,11 +50,13 @@ public class MultipleChoice {
 				@JsonProperty("Option_B") String option_B,
 				@JsonProperty("Option_C") String option_C,
 				@JsonProperty("Option_D") String option_D,
-				@JsonProperty("Answer") String answer
+				@JsonProperty("Answer") String answer,
+				@JsonProperty("Media_Type") String mediaType,
+				@JsonProperty("Media_Path") String mediaPath
 				)
 		{
 			//call the private constructor
-			return new MultipleChoice(id, question, option_A, option_B, option_C, option_D, answer);
+			return new MultipleChoice(id, question, option_A, option_B, option_C, option_D, answer, mediaType, mediaPath);
 		}
 
 }
