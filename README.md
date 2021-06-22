@@ -10,7 +10,7 @@ In the project directory, you can run:
 ### spring.mail.username = "your email id" 
 ### spring.mail.password = "email id password"
 
-### In the JavaMailSenderConfig file make changes accordingly:
+### In the JavaMailSenderConfig.java file make changes accordingly:
 ### mailSender.setUsername("your email id");
 ###	mailSender.setPassword("email id password");
 Runs the app in the development mode.\
