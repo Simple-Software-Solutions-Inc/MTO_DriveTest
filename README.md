@@ -1,6 +1,6 @@
 In the project directory, you can run:
 
-### `git clone https://github.com/jaybaldha/react-login-template.git` to clone the project in your local workspace.
+### `git clone https://github.com/Simple-Software-Solutions-Inc/MTO_DriveTest.git` to clone the project in your local workspace.
 
 
 Runs the app in the development mode.\
