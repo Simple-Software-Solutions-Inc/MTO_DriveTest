@@ -4,7 +4,7 @@ In the project directory, you can run:
 
 
 Runs the app in the development mode.\
-Open [http://localhost:8080](http://localhost:8080/drive_test) to view it in the browser.
+Open [http://localhost:8080/drive_test](http://localhost:8080/drive_test) to view it in the browser.
 
 ## Learn More
 
