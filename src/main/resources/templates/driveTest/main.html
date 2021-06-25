@@ -2,6 +2,7 @@
 <html lang="en">
 <head th:replace="driveTest/drive_test_layout :: head">
 
+//initialize instance
 </head>
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
@@ -11,6 +12,7 @@
 		<div class="mb-5">
 			<div class="row gx-2">
 				<div class="mx-auto col-6 border rounded p-3 bg-white">
+<<<<<<< HEAD
 					<h5>Watch Video to Prepare for G1 test</h5>
 					<p>
 						<iframe width="560" height="315"
@@ -22,9 +24,17 @@
 					</p>
 
 
+=======
+					<h5 class="new_btn">About the DriveTest Quiz</h5>
+					<p>We are dedicated to providing customer service excellence and delivering high quality services to all Ontario residents who require a driver’s licence test. 
+
+Every year, we conduct 725,000 road tests, administer 588,000 written tests, process 600,000 driver's licence applications, and answer easily over a million questions about driver licensing. Year-round, drivers of passenger and commercial vehicles visit DriveTest Centres to obtain, restore, and upgrade their licences.
+
+At DriveTest, our team of customer service agents and certified driver examiners are highly trained to apply the policies and procedures laid out by MTO. Together with MTO and ServiceOntario, we strive to ensure that Ontario’s roads are among the safest in North America.</p>
+>>>>>>> e4bf99e8288533e4de9fb059f09160e66b6babc3
 				</div>
 				<div class=" mx-auto ml-1 col-4">
-						<div class="col border rounded p-3 bg-white ">
+						<div  class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
 							<table class="table table-bordered table-sm">
 								<thead class="table-dark">
@@ -52,7 +62,7 @@
 							</div>
 						</div>
 						
-						<div class="mt-5 text-right">
+						<div data-intro='Start your Quiz! &#128552;' class="mt-5 text-right">
 							<a th:href="@{/quiz}"
 								class="btn btn-success btn-lg">Start
 								Quiz</a>
@@ -63,6 +73,5 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
-
 </body>
 </html>

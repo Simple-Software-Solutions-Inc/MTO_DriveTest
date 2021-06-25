@@ -20,6 +20,19 @@
 		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
 	</properties>
 	<dependencies>
+	
+	<!-- https://mvnrepository.com/artifact/org.webjars.bowergithub.xbsoftware/enjoyhint -->
+<dependency>
+    <groupId>org.webjars.bowergithub.xbsoftware</groupId>
+    <artifactId>enjoyhint</artifactId>
+    <version>3.1.0</version>
+</dependency>
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>webjars-locator</artifactId>
+    <version>0.30</version>
+</dependency>
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>

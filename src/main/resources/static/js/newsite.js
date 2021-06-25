@@ -1,9 +1,28 @@
+<<<<<<< HEAD
+$(document).ready(function() {
+console.log("hello there");
+var enjoyhint_instance = new EnjoyHint({});
+var enjoyhint_script_steps = [
+  {
+    'click #bttn' : 'Click the New button to start creating your project'
+  }  
+]; 
+//set script config
+enjoyhint_instance.set(enjoyhint_script_steps);
+//run Enjoyhint script
+enjoyhint_instance.run();
+ 
+});
+$("#cpwd1").click(function(){
+  $("#requestPwd").hide(1000);
+=======
 /**
  * 
  */
 
 $("#cpwd1").click(function(event){
   $("#requestPwd").toggleClass("d-none");
+>>>>>>> 1b6e87209c6e13b9f93075e69e51450deec45759
   //$("#changePwd").hide(1000);
    $("#loginRequest").toggleClass("d-none");
    event.preventDefault();
