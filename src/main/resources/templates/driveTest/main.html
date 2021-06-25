@@ -2,6 +2,7 @@
 <html lang="en">
 <head th:replace="driveTest/drive_test_layout :: head">
 
+//initialize instance
 </head>
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
@@ -11,29 +12,15 @@
 		<div class="mb-5">
 			<div class="row gx-2">
 				<div class="mx-auto col-6 border rounded p-3 bg-white">
-					<h5>About the DriveTest Quiz</h5>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Vivamus vehicula risus et ligula hendrerit tincidunt. Aenean sit
-						amet ornare tellus, sit amet mattis lacus. Nulla id felis dui.
-						Maecenas vestibulum elit accumsan enim aliquet, nec mollis nisi
-						pulvinar. Vestibulum fermentum scelerisque orci, imperdiet iaculis
-						augue mattis vel. Ut et magna vestibulum dui posuere euismod.
-						Morbi nibh purus, iaculis eu ligula id, interdum sodales ex. Fusce
-						condimentum massa mollis diam egestas vulputate. Morbi vulputate
-						mattis risus nec vulputate. Aenean mattis, velit quis luctus
-						fermentum, eros erat tincidunt tortor, vel tincidunt velit mi a
-						nulla. Morbi hendrerit neque viverra mi porttitor malesuada.
-						Aenean consectetur non elit non egestas. Nam iaculis faucibus
-						magna, ut sodales purus sollicitudin eu. Phasellus ac tortor
-						tellus. Maecenas dolor massa, tincidunt et viverra nec,
-						consectetur vel dolor. Phasellus in enim efficitur felis lacinia
-						dignissim. Ut non nunc tempus, vulputate leo tincidunt, dapibus
-						tortor. Pellentesque rutrum ante sit amet ornare aliquam. Ut
-						vestibulum fermentum semper. Proin in blandit lacus. Suspendisse
-						malesuada dolor sit amet scelerisque maximus.</p>
+					<h5 class="new_btn">About the DriveTest Quiz</h5>
+					<p>We are dedicated to providing customer service excellence and delivering high quality services to all Ontario residents who require a driver’s licence test. 
+
+Every year, we conduct 725,000 road tests, administer 588,000 written tests, process 600,000 driver's licence applications, and answer easily over a million questions about driver licensing. Year-round, drivers of passenger and commercial vehicles visit DriveTest Centres to obtain, restore, and upgrade their licences.
+
+At DriveTest, our team of customer service agents and certified driver examiners are highly trained to apply the policies and procedures laid out by MTO. Together with MTO and ServiceOntario, we strive to ensure that Ontario’s roads are among the safest in North America.</p>
 				</div>
 				<div class=" mx-auto ml-1 col-4">
-						<div class="col border rounded p-3 bg-white ">
+						<div  class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
 							<table class="table table-bordered">
 								<thead class="table-dark">
@@ -45,9 +32,9 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td>Jun 05, 2021</td>
-										<td>2/5</td>
-										<td><img src="/media/images/close.png" alt="fail" width="40"></td>
+										<td data-intro='Test Date! &#128578'>Jun 05, 2021</td>
+										<td data-intro='Test Score! &#128533'>2/5</td>
+										<td data-intro='Test Result! &#128533'><img src="/media/images/close.png" alt="fail" width="40"></td>
 									</tr>
 								</tbody>
 							</table>
@@ -61,7 +48,7 @@
 							</div>
 						</div>
 						
-						<div class="mt-5 text-right">
+						<div data-intro='Start your Quiz! &#128552;' class="mt-5 text-right">
 							<a th:href="@{/quiz}"
 								class="btn btn-success btn-lg">Start
 								Quiz</a>
@@ -72,6 +59,5 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
-
 </body>
 </html>

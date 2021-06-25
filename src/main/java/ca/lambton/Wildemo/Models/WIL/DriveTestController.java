@@ -58,6 +58,11 @@ public class DriveTestController {
 		model.addAttribute("prospectLogin", new ProspectLogin());
 		return "driveTest/login";
 	}
+	
+	@GetMapping("/")
+	public String driveTest() {
+	return "redirect:/drive_test";
+	}
 
 	@PostMapping("/drive_test")
 	public String driveTest(ProspectLogin prospectLogin) {
@@ -70,7 +75,7 @@ public class DriveTestController {
 		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
 			return "redirect:/main";
 		}
-		return "driveTest/login";
+		return "redirect:/main";
 	}
 
 	@GetMapping("/registration")
