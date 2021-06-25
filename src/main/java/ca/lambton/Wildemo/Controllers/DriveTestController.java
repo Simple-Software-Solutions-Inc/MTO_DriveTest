@@ -78,6 +78,14 @@ public class DriveTestController {
 		model.addAttribute("prospectLogin", new ProspectLogin());
 		return "driveTest/login";
 	}
+	
+	//Deletes the active user session 
+	@GetMapping("/log-out")
+	public String logOut() {
+
+		session.removeAttribute("Active_User");
+		return "redirect:/drive_test";
+	}
 
 	@PostMapping("/drive_test")
 	public String driveTest(ProspectLogin prospectLogin) throws MessagingException {
@@ -97,17 +105,20 @@ public class DriveTestController {
 		return "driveTest/login";
 	}
 
+	//Method sends the authentication code to the user email
 	@PostMapping("/reset-password")
 	@ResponseBody
 	public String driveTestReset(@RequestParam(name = "email") String str) throws MessagingException {
-
+		
 		int result = new Random().nextInt(10);
-		String code = "test" + result;
-		smtpMailSender.send(str, "Test Mail", "Authentication code " + code);
-		setAuthCodeSessionManager(code, str);
+		String code = "test" + result; 																//generates authentication code	
+		smtpMailSender.send(str, "Test Mail", "Authentication code " + code); 	//sends email
+		setAuthCodeSessionManager(code, str);												//stores code in a session variable
 		return "data";
 	}
-
+	
+	
+	//Method changes user password
 	@PostMapping("/change-password")
 	public String driveTestPwdChange(@RequestParam(name = "auth_code") String auth_code, @RequestParam(name = "new_password") String new_pwd) {
 		ModelMap usrAuth = getAuthCodeSessionObject();
@@ -124,6 +135,7 @@ public class DriveTestController {
 		return "redirect:/drive_test";
 	}
 
+	//Method calls the registration form
 	@GetMapping("/registration")
 	public String driveTestReg(Model model) {
 		model.addAttribute("prospect", new Prospect());
@@ -147,6 +159,7 @@ public class DriveTestController {
 		return "driveTest/registration";
 	}
 
+	//Method registers an applicant
 	@PostMapping("/registration")
 	public String driveTestReg(Prospect prospect, @RequestParam("file") MultipartFile file) {
 
@@ -192,15 +205,22 @@ public class DriveTestController {
 		}
 		System.out.println(getUserSessionObject());
 		List<Applicant_Quiz> appQuiz = applicantQuizDb.findAll().stream().filter(
-				x -> x.getApplicantId().getApplicant_id() == ((Integer) getUserSessionObject().getAttribute("uid")))
+				x -> x.getApplicantId().getApplicant_id().equals(getUserSessionObject().getAttribute("uid")))
 				.collect(Collectors.toList());
 		model.addAttribute("attempts", appQuiz);
+		System.out.println(appQuiz.size());
+		System.out.println((Integer) getUserSessionObject().getAttribute("uid"));
 		return "driveTest/main";
 	}
 
 	@GetMapping("/report")
 	public String driveTestReport() {
 		return "driveTest/report";
+	}
+	
+	@GetMapping("/certificate")
+	public String driveTestCert() {
+		return "driveTest/certificate";
 	}
 
 	@GetMapping("/quiz")
@@ -268,6 +288,18 @@ public class DriveTestController {
 			} else if (answer.getNext().equals("PREVIOUS") && (id - 1) > 0) {
 				i--;
 			} else if (answer.getNext().equals("SUBMIT QUIZ")) {
+				try{
+					//Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
+					Utilities.ConvertToPDF("John Brown", "34");
+					}
+				catch(Exception e) {System.out.println(e.getMessage());}
+				
+				try {
+					smtpMailSender.send("dvn.shakes@gmail.com", "Test Mail", "Test Results", "src/main/resources/Test_out.pdf");
+				} catch (MessagingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				List<MultipleChoice> mm = getSessionObject();
 
 				ModelMap modelmap = new ModelMap();
@@ -286,9 +318,11 @@ public class DriveTestController {
 				applicantQuizDb.save(appQuiz);
 				session.removeAttribute("Quiz");
 				session.removeAttribute("Answer");
+//				model.addAttribute("CertGen", true);  review this later
 				return "redirect:/main";
 			}
 
+			
 			model.addAttribute("questionAns", ans.get(i - 1));
 			return "redirect:/quiz/" + i;
 		}
@@ -445,5 +479,6 @@ public class DriveTestController {
 
 		return mcq;
 	}
+	
 
 }

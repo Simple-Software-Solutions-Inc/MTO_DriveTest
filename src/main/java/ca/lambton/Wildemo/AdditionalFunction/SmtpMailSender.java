@@ -30,4 +30,25 @@ public class SmtpMailSender {
 		
 		javaMailSender.send(message);
 	}
+
+	public void send(String to, String subject, String body, String pathToAttachment) throws MessagingException {
+		//https://www.baeldung.com/spring-email
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper;
+		
+		helper = new MimeMessageHelper(message, true);
+		
+		helper.setSubject(subject);
+		helper.setTo(to);
+		helper.setText(body, true);
+		
+		
+		FileSystemResource file 
+	      = new FileSystemResource(new File(pathToAttachment));
+	    helper.addAttachment("Certificate.pdf", file);
+	    
+		helper.setText(body, true);
+		
+		javaMailSender.send(message);
+	}
 }

@@ -1,6 +1,12 @@
 package ca.lambton.Wildemo.Models;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigInteger;
 import java.net.URL;
 import java.security.MessageDigest;
@@ -12,14 +18,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.syncfusion.docio.*;
+import com.documents4j.api.DocumentType;
+import com.documents4j.api.IConverter;
+import com.documents4j.job.LocalConverter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import ca.lambton.Wildemo.Models.WIL.MultipleChoice;
 import ca.lambton.Wildemo.Models.WIL.Question;
-import ca.lambton.Wildemo.Repositories.WIL.QuestionRepository;
 
 public class Utilities {
 
@@ -195,12 +207,49 @@ public class Utilities {
 	public static double quizScore(List<MultipleChoice> lstQ, List<String> lstAns) {
 		int score = 0;
 		for(int i=0; i<5; i++ ) {
+			System.out.println(lstQ.get(i).getAnswer());
+			System.out.println(lstAns.get(i));
 			if (lstQ.get(i).getAnswer().equals(lstAns.get(i))) {
 				score++;
 			}
 		}
 		
-		return (score / 5) * 100;
+		return (score /(double) 5) * 100;
 	}
+	
+	
+	public static void ConvertToPDF(String name, String grade) throws Exception{ //String docPath, String pdfPath) {
+		//https://www.syncfusion.com/kb/12260/how-to-mail-merge-word-document-in-java
+		// Create a WordDocument instance.
+		WordDocument document = new WordDocument();
+		String basePath = "src/main/resources/Certificate.docx";
+		// Open the template Word document.
+		document.open(basePath, FormatType.Docx);
+		String[] fieldNames = { "Name", "Result" };
+		String[] fieldValues = { name, grade };
+		// Perform mail merge.
+		document.getMailMerge().execute(fieldNames, fieldValues);
+		// Save the Word document.
+		document.save("src/main/resources/"+ name +"Result.docx");
+		// Close the Word document.
+		document.close();
+		
+		
+		//https://stackoverflow.com/questions/43363624/converting-docx-into-pdf-in-java
+		File inputWord = new File("src/main/resources/"+ name + "Result.docx");
+	      File outputFile = new File("src/main/resources/Test_out.pdf");
+	      try  {
+	          InputStream docxInputStream = new FileInputStream(inputWord);
+	          OutputStream outputStream = new FileOutputStream(outputFile);
+	          IConverter converter = LocalConverter.builder().build();         
+	          converter.convert(docxInputStream).as(DocumentType.DOCX).to(outputStream).as(DocumentType.PDF).execute();
+	          outputStream.close();
+	          System.out.println("success");
+	      } catch (Exception e) {
+	          e.printStackTrace();
+	      }
+    }
+	
+	
 
 }

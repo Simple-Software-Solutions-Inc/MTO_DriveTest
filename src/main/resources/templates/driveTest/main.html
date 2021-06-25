@@ -11,26 +11,17 @@
 		<div class="mb-5">
 			<div class="row gx-2">
 				<div class="mx-auto col-6 border rounded p-3 bg-white">
-					<h5>About the DriveTest Quiz</h5>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Vivamus vehicula risus et ligula hendrerit tincidunt. Aenean sit
-						amet ornare tellus, sit amet mattis lacus. Nulla id felis dui.
-						Maecenas vestibulum elit accumsan enim aliquet, nec mollis nisi
-						pulvinar. Vestibulum fermentum scelerisque orci, imperdiet iaculis
-						augue mattis vel. Ut et magna vestibulum dui posuere euismod.
-						Morbi nibh purus, iaculis eu ligula id, interdum sodales ex. Fusce
-						condimentum massa mollis diam egestas vulputate. Morbi vulputate
-						mattis risus nec vulputate. Aenean mattis, velit quis luctus
-						fermentum, eros erat tincidunt tortor, vel tincidunt velit mi a
-						nulla. Morbi hendrerit neque viverra mi porttitor malesuada.
-						Aenean consectetur non elit non egestas. Nam iaculis faucibus
-						magna, ut sodales purus sollicitudin eu. Phasellus ac tortor
-						tellus. Maecenas dolor massa, tincidunt et viverra nec,
-						consectetur vel dolor. Phasellus in enim efficitur felis lacinia
-						dignissim. Ut non nunc tempus, vulputate leo tincidunt, dapibus
-						tortor. Pellentesque rutrum ante sit amet ornare aliquam. Ut
-						vestibulum fermentum semper. Proin in blandit lacus. Suspendisse
-						malesuada dolor sit amet scelerisque maximus.</p>
+					<h5>Watch Video to Prepare for G1 test</h5>
+					<p>
+						<iframe width="560" height="315"
+							src="https://www.youtube.com/embed/01nuVspc7G4"
+							title="YouTube video player" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen></iframe>
+							<a href="https://peeldrivingschool.com/images/Smart_Guide.pdf">Download PDF for G1</a>
+					</p>
+
+
 				</div>
 				<div class=" mx-auto ml-1 col-4">
 						<div class="col border rounded p-3 bg-white ">
@@ -45,7 +36,7 @@
 								</thead>
 								<tbody>
 									<tr th:each="attempt : ${attempts}">
-										<td>Jun 05, 2021</td>
+										<td th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">Jun 05, 2021</td>
 										<td th:text="${attempt.result}">2/5</td>
 										<td><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  alt="result" width="40"></td>
 									</tr>
