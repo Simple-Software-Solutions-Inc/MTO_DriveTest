@@ -24,7 +24,7 @@
 				</div>
 				<div class="row mb-3">
 					<div class="col text-start">
-						<a id="cpwd1" class="text-danger" href="">Forget Password?</a>
+						<a id="cpwd1" class="text-danger" href="">Forgot Password?</a>
 					</div>
 					<div class="col text-right">
 						<input class="btn btn-success btn-sm" type="submit" value="Login" />
@@ -37,19 +37,19 @@
 		</div>
 
 		<div id="requestPwd"
-			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box ">
+			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
 			<h5 class="text-justify">Enter your email address to confirm
 				your identity</h5>
 			<form>
 				<div class="form-group mb-3 text-start">
 					<label for="usr">Email</label><input class="form-control"
-						aria-describedby="" type="text" name="" id="usr"
+						aria-describedby="" type="text" name="" id="request_email"
 						placeholder="Enter email" />
 				</div>
 
 				<div class="row mb-3">
 					<div class="col-12 text-right">
-						<input class="btn btn-success btn-sm" type="submit"
+						<input id="requestbtn" class="btn btn-success btn-sm" type="submit"
 							value="Submit Request" />
 					</div>
 				</div>
@@ -58,22 +58,22 @@
 
 
 		<div id="changePwd"
-			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box">
+			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
 			<h5 class="text-justify">Add new password</h5>
-			<form>
+			<form method="post" th:action=" @{'/change-password'}" th:object="${pwdUpdate}">
 				<div class="form-group mb-3 text-start">
 					<label for="usr">Authenticate code</label><input class="form-control"
-						aria-describedby="" type="text" name="" id="usr"
+						aria-describedby="" type="text" name="auth_code" 
 						placeholder="Enter authentication code" />
 				</div>
 				<div class="form-group mb-3 text-start">
 					<label for="usr">Password</label><input class="form-control"
-						aria-describedby="" type="text" name="" id="usr"
+						aria-describedby="" type="password" name="new_password" 
 						placeholder="Enter password" />
 				</div>
 				<div class="form-group mb-3 text-start">
 					<label for="usr">Confirm password</label><input class="form-control"
-						aria-describedby="" type="text" name="" id="usr"
+						aria-describedby="" type="password" name="" 
 						placeholder="Confirm password" />
 				</div>
 
@@ -90,6 +90,6 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
-
+<script src="/js/newsite.js"></script>
 </body>
 </html>

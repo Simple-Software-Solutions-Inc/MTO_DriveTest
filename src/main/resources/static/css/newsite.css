@@ -66,3 +66,10 @@ body{
 .answerColor{
 	background-color: blue;
 }
+
+.bg-lighter {background: rgba(255, 255, 255, 0.5);}
+.o-0 { opacity: 0; }
+.o-25 { opacity: .25; }
+.o-50 { opacity: .5; }
+.o-75 { opacity: .75; }
+.o-100 { opacity: 1; }

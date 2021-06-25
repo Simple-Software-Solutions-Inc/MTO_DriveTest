@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="driveTest/drive_test_layout :: head">
+
+
+</head>
+<body>
+
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="container mainBackground pb-5" th:fragment="main_content">
+		<div class="p-5 col text-center text-white appText">DriveTest
+			Application</div>
+
+		<!-- <div class="App"> -->
+
+		<div class="container mb-2 mx-2 p-2 ">
+			<div class="row mx-auto  justify-content-md-end">
+				<button class="btn btn-light btn-sm" type="button" id="target">
+					<span class="fw-bold">Download Report</span>
+				</button>
+			</div>
+			<div id="charts" class="row my-2 mx-auto p-2 bg-lighter rounded">
+				<div class="col bg-light m-2 p-2 border border-light rounded">
+					Chart 1
+					<canvas id="myChart" class="col"></canvas>
+
+
+
+
+				</div>
+				<div class="col bg-light m-2 p-2 border border-light rounded">
+					Chart 2
+					<canvas id="myChart1" class="col"></canvas>
+
+				</div>
+			</div>
+
+			<div class="row my-2 mx-auto p-2 bg-lighter rounded">
+				<h5 class="mt-2 mx-2 display-5">Drive Test G1-Graduates</h5>
+				<table id="simple_table"
+					class="table table-sm table-bordered m-2 my-2">
+					<thead class="table-dark ">
+						<tr>
+							<th>Name</th>
+							<th>Date of Birth</th>
+							<th>Address</th>
+						</tr>
+					</thead>
+					<tbody class="bg-light" id="tdata">
+						<tr>
+							<td>Name</td>
+							<td>Date of Birth</td>
+							<td>Address</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!-- </div> -->
+
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/driveTest.js"></script>
+
+</body>
+</html>

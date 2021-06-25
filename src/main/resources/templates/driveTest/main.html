@@ -22,7 +22,7 @@ At DriveTest, our team of customer service agents and certified driver examiners
 				<div class=" mx-auto ml-1 col-4">
 						<div  class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
-							<table class="table table-bordered">
+							<table class="table table-bordered table-sm">
 								<thead class="table-dark">
 									<tr>
 										<th>Date</th>
@@ -31,10 +31,10 @@ At DriveTest, our team of customer service agents and certified driver examiners
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td data-intro='Test Date! &#128578'>Jun 05, 2021</td>
-										<td data-intro='Test Score! &#128533'>2/5</td>
-										<td data-intro='Test Result! &#128533'><img src="/media/images/close.png" alt="fail" width="40"></td>
+									<tr th:each="attempt : ${attempts}">
+										<td>Jun 05, 2021</td>
+										<td th:text="${attempt.result}">2/5</td>
+										<td><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  alt="result" width="40"></td>
 									</tr>
 								</tbody>
 							</table>
