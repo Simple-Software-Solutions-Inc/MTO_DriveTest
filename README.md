@@ -10,6 +10,13 @@ In the project directory, you can run:
 ### spring.mail.username = "your email id" 
 ### spring.mail.password = "email id password"
 
+### To add recaptcha keys to follow this youtube link video:-
+[https://www.youtube.com/watch?v=s9gw5ArrEz4] (https://www.youtube.com/watch?v=s9gw5ArrEz4)
+
+### recaptcha.key=
+### recaptcha.secret=
+### recaptcha.url=https://www.google.com/recaptcha/api/siteverify
+
 ### In the JavaMailSenderConfig.java file make changes accordingly:
 ### mailSender.setUsername("your email id");
 ###	mailSender.setPassword("email id password");
