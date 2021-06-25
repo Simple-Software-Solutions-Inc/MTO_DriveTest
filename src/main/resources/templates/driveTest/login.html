@@ -26,9 +26,11 @@
 					<div class="col text-start">
 						<a id="cpwd1" class="text-danger" href="">Forgot Password?</a>
 					</div>
-					<div class="col text-right">
-						<input class="btn btn-success btn-sm" type="submit" value="Login" />
+					<div class="g-recaptcha m-3 row" th:data-sitekey="${@environment.getProperty('recaptcha.key')}">Recaptcha</div>
+					<div class="col text-left">
+						<input class="btn btn-success" type="submit" value="Login" />
 					</div>
+				</div>
 				</div>
 				<div class="col mb-3 text-center">
 					<a th:href="@{/registration}">Create an account.</a>
@@ -90,6 +92,19 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
+<script type="text/javascript">
+		function validateForm(){
+			if(grecaptcha.getResponse())
+				{
+					return true;
+				}
+			else
+				{
+				 alert("Please prove that you're not robot");
+				 return false;
+				}
+		}
+</script>
 <script src="/js/newsite.js"></script>
 </body>
 </html>

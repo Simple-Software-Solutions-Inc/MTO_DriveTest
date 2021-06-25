@@ -1,29 +1,44 @@
 package ca.lambton.Wildemo.Models.WIL;
 
+//import java.awt.PageAttributes.MediaType;
 import java.io.IOException;
+import java.security.PublicKey;
+//import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.lambton.Wildemo.AdditionalFunction.FileUploadUtil;
+import ca.lambton.Wildemo.AdditionalFunction.ReCaptchaResponse;
 import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
 import ca.lambton.Wildemo.Repositories.WIL.LocationRepository;
@@ -51,6 +66,12 @@ public class DriveTestController {
 
 	@Autowired
 	private PasswordRepository passwordDb;
+	
+	@Value("${recaptcha.secret}")
+	private String recaptchaSecret;
+	
+	@Value("${recaptcha.url}")
+	private String recaptchaURL;
 
 	@GetMapping("/drive_test")
 	public String driveTest(Model model) {
@@ -61,16 +82,43 @@ public class DriveTestController {
 
 	@PostMapping("/drive_test")
 	public String driveTest(ProspectLogin prospectLogin) {
-
+		HttpServletResponse response = null;
 		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
 		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
 		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
 				.findFirst().get();
-
+		String gRecapthcaResponse = request.getParameter("g-recaptcha-response");
+		if(!verifyReCAPTCHA(gRecapthcaResponse))
+		{
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}
 		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
 			return "redirect:/main";
 		}
 		return "driveTest/login";
+	}
+	private boolean verifyReCAPTCHA(String gRecapthcaResponse) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+		map.add("secret", recaptchaSecret);
+		map.add("response", gRecapthcaResponse);
+		
+		HttpEntity<MultiValueMap<String,String>> request = new HttpEntity<>(map,headers);
+		ReCaptchaResponse response = restTemplate.postForObject(recaptchaURL,request,ReCaptchaResponse.class);
+		
+		System.out.println("SUCCESS:"+response.isSuccess());
+		System.out.println("HOSTNAME:"+response.getHostname());
+		System.out.println("CHALLENEGE TIMESTAMP:"+response.getChallenge_ts());
+		
+		if(response.getErrorCodes()!=null)
+		{
+			for(String error : response.getErrorCodes())
+			{
+				System.out.println("\t"+error);
+			}
+		}
+		return response.isSuccess();
 	}
 
 	@GetMapping("/registration")
