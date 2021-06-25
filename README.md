@@ -10,7 +10,7 @@ In the project directory, you can run:
 ### spring.mail.username = "your email id" 
 ### spring.mail.password = "email id password"
 
-### To add recaptcha keys to follow this youtube link video:-
+### To add recaptcha keys follow this youtube link video:-
 (https://www.youtube.com/watch?v=s9gw5ArrEz4)
 
 ### recaptcha.key=
