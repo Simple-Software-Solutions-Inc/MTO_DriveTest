@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="col-3" th:fragment="menu_board (menu)">
+        <div class="border rounded bg-light p-1 text-center">
+          <h2 class="display-6 m-4 pb-2 border-bottom">
+            Models
+          </h2>
+          <a th:each="item : ${menu}" 
+            th:href="@{'/dashboard/' + ${#strings.toLowerCase(item[1])}}"
+            class="d-block font-weight-bold mx-3 my-2 btn btn-primary btn-sm"
+            th:text="${#strings.capitalize(item[0])}"
+          >
+            Click Me
+          </a>
+          <!-- <a
+            href="#"
+            class="d-block font-weight-bold mx-3 my-2 btn btn-secondary btn-sm"
+          >
+          ${#strings.toLowerCase(item)}
+        
+            Click Me
+          </a> -->
+        </div>
+      </div>
+</body>
+</html>

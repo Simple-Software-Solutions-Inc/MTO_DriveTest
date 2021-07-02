@@ -38,11 +38,14 @@ import ca.lambton.Wildemo.Models.WIL.ProofIdentity;
 import ca.lambton.Wildemo.Models.WIL.Prospect;
 import ca.lambton.Wildemo.Models.WIL.ProspectLogin;
 import ca.lambton.Wildemo.Models.WIL.Question;
+import ca.lambton.Wildemo.Models.WIL.Question_Category;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantQuizRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
+import ca.lambton.Wildemo.Repositories.WIL.CategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.LocationRepository;
 import ca.lambton.Wildemo.Repositories.WIL.PasswordRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ProofIdentityRepository;
+import ca.lambton.Wildemo.Repositories.WIL.QuestionCategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionRepository;
 
 @Controller
@@ -59,6 +62,9 @@ public class DriveTestController {
 
 	@Autowired
 	private QuestionRepository questionDb;
+	
+	@Autowired
+	private CategoryRepository categoryDb;
 
 	@Autowired
 	private LocationRepository locationDb;
@@ -75,11 +81,15 @@ public class DriveTestController {
 	@GetMapping("/drive_test")
 	public String driveTest(Model model) {
 
+		if (getUserSessionObject() != null) {
+			return "redirect:/main";
+		}
 		model.addAttribute("prospectLogin", new ProspectLogin());
+		model.addAttribute("action", "/drive_test");
 		return "driveTest/login";
 	}
-	
-	//Deletes the active user session 
+
+	// Deletes the active user session
 	@GetMapping("/log-out")
 	public String logOut() {
 
@@ -89,15 +99,15 @@ public class DriveTestController {
 
 	@PostMapping("/drive_test")
 	public String driveTest(ProspectLogin prospectLogin) throws MessagingException {
-
+		
 		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
 		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
 		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
 				.findFirst().get();
-		System.out.println(applicant);
+		// System.out.println(applicant);
 		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
 			// add session for active user
-			System.out.println(applicant);
+			// System.out.println(applicant);
 			setUserSessionManager(applicant.getApplicant_id(), "Regular");
 
 			return "redirect:/main";
@@ -105,22 +115,22 @@ public class DriveTestController {
 		return "driveTest/login";
 	}
 
-	//Method sends the authentication code to the user email
+	// Method sends the authentication code to the user email
 	@PostMapping("/reset-password")
 	@ResponseBody
 	public String driveTestReset(@RequestParam(name = "email") String str) throws MessagingException {
-		
+
 		int result = new Random().nextInt(10);
-		String code = "test" + result; 																//generates authentication code	
-		smtpMailSender.send(str, "Test Mail", "Authentication code " + code); 	//sends email
-		setAuthCodeSessionManager(code, str);												//stores code in a session variable
+		String code = "test" + result; // generates authentication code
+		smtpMailSender.send(str, "Test Mail", "Authentication code " + code); // sends email
+		setAuthCodeSessionManager(code, str); // stores code in a session variable
 		return "data";
 	}
-	
-	
-	//Method changes user password
+
+	// Method changes user password
 	@PostMapping("/change-password")
-	public String driveTestPwdChange(@RequestParam(name = "auth_code") String auth_code, @RequestParam(name = "new_password") String new_pwd) {
+	public String driveTestPwdChange(@RequestParam(name = "auth_code") String auth_code,
+			@RequestParam(name = "new_password") String new_pwd) {
 		ModelMap usrAuth = getAuthCodeSessionObject();
 		if (usrAuth.getAttribute("AuthCode").toString().equals(auth_code)) {
 			Applicant usr = applicantDb.findByEmail(usrAuth.getAttribute("Email").toString());
@@ -128,14 +138,14 @@ public class DriveTestController {
 			pwd.setApplicantId(usr);
 			pwd.setExpiryDate(Utilities.pwdExpiryDate());
 			pwd.setPassword(Utilities.getMd5(new_pwd));
-			
+
 			passwordDb.save(pwd);
 			return "redirect:/drive_test";
 		}
 		return "redirect:/drive_test";
 	}
 
-	//Method calls the registration form
+	// Method calls the registration form
 	@GetMapping("/registration")
 	public String driveTestReg(Model model) {
 		model.addAttribute("prospect", new Prospect());
@@ -159,11 +169,11 @@ public class DriveTestController {
 		return "driveTest/registration";
 	}
 
-	//Method registers an applicant
+	// Method registers an applicant
 	@PostMapping("/registration")
 	public String driveTestReg(Prospect prospect, @RequestParam("file") MultipartFile file) {
 
-		System.out.println(prospect.getPassword());
+		// System.out.println(prospect.getPassword());
 
 		// Add proof to the database
 		ProofIdentity prospect_proof = prospect.getProof();
@@ -203,13 +213,14 @@ public class DriveTestController {
 		if (getUserSessionObject() == null) {
 			return "redirect:/drive_test";
 		}
-		System.out.println(getUserSessionObject());
-		List<Applicant_Quiz> appQuiz = applicantQuizDb.findAll().stream().filter(
-				x -> x.getApplicantId().getApplicant_id().equals(getUserSessionObject().getAttribute("uid")))
+		// System.out.println(getUserSessionObject());
+		List<Applicant_Quiz> appQuiz = applicantQuizDb.findAll().stream()
+				.filter(x -> x.getApplicantId().getApplicant_id().equals(getUserSessionObject().getAttribute("uid")))
+				.sorted(Comparator.comparing(Applicant_Quiz::getQuizDate).reversed()).limit(5)
 				.collect(Collectors.toList());
 		model.addAttribute("attempts", appQuiz);
-		System.out.println(appQuiz.size());
-		System.out.println((Integer) getUserSessionObject().getAttribute("uid"));
+		// System.out.println(appQuiz.size());
+		// System.out.println((Integer) getUserSessionObject().getAttribute("uid"));
 		return "driveTest/main";
 	}
 
@@ -217,7 +228,7 @@ public class DriveTestController {
 	public String driveTestReport() {
 		return "driveTest/report";
 	}
-	
+
 	@GetMapping("/certificate")
 	public String driveTestCert() {
 		return "driveTest/certificate";
@@ -262,6 +273,7 @@ public class DriveTestController {
 		model.addAttribute("questionAns", ans.get(id - 1));
 		model.addAttribute("ques", mm.get(id - 1));
 		model.addAttribute("answerObj", new Answer());
+		model.addAttribute("QUESTION_COUNT", Utilities.QUESTION_COUNT);
 		model.addAttribute("questionNo", id);
 		return "driveTest/quiz";
 	}
@@ -276,27 +288,30 @@ public class DriveTestController {
 		List<String> ans = getSessionAnswerObject();
 //		ans.add(id-1, answer.getAnswer());
 		ans.set(id - 1, answer.getAnswer());
-		System.out.println("Answer:");
-		ans.forEach(System.out::println);
+		// System.out.println("Answer:");
+		// ans.forEach(System.out::println);
 //		ans.set(id-1, answer.getAnswer());
 		updateSessionManagerAns(ans);
 		int i = id;
 		if (getSessionObject() != null) {
 
-			if (answer.getNext().equals("NEXT") && 4 > (id - 1)) {
+			if (answer.getNext().equals("NEXT") && (Utilities.QUESTION_COUNT - 1) > (id - 1)) {
 				i++;
 			} else if (answer.getNext().equals("PREVIOUS") && (id - 1) > 0) {
 				i--;
 			} else if (answer.getNext().equals("SUBMIT QUIZ")) {
-				try{
-					//Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
-					Utilities.ConvertToPDF("John Brown", "34");
-					}
-				catch(Exception e) {System.out.println(e.getMessage());}
-				
 				try {
-					smtpMailSender.send("dvn.shakes@gmail.com", "Test Mail", "Test Results", "src/main/resources/Test_out.pdf");
-				} catch (MessagingException e) {
+					// Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
+//					Utilities.ConvertToPDF("John Brown", "34");
+					System.out.println("pdf");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+
+				try {
+					System.out.println("email");
+//					smtpMailSender.send("example@example.com", "Test Mail", "Test Results", "src/main/resources/Test_out.pdf");
+				} catch (Exception e) {// MessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -318,11 +333,9 @@ public class DriveTestController {
 				applicantQuizDb.save(appQuiz);
 				session.removeAttribute("Quiz");
 				session.removeAttribute("Answer");
-//				model.addAttribute("CertGen", true);  review this later
 				return "redirect:/main";
 			}
 
-			
 			model.addAttribute("questionAns", ans.get(i - 1));
 			return "redirect:/quiz/" + i;
 		}
@@ -434,13 +447,14 @@ public class DriveTestController {
 		return mcq;
 	}
 
+	// method handles the session variable that stores each questions answer
 	public void setSessionManagerAns() {
 		// HttpSession session = request.getSession();
 		ObjectMapper objectMapper = new ObjectMapper();
 		String quizJson = "";
 		if (session.getAttribute("Answer") == null) {
 			try {
-				quizJson = objectMapper.writeValueAsString(new String[5]);
+				quizJson = objectMapper.writeValueAsString(new String[Utilities.QUESTION_COUNT]);
 			} catch (Exception e) {
 				System.out.println();
 			}
@@ -480,5 +494,54 @@ public class DriveTestController {
 		return mcq;
 	}
 	
+	//===================================================================
+	// Admin dashboard
+	
+	@GetMapping("/admin")
+	public String driveTestAdmin(Model model) {
+
+		if (getUserSessionObject() != null) {
+			return "redirect:/dashboard";
+		}
+		model.addAttribute("prospectLogin", new ProspectLogin());
+		model.addAttribute("action", "/admin");
+		return "driveTest/login";
+	}
+	
+	
+	@PostMapping("/admin")
+	public String driveTestAdmin(ProspectLogin prospectLogin) throws MessagingException {
+		
+		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
+		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
+		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
+				.findFirst().get();
+		// System.out.println(applicant);
+		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
+			// add session for active user
+			// System.out.println(applicant);
+			setUserSessionManager(applicant.getApplicant_id(), "Regular");
+
+			return "redirect:/dashboard";
+		}
+		return "driveTest/login";
+	}
+	
+	
+	@Autowired
+	private QuestionCategoryRepository questionCategoryDb;
+	
+	@GetMapping("/app/questions")
+	public String getDashboard(Model model) {
+
+		model.addAttribute("modIds", categoryDb.findAll());
+		model.addAttribute("modelData", questionDb.findAll());
+		return "driveTest/admin";
+		
+		
+		
+		
+		
+	}
 
 }

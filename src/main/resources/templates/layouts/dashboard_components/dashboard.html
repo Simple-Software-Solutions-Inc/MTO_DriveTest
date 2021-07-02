@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="w-75 mt-5 mx-auto">
+		<div class="row">
+			<div class="col-3"
+				th:include="layouts/dashboard_components/menuBoard :: menu_board (${modelNames})"></div>
+			<div class="col-9"
+				th:include="layouts/dashboard_components/contentBoard :: content_board (${modelData}, ${modelNames})"></div>
+		</div>
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer"></footer>
+</body>
+</html>
