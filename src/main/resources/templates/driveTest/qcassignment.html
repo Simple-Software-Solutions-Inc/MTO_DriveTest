@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+
+	<div id="breadcrumbs" class="container">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<ul class="breadcrumb m-0">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Pictures</a></li>
+					<li><a href="#">Summer 15</a></li>
+					<li>Italy</li>
+				</ul>
+			</div>
+			<div class="col-auto">
+				<form class="form-inline">
+					<div class="input-group input-group-sm m-2">
+						<input type="text" class="form-control" placeholder="Search"
+							aria-label="Search" aria-describedby="button-addon2" />
+
+						<div class="input-group-append">
+							<input class="btn btn-primary btn-sm" type="submit"
+								id="button-addon2" value="Search" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-5 bg-white" th:fragment="main_content">
+		<div class="App">
+			<h2>Categorized Questions</h2>
+			<form class="form-inline" method="get"
+				th:action="@{'/dashboard/question-categories/qcsearch/'}">
+
+				<div class="col-auto input-group input-group-sm mb-2 mr-2">
+					<div class="input-group-prepend">
+						<label for="findbyId" class="input-group-text">Select a
+							category: </label>
+					</div>
+					<select id="category_id" class="custom-select" name="category_id"
+						th:disabled="${disabled}">
+						<option>All</option>
+						<option th:each="category: ${modIds}"
+							th:value="${category.cat_id}" th:text="${category.name}"
+							th:selected="${category.cat_id}==${filter_category} ? 'true'">One</option>
+					</select>
+				</div>
+
+				<div class="col-auto input-group input-group-sm mb-2 mr-2">
+					<div class="input-group-prepend">
+						<label for="findbyId" class="input-group-text">Action: </label>
+					</div>
+					<select id="action_id" class="custom-select" name="action_id"
+						th:disabled="${disabled}">
+						<option>All</option>
+						<option value="Assigned"
+							th:selected="'Assigned'==${filter_action} ? 'true'">Assigned</option>
+						<option value="Unassigned"
+							th:selected="'Unassigned'==${filter_action} ? 'true'">Unassigned</option>
+					</select>
+				</div>
+
+
+				<input id="categorySearch" type="submit" value="Find"
+					class="btn btn-sm btn-primary mb-2" th:disabled="${disabled}" />
+				<div th:class="${disabled==true} ? 'form-row col' : 'd-none'">
+					<input class="form-control" type="checkbox" value=""
+						id="categoryReset" /> <label
+						class="ml-1 form-check-label text-danger" for="categoryReset">
+						Reset</label>
+				</div>
+
+			</form>
+			<div class="container row">
+				<div class="text-start">
+
+					<h5>
+						<u id="titleCategory">All Questions</u>
+					</h5>
+
+					<form class="row">
+						<div
+							class="form-inline col-12 p-1 bg-light rounded border-secondary border"
+							style="height: 300px;">
+							<div id="scroll" class="overflow-auto p-1 w-100 h-100">
+
+								<div class="col-auto input-group mb-3"
+									th:each="data : ${modelData}">
+									<div class="input-group-prepend col">
+										<div class="input-group-text">
+											<input type="checkbox"
+												th:id="${'chk_' + data.ques_id}" aria-label="Checkbox for following text input"
+												class="form-control" th:value="${data.ques_id}" />
+										</div>
+										<span class="input-group-text bg-white"
+											th:text="${data.ques_id}">QNUM</span>
+										<div
+											class="input-group-text text-justify text-wrap bg-white row col"
+											aria-label="Text input with checkbox">
+											<span th:text="${data.question}">Lorem Ipsum is simply
+												dummy text of the printing and typesetting industry.</span><span
+												th:text="'Ans: ' + ${data.answer}"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="container">
+							<th:block th:if="'Unassigned'==${filter_action}">
+
+								<div class="row mt-2">
+									<div class="col text-right align-self-end">
+										<input id="assignbtn" class="btn btn-success" type="submit"
+											value="Assign" disabled>
+									</div>
+								</div>
+
+							</th:block>
+							<th:block th:if="'Assigned'==${filter_action}">
+								<div class="mt-2">
+									<div class="text-right">
+										<input id="unassignbtn" class="btn btn-danger" type="submit"
+											value="Unassign" disabled>
+									</div>
+
+								</div>
+							</th:block>
+						</div>
+					</form>
+
+				</div>
+
+
+			</div>
+		</div>
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>

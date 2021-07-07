@@ -17,49 +17,59 @@
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>First Name</label> <input class="form-control"
-							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.first_name}"
+							aria-describedby="" type="text"  id="usr" th:field="*{applicant.first_name}"
 							placeholder="Enter first name" />
+							<span	th:if="${#fields.hasErrors('applicant.first_name')}" th:errors="*{applicant.first_name}"
+							class="text-danger p-1">Error</span>
 					</div>
 					<div class="col-6 form-group text-start">
 						<label>Last Name</label> <input class="form-control"
-							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.last_name}"
+							aria-describedby="" type="text"  id="usr" th:field="*{applicant.last_name}"
 							placeholder="Enter last name" />
 					</div>
+					<span	th:if="${#fields.hasErrors('applicant.last_name')}" th:errors="*{applicant.last_name}"
+							class="text-danger p-1">Error</span>
 				</div>
 
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>Nationality</label> <input class="form-control"
-							aria-describedby="" type="text" name="" id="usr" th:field="*{applicant.nationality}"
+							aria-describedby="" type="text"  id="usr" th:field="*{applicant.nationality}"
 							placeholder="Enter nationality" />
 					</div>
 					<div class="col-6 form-group text-start">
 						<label>D.O.B</label> <input class="form-control"
-							aria-describedby="" type="date" name="" id="usr" th:field="*{applicant.dob}"/>
+							aria-describedby="" type="date"  id="usr" th:field="*{applicant.dob}"/>
 					</div>
+					<span	th:if="${#fields.hasErrors('applicant.dob')}" th:errors="*{applicant.dob}"
+							class="text-danger p-1">Error</span>
 				</div>
 
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>Height</label> <input class="form-control"
-							aria-describedby="" type="number" name="" id="usr" th:field="*{applicant.height}"
+							aria-describedby="" type="number"  id="usr" th:field="*{applicant.height}"
 							placeholder="Enter height in centimeters" />
 					</div>
+					<span	th:if="${#fields.hasErrors('applicant.height')}" th:errors="*{applicant.height}"
+							class="text-danger p-1">Error</span>
 					<div class="col-6 form-group text-start">
 						<fieldset class="form-group">
 							<legend class="col-form-label">Gender</legend>
 							<div class="row ">
 								<div class="col form-check ml-2">
-									<input class="form-check-input" type="radio" name="gender"
+									<input class="form-check-input" type="radio" 
 										id="female" value="F" th:field="*{applicant.gender}"/> <label class="form-check-label"
 										for="female"> Female </label>
 								</div>
 
 								<div class="col form-check">
-									<input class="form-check-input" type="radio" name="gender"
+									<input class="form-check-input" type="radio" 
 										id="male" value="M" th:field="*{applicant.gender}"/> <label class="form-check-label"
 										for="male"> Male </label>
 								</div>
+								<span	th:if="${#fields.hasErrors('applicant.gender')}" th:errors="*{applicant.gender}"
+							class="text-danger p-1">Error</span>
 							</div>
 						</fieldset>
 					</div>
@@ -68,13 +78,13 @@
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>Address</label> <input class="form-control"
-							aria-describedby="" type="text" name="address" id="address" th:field="*{applicant.address}"
+							aria-describedby="" type="text" name="address"  th:field="*{applicant.address}"
 							placeholder="Enter street # and name" />
+							<span	th:if="${#fields.hasErrors('applicant.address')}" th:errors="*{applicant.address}"
+							class="text-danger p-1">Error</span>
 					</div>
 					<div class="col-6 form-group text-start">
-						<label>Zip Code</label> <!-- <input class="form-control"
-							aria-describedby="" type="text" name="zip" id="zip" th:field="*{applicant.location_id}"
-							placeholder="Enter zip code" /> -->
+						<label>Zip Code</label> 
 							
 							<select class="custom-select"
 								aria-label=".form-select-lg example"
@@ -96,21 +106,27 @@
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>Phone Number</label> <input class="form-control"
-							aria-describedby="" type="tel" name="phone" id="phone" th:field="*{applicant.phone_no}"
+							aria-describedby="" type="tel" id="phone" th:field="*{applicant.phone_no}"
 							placeholder="555-555-5555" />
+							<span	th:if="${#fields.hasErrors('applicant.phone_no')}" th:errors="*{applicant.phone_no}"
+							class="text-danger p-1">Error</span>
 					</div>
 					<div class="col-6 form-group text-start">
 						<label>Email</label> <input class="form-control"
-							aria-describedby="" type="email" name="email" id="email" th:field="*{applicant.email}"
+							aria-describedby="" type="email"  id="email" th:field="*{applicant.email}"
 							placeholder="example@mto.com" />
+							<span	th:if="${#fields.hasErrors('applicant.email')}" th:errors="*{applicant.email}"
+							class="text-danger p-1">Error</span>
 					</div>
 				</div>
 
 				<div class="form row mb-2">
 					<div class="col-6 form-group text-start">
 						<label>Password</label> <input class="form-control"
-							aria-describedby="" type="password" name="pwd" id="pwd" th:field="*{password}"
+							aria-describedby="" type="password"  id="pwd" th:field="*{password}"
 							placeholder="Enter password" />
+							<span	th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+							class="text-danger p-1">Error</span>
 					</div>
 					<div class="col-6 form-group text-start">
 						<label>Confirm Password</label> <input class="form-control"
@@ -126,13 +142,17 @@
 					<div class="form row mb-2">
 						<div class="col-6 form-group text-start">
 							<label>ID Type</label> <input class="form-control"
-								aria-describedby="" type="text" name="" id="pwd" th:field="*{proof.identification_type}"
+								aria-describedby="" type="text"  id="pwd" th:field="*{proof.identification_type}"
 								placeholder="Enter type example Passport" />
+								<span	th:if="${#fields.hasErrors('proof.identification_type')}" th:errors="*{proof.identification_type}"
+							class="text-danger p-1">Error</span>
 						</div>
 						<div class="col-6 form-group text-start">
 							<label>Serial Number</label> <input class="form-control"
-								aria-describedby="" type="text" name="pwd2" id="pwd2" th:field="*{proof.serial_no}"
+								aria-describedby="" type="text"  id="pwd2" th:field="*{proof.serial_no}"
 								placeholder="ID number" />
+								<span	th:if="${#fields.hasErrors('proof.serial_no')}" th:errors="*{proof.serial_no}"
+							class="text-danger p-1">Error</span>
 						</div>
 					</div>
 
@@ -140,11 +160,15 @@
 					<div class="form row mb-2">
 						<div class="col-6 form-group text-start">
 							<label>Date Issued</label> <input class="form-control"
-								aria-describedby="" type="date" name="pwd" id="pwd" th:field="*{proof.issue_date}"/>
+								aria-describedby="" type="date"  id="pwd" th:field="*{proof.issue_date}"/>
+								<span	th:if="${#fields.hasErrors('proof.issue_date')}" th:errors="*{proof.issue_date}"
+							class="text-danger p-1">Error</span>
 						</div>
 						<div class="col-6 form-group text-start">
 							<label>Expiry Date</label> <input class="form-control"
-								aria-describedby="" type="date" name="pwd2" id="pwd2" th:field="*{proof.expiry_date}"/>
+								aria-describedby="" type="date"  id="pwd2" th:field="*{proof.expiry_date}"/>
+								<span	th:if="${#fields.hasErrors('proof.expiry_date')}" th:errors="*{proof.expiry_date}"
+							class="text-danger p-1">Error</span>
 						</div>
 					</div>
 
@@ -152,8 +176,10 @@
 					<div class="form row mb-2">
 						<div class="col-6 form-group text-start">
 							<label>Place of Issued</label> <input class="form-control"
-								aria-describedby="" type="text" name="pwd" id="pwd"
+								aria-describedby="" type="text"  id="pwd"
 								placeholder="Enter country/region" th:field="*{proof.issued_location}"/>
+								<span	th:if="${#fields.hasErrors('proof.issued_location')}" th:errors="*{proof.issued_location}"
+							class="text-danger p-1">Error</span>
 						</div>
 						<div class="col-6 form-group text-start">
 							<label>Upload ID</label> <input class="form-control"

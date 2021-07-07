@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,38 +31,61 @@ public class Applicant {
 	private Integer applicant_id;
 
 	@NonNull
-//	@Size(min = 2, max = 30, message = "Student first name must be 2 - 30 characters")
-//	@NotNull(message = "Student must have a first name")
-//	@NotBlank(message = "First name can't be blank")
+	@Size(min = 2, max = 30, message = "First name must be 2 - 30 characters")
+	@NotNull(message = "Applicant must have a first name")
+	@NotBlank(message = "First name can't be blank")
 	private String first_name;
 
 	@NonNull
+	@Size(min = 2, max = 30, message = "Last name must be 2 - 30 characters")
+	@NotNull(message = "Applicant must have a Last name")
+	@NotBlank(message = "Last name can't be blank")
 	private String last_name;
 
 	@NonNull
+	@NotNull(message = "Applicant must have a Date of Birth")
+	@NotBlank(message = "Date of Birth can't be blank")
 	private String dob;
 
 	@NonNull
+	@Size(min = 2, max = 30, message = "Nationality must be 2 - 30 characters")
+	@NotNull(message = "Applicant must have a nationality")
+	@NotBlank(message = "Nationality name can't be blank")
 	private String nationality;
 	
 	@NonNull
+	@Size(min = 2, max = 30, message = "Address must be 2 - 30 characters")
+	@NotNull(message = "Applicant must have a address")
+	@NotBlank(message = "Address name can't be blank")
 	private String address;
 
 	@NonNull
+	@Email()
+	@NotNull(message = "Applicant must have a email")
+	@NotBlank(message = "Email can't be blank")
 	private String email;
 
 	@NonNull
+	@Size(min = 7, max = 10, message = "Contact number must be 7 - 10 characters")
+	@NotNull(message = "Applicant must have a contact number")
+	@NotBlank(message = "Contact number can't be blank")
 	private String phone_no;
 
 	@NonNull
+	@NotNull(message = "Applicant must have a gender")
+	@NotBlank(message = "Gender can't be blank")
 	private String gender;
 	
 	@NonNull
+	@NotNull(message = "Applicant must enter a height")
+	@NotBlank(message = "Height can't be blank")
 	private String height;
 
 	@NonNull
 	@ManyToOne // (cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+	@NotNull(message = "Applicant must have a zip code")
+	@NotBlank(message = "Zip Code can't be blank")
 	private Location location_id;
 	
 	@NonNull

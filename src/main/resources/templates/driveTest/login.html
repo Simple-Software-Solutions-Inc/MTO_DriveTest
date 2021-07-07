@@ -10,18 +10,26 @@
 			Application</div>
 		<div id="loginRequest" class="border border-round form-box mx-auto mb-5 bg-white">
 		<h5 class="text-justify">Login</h5>
-			<form method="post" th:action=" @{'/drive_test'}"
+		
+		<span th:if="${loginErr} != null" th:text="${loginErr}" class="text-danger p-1"></span> 
+		
+			<form method="post" th:action="${action}"
 				th:object="${prospectLogin}">
 				<div class="form-group mb-3 text-start">
 					<label for="email">Username or Email</label> <input
 						class="form-control" aria-describedby="" type="text"  th:field="*{email}"
 						id="email" placeholder="Enter username or email" />
+						<span	th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+							class="text-danger p-1">Error</span>
 				</div>
 				<div class="form-group mb-3 text-start">
 					<label for="password">Password</label> <input class="form-control"
 						aria-describedby="" type="password" name="" id="password" th:field="*{password}"
 						placeholder="password" />
+						<span	th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+							class="text-danger p-1">Error</span>
 				</div>
+				<div class="g-recaptcha mb-3" th:data-sitekey="{add recaptcha key here}">Recaptcha</div>
 				<div class="row mb-3">
 					<div class="col text-start">
 						<a id="cpwd1" class="text-danger" href="">Forgot Password?</a>
@@ -30,10 +38,13 @@
 						<input class="btn btn-success btn-sm" type="submit" value="Login" />
 					</div>
 				</div>
+				
 				<div class="col mb-3 text-center">
 					<a th:href="@{/registration}">Create an account.</a>
+					
 				</div>
 			</form>
+			<span id="loginMsg" class="d-none text-success p-1"></span> 
 		</div>
 
 		<div id="requestPwd"
@@ -41,6 +52,7 @@
 			<h5 class="text-justify">Enter your email address to confirm
 				your identity</h5>
 			<form>
+				<span id="resetErr" class="d-none text-danger p-1">Test</span> 
 				<div class="form-group mb-3 text-start">
 					<label for="usr">Email</label><input class="form-control"
 						aria-describedby="" type="text" name="" id="request_email"
@@ -60,27 +72,29 @@
 		<div id="changePwd"
 			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
 			<h5 class="text-justify">Add new password</h5>
-			<form method="post" th:action=" @{'/change-password'}" th:object="${pwdUpdate}">
+			<!-- <form method="post" th:action=" @{'/change-password'}" th:object="${pwdUpdate}"> -->
+			<form>
+			<span id="resetChngErr" class="d-none text-danger p-1">Test</span> 
 				<div class="form-group mb-3 text-start">
-					<label for="usr">Authenticate code</label><input class="form-control"
+					<label for="usr">Authenticate code</label><input id="aCode" class="form-control"
 						aria-describedby="" type="text" name="auth_code" 
 						placeholder="Enter authentication code" />
 				</div>
 				<div class="form-group mb-3 text-start">
-					<label for="usr">Password</label><input class="form-control"
+					<label for="usr">Password</label><input id="origPwd" class="form-control"
 						aria-describedby="" type="password" name="new_password" 
 						placeholder="Enter password" />
 				</div>
 				<div class="form-group mb-3 text-start">
-					<label for="usr">Confirm password</label><input class="form-control"
+					<label for="usr">Confirm password</label><input id="confPwd"class="form-control"
 						aria-describedby="" type="password" name="" 
 						placeholder="Confirm password" />
 				</div>
 
 				<div class="row mb-3">
 					<div class="col-12 text-right">
-						<input class="btn btn-success btn-sm" type="submit"
-							value="Update Password" />
+						<input id="changePwdbtn" class="btn btn-success btn-sm" type="submit"
+							value="Update Password" disabled/>
 					</div>
 				</div>
 			</form>
@@ -90,6 +104,19 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script type="text/javascript">
+		function validateForm(){
+			if(grecaptcha.getResponse())
+				{
+					return true;
+				}
+			else
+				{
+				 alert("Please prove that you're not robot");
+				 return false;
+				}
+		}
+</script>
 <script src="/js/newsite.js"></script>
 </body>
 </html>

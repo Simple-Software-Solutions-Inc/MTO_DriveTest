@@ -22,103 +22,93 @@
 						</span>
 
 						<div class="d-block mt-5 mb-0">
-							<span class="float-left">Click image to view</span> <a
-								class="float-right" th:href="${ques.mediaPath}"
-								data-lightbox="image-1" data-title="My caption"> 
-								<th:block
-									th:switch="${ques.mediaType}">
-									<th:block th:case="'Video'">
-										<video width="320" height="240" controls>
-											<source src="https://www.youtube.com/watch?v=uXrE2APh6Cw" type="video/mp4">
-											<source src="https://www.youtube.com/watch?v=uXrE2APh6Cw" type="video/ogg">
-											Your browser does not support the video tag.
-										</video>
-									</th:block>
-
-									<th:block th:case="'Image'">
-										<img th:src="${ques.mediaPath}" alt="question image"
-											width="100" />
-									</th:block>
-
-									<th:block th:case="'Audio'">
-										<audio controls>
-											<source src="horse.ogg" type="audio/ogg">
-											<source src="horse.mp3" type="audio/mpeg">
-											Your browser does not support the audio element.
-										</audio>
-									</th:block>
+							<span class="float-left">Click image to view</span>
+							<th:block th:switch="${ques.mediaType}">
+								<th:block th:case="'Video'">
+									<iframe width="560" height="315"
+										th:src="${ques.mediaPath}"
+										title="YouTube video player" frameborder="0"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+										allowfullscreen></iframe>
 
 								</th:block>
-							</a>
+
+								<th:block th:case="'Image'">
+									<a class="float-right" th:href="${ques.mediaPath}"
+										data-lightbox="image-1" data-title="My caption"> <img
+										th:src="${ques.mediaPath}" alt="question image" width="100" />
+									</a>
+								</th:block>
+
+								<th:block th:case="'Audio'">
+									<audio controls>
+										<source src="horse.ogg" type="audio/ogg">
+										<source src="horse.mp3" type="audio/mpeg">
+										Your browser does not support the audio element.
+									</audio>
+								</th:block>
+
+							</th:block>
+
 						</div>
 					</div>
 					<div class="col px-2 mx-auto" id="options">
 
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
+						<div class="col-auto input-group mb-3">
+							<div class="input-group-prepend col">
 								<div class="input-group-text">
 									<input type="radio" value="A" name="answer"
 										th:checked="${questionAns =='A'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-							</div>
-							<div th:text="${ques.option_A}" class="form-control"
+								<div th:text="${ques.option_A}" class="input-group-text text-justify text-wrap bg-white col"
 								aria-label="Text input with radio"></div>
+							</div>
+							
 						</div>
 
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
+						<div class="col-auto input-group mb-3">
+							<div class="input-group-prepend col">
 								<div class="input-group-text">
 									<input type="radio" value="B" name="answer"
 										th:checked="${questionAns =='B'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-							</div>
-							<div th:text="${ques.option_B}" class="form-control"
+								<div th:text="${ques.option_B}"  class="input-group-text text-justify text-wrap bg-white col"
 								aria-label="Text input with radio"></div>
+							</div>
+							
 						</div>
 
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
+						<div class="col-auto input-group mb-3">
+							<div class="input-group-prepend col">
 								<div class="input-group-text">
 									<input type="radio" value="C" name="answer"
 										th:checked="${questionAns =='C'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-							</div>
-							<div th:text="${ques.option_C}" class="form-control"
+								<div th:text="${ques.option_C}"  class="input-group-text text-justify text-wrap bg-white col"
 								aria-label="Text input with radio"></div>
+							</div>
+							
 						</div>
 
-						<div class="input-group mb-3">
-							<div class="input-group-prepend ">
+						<div class="col-auto input-group mb-3">
+							<div class="input-group-prepend col">
 								<div class="input-group-text">
 									<input type="radio" value="D" name="answer"
 										th:checked="${questionAns =='D'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-							</div>
-							<div th:text="${ques.option_D}" class="form-control"
+								<div th:text="${ques.option_D}"  class="input-group-text text-justify text-wrap bg-white col"
 								aria-label="Text input with radio"></div>
+							</div>
+							
 						</div>
 
 
 
 					</div>
-
-					<!-- <div id="option_A"
-						class="row rounded border-primary border ml-2 bg-light mb-2 p-2"
-						th:text="${ques.option_A}">Answer 1</div>
-					<div id="option_B"
-						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
-						th:text="${ques.option_B}">Answer 2</div>
-					<div id="option_C"
-						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
-						th:text="${ques.option_C}">Answer 3</div>
-					<div id="option_D"
-						class="row rounded border-primary border ml-2 bg-light mt-2 p-2"
-						th:text="${ques.option_D}">Answer 4</div>
-				</div> -->
 				</div>
 
 				<div class="row mt-3">
@@ -128,13 +118,13 @@
 						<input type="submit" value="PREVIOUS" name="next"
 							class="float-right btn btn-secondary btn-sm" />
 					</div>
-					<div th:if="${questionNo}<5" class="col mx-2">
+					<div th:if="${questionNo < QUESTION_COUNT}" class="col mx-2">
 						<input type="submit" value="NEXT" name="next"
 							class=" btn btn-secondary btn-sm" />
 					</div>
-					<div th:if="${questionNo}==5" class="col mx-2">
-						<input type="submit" value="SUBMIT QUIZ" name="next"
-							class=" btn btn-primary btn-sm" />
+					<div th:if="${questionNo == QUESTION_COUNT}" class="col mx-2">
+						<input id="quiz-submit" type="submit" value="SUBMIT QUIZ"
+							name="next" class=" btn btn-primary btn-sm" />
 					</div>
 				</div>
 			</form>

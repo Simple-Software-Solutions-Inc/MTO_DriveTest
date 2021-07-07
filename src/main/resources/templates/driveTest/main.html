@@ -36,8 +36,8 @@
 								</thead>
 								<tbody>
 									<tr th:each="attempt : ${attempts}">
-										<td th:text="${#dates.format(#dates.createNow(), 'dd MMM yyyy HH:mm')}">Jun 05, 2021</td>
-										<td th:text="${attempt.result}">2/5</td>
+										<td th:text="${#dates.format(attempt.quizDate, 'dd-MM-yyyy HH:mm')}">Jun 05, 2021</td>
+										<td th:text="${attempt.result} + '%'">2/5</td>
 										<td><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  alt="result" width="40"></td>
 									</tr>
 								</tbody>

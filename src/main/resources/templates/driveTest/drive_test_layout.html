@@ -7,7 +7,11 @@
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css" />
 <link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="/css/footer.css" />
 <link rel="stylesheet" href="/css/newsite.css" />
+<link rel="stylesheet" href="/css/admin.css" />
 
 <script src="/lib/jquery/jquery.min.js"></script>
 <!-- <script src="/lib/popper.js/cjs/popper.min.js"></script> -->
@@ -16,19 +20,20 @@
 <script src="/lib/jquery-validate/jquery.validate.min.js"></script>
 <script
 	src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-	
+
 <!-- jsPDF library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript">
 	    $(document).ready(function() {
 	    	
 	    	 
 	    });
     	
-    </script>
+    </script>   
 </head>
 <body>
 	<header th:fragment="header">
@@ -44,13 +49,12 @@
 				<div class="logoFont-sm">Ministry of Transportation</div>
 			</div>
 			</div>
-			
-				
 				<a href="/log-out" class="btn btn-sm btn-light float-left">
 					Log-out
 				</a>
 			</div>
 		</nav>
+ 	
 	</header>
 	<div class="container mainBackground" th:fragment="main_content">
 		<main role="main" class="pb-3">
@@ -61,7 +65,7 @@
 		</main>
 	</div>
 
-	<footer class="footer text-muted" th:fragment="footer">
+	<!-- <footer class="footer text-muted" th:fragment="footer">
 		<div class="container borderThick-t bg-white">
 			<div class="row">
 				<div class="col text-right footerText">
@@ -80,6 +84,103 @@
 				</div>
 			</div>
 		</div>
+	</footer> -->
+	<footer class="site-footer container borderThick-t" th:fragment="footer">
+		<!--<div class="site-footer container">
+		<div class="site-footer container borderThick-t bg-white">
+			<div class="row">
+				<div class="col text-right footerText">
+					<a>Privacy</a>
+				</div>
+				<div class="col text-center footerText">
+					<a>Terms of Use</a>
+				</div>
+				<div class="col text-left footerText">
+					<a>Contact Us</a>
+				</div>
+			</div>
+			<div class="row">
+			<div class="col text-center">
+				&copy; Copyright 2021. All Rights Reserved
+				</div>
+			</div>
+			</div> -->
+
+
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<h6>About</h6>
+						<p class="text-justify">At DriveTest, our mission is to
+							support the Ministry of Transportation (MTO) in its commitment to
+							maintain and improve road user safety by providing driver
+							examination services that are customer-focused, professionally
+							delivered, and effectively managed.</p>
+					</div>
+
+					<div class="col-xs-6 col-md-3">
+						<h6>Categories</h6>
+						<ul class="footer-links">
+							<li><a href="https://drivetest.ca/tests/tests-overview.html">Tests
+									Overview</a></li>
+							<li><a
+								href="https://drivetest.ca/tests/official-drivers-handbooks.html">Driver's
+									Handbooks</a></li>
+							<li><a
+								href="https://drivetest.ca/tests/resources/education-and-resources.html">Education
+									& Resources</a></li>
+							<li><a href="https://drivetest.ca/tests/fees.html">Fees</a></li>
+							<li><a
+								href="https://drivetest.ca/licences/licence-exchanges/licence_exchange.html">Exchanges
+									& Foreign Licences</a></li>
+							<li><a href="https://drivetest.ca/home/news.html">News</a></li>
+						</ul>
+					</div>
+
+					<div class="col-xs-6 col-md-3">
+						<h6>Quick Links</h6>
+						<ul class="footer-links">
+							<li><a href="https://drivetest.ca/home/about-drivetest.html">About
+									Us</a></li>
+							<li><a href="https://drivetest.ca/home/contact_us.html">Contact
+									Us</a></li>
+							<li><a href="https://drivetest.ca/find-a-drive-test-centre">Find
+									a DriveTest centre</a></li>
+							<li><a
+								href="https://drivetest.ca/find-a-drive-test-centre/alphabetical_list.html">DriveTest
+									Centre List</a></li>
+							<li><a
+								href="https://drivetest.ca/find-a-drive-test-centre/service_disruptions.html">Service
+									Disruptions</a></li>
+						</ul>
+					</div>
+				</div>
+				<hr>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-sm-6 col-xs-12">
+						<p class="copyright-text">
+							Copyright &copy; 2021 All Rights Reserved by <a href="#">Drivetest</a>.
+						</p>
+					</div>
+
+					<div class="col-md-4 col-sm-6 col-xs-12">
+						<ul class="social-icons">
+							<li><a target="_" class="facebook"
+								href="https://www.facebook.com/Drive-Test-1301405629878198/"><i
+									class="fa fa-facebook"></i></a></li>
+							<li><a target="_" class="twitter"
+								href="https://twitter.com/ONtransport?s=20"><i
+									class="fa fa-twitter"></i></a></li>
+							<li><a target="_" class="dribbble"
+								href="https://www.instagram.com/explore/tags/drivetest/?hl=en"><i
+									class="fa fa-instagram"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		
 	</footer>
 	<script src="/lib/jquery/jquery.js"></script>
 	<script src="/lib/bootstrap/js/bootstrap.js"></script>

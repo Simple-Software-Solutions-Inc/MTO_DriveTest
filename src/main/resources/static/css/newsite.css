@@ -73,3 +73,12 @@ body{
 .o-50 { opacity: .5; }
 .o-75 { opacity: .75; }
 .o-100 { opacity: 1; }
+
+.watermark
+{
+	/* background-image: url("/media/images/ca1.png");
+	background-repeat: repeat;
+  	background-size:cover;
+  	opacity: 0.1; */
+}
+

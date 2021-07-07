@@ -1,5 +1,9 @@
 package ca.lambton.Wildemo.Models.WIL;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,5 +49,17 @@ public class Applicant_Quiz {
 	@ManyToOne 
 	@JoinColumn(name = "applicant_id", referencedColumnName = "applicant_id")
 	private Applicant applicantId;
+	
+	
+	@Column(name = "quiz_date", insertable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Basic(optional = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date quizDate;
+	
+	
+	@NonNull
+	@ManyToOne 
+	@JoinColumn(name = "center_id", referencedColumnName = "center_id")
+	private DriveCenter centerId;
 
 }

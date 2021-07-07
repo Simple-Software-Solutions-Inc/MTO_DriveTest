@@ -46,6 +46,10 @@ public class Transaction {
 	private TransactionCategory trans_cat_id;
 	
 	
+	@NonNull
+	@ManyToOne 
+	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
+	private Product productId;
 
 	@Transient
 	public String toString() {

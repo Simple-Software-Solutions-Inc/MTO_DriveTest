@@ -1,0 +1,40 @@
+ul.breadcrumb {
+  /* padding: 10px 16px; */
+  list-style: none;
+  color:#FFFFFF;
+  background-color: #000;
+}
+ul.breadcrumb li {
+  display: inline;
+  font-size: 18px;
+}
+ul.breadcrumb li+li:before {
+  padding: 8px;
+  color: #f2f2f3b2;
+  content: "/";
+}
+ul.breadcrumb li a {
+  color: #c5c2c2;
+  text-decoration: none;
+}
+ul.breadcrumb li a:hover {
+  color: #3d538c;
+  text-decoration: underline;
+}
+#breadcrumbs
+{
+	margin-top: -10px;
+	
+};
+ul.input li+li:before {
+  padding: 8px;
+  color: #f2f2f3b2;
+}
+.search-input
+{
+	float:right;
+}
+
+#breadcrumbs{
+	background-color: #000;
+}

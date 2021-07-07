@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin dashboard</title>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div id="breadcrumbs" class="container">
+		<div class="row">
+			<div class="col-6">
+				<ul class="breadcrumb">
+					<i class="th icon"></i>
+					<li><a th:href="'/dashboard'">Dashboard</a></li>
+				</ul>
+			</div>
+			<div class="col-6">
+				<div class="row mt-2 ">
+					<input type="text" class="col float-right" placeholder="Search">
+					<button class="btn btn-primary mr-1" type="button"
+						id="button-addon2">Search</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+	<div class="container">
+	
+	<div class="row m-1">
+		<form class="row g-3" method="GET" action="/app/questions/search" >
+		<div class="col-auto">
+		<label for="selection" >Select Category</label>
+			<select id="selection" "form-control form-select form-select-sm" aria-label=".form-select-sm example" name="search_id">
+				<option th:each="mod_id : ${modIds}"
+								th:selected="${mod_id}==${filter} ? 'true'"
+								th:value="${mod_id.cat_id}" th:text="${mod_id.name}"></option>
+			</select>
+			<input type="submit" value="Search">
+			</div>
+		</form>
+	
+	</div>
+	
+		<div class="table-responsive">
+
+			<table class="table table-sm table-bordered table-striped m-1">
+				<thead class="table-dark">
+					<tr>
+						<th>ID</th>
+						<th>Question</th>
+						<th>Answer</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="data : ${modelData}">
+
+						<td th:each="d : ${data.fieldData()}" th:text="${d}">Data 1</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+</body>
+</html>

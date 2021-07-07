@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+
+	<div id="breadcrumbs" class="container">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<ul class="breadcrumb m-0">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Pictures</a></li>
+					<li><a href="#">Summer 15</a></li>
+					<li>Italy</li>
+				</ul>
+			</div>
+			<div class="col-auto">
+				<form class="form-inline">
+					<div class="input-group input-group-sm m-2">
+							<input type="text" class="form-control" placeholder="Search"
+								aria-label="Search" aria-describedby="button-addon2" />
+						
+						<div class="input-group-append">
+						<input class="btn btn-primary btn-sm" type="submit"
+							id="button-addon2" value="Search" />
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-5 bg-white" th:fragment="main_content">
+		<div th:each="model : ${modelNames}" class="col-auto btn">
+			<a class="btn btn-outline-secondary text-decoration-none"
+				th:href="@{'/dashboard/' + ${#strings.toLowerCase(model[1])}}"
+				data-bs-toggle="tooltip" data-bs-placement="bottom"
+				th:title="${#strings.capitalize(model[0])}"> <img
+				class="d-block" src="/media/images/image.png" width="100"
+				th:alt="${model[0]}" />
+				<div class="text-truncate" style="width: 100px;"
+					th:text="${#strings.capitalize(model[0])}">Name</div>
+			</a>
+		</div>
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:insert="driveTest/drive_test_layout :: head">
+
+
+</head>
+<body>
+
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+	<div class="container mainBackground pb-5" th:fragment="main_content">
+		<div class="p-5 col text-center text-white appText">DriveTest
+			Application</div>
+
+		<!-- <div class="App"> -->
+
+		<div class="container mb-2 mx-2 p-2 ">
+			<div id="certificate" class="bg-white text-center p-2 row mx-auto"
+				style="width: 800px; height: 600px; border: 10px solid #787878">
+				<div class="bg-white text-center p-2  mx-auto my-auto"
+					style="width: 750px; height: 550px; border: 5px solid #787878">
+					<p class=" " style="font-size: 50px; font-weight: bold">Certificate
+						of Completion</p>
+					<p class=" " style="font-size: 25px"><i>This
+							is to certify that</i></p>
+					<p class=" "
+						style="font-size: 30px">Sam Cooke</p>
+					<p class=" " style="font-size: 25px"><i>has
+							completed the course</i></p> 
+					<p class=" "
+						style="font-size: 30px">DriveTest: G1 Exam</p> <br />
+					 <p
+						class=" " style="font-size: 20px">with score of <b>100%</b></p>
+					
+					 <p class=" "
+						style="font-size: 25px"><i>dated</i></p> <p class=" " style="font-size: 30px"><script>var today = new Date();
+						var dd = String(today.getDate()).padStart(2, '0');
+						var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+						var yyyy = today.getFullYear();
+						const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+						today = months[mm-1] + ' ' + dd + ', ' + yyyy;
+						document.write(today);</script> </p>
+				</div>
+			</div>
+		</div>
+		<!-- </div> -->
+
+
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<!-- <script src="/js/driveTest.js"></script> -->
+
+</body>
+</html>

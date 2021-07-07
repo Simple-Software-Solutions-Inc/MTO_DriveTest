@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+
+	<div id="breadcrumbs" class="container">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<ul class="breadcrumb m-0">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Pictures</a></li>
+					<li><a href="#">Summer 15</a></li>
+					<li>Italy</li>
+				</ul>
+			</div>
+			<div class="col-auto">
+				<form class="form-inline">
+					<div class="input-group input-group-sm m-2">
+							<input type="text" class="form-control" placeholder="Search"
+								aria-label="Search" aria-describedby="button-addon2" />
+						
+						<div class="input-group-append">
+						<input class="btn btn-primary btn-sm" type="submit"
+							id="button-addon2" value="Search" />
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-5 bg-white" th:fragment="main_content">
+		<div class="row">
+
+			<div class="col-6"
+				th:fragment="search_byID (modelName, modIds, filter)">
+				<form method="get"
+					th:action="@{'/dashboard/' + ${#strings.replace(modelName, ' ', '-')} + '/search'}"
+					class="form-inline">
+					<div class="input-group input-group-sm mb-2 mr-2">
+						<div class="input-group-prepend">
+							<label for="findbyId" class="input-group-text"
+								th:text="'Find by ' + ${modelName} + ' ID'">Find by
+								Product Id</label>
+						</div>
+						<select class="custom-select" name="search_id">
+							<option>All</option>
+							<option th:each="mod_id : ${modIds}"
+								th:selected="${mod_id}==${filter} ? 'true'" th:value="${mod_id}"
+								th:text="${mod_id}"></option>
+						</select>
+					</div>
+					<input type="submit" value="Search"
+						class="btn btn-sm btn-primary mb-2" />
+				</form>
+			</div>
+
+
+
+			<div class=" col-6 mb-1 text-right">
+				<a class="btn btn-sm btn-outline-secondary mr-1"
+					th:href="@{/dashboard/products/thumbnail}">View Product
+					Thumbnail</a><a class="btn btn-sm btn-success"
+					th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/add-new'}">Add
+					New</a>
+			</div>
+		</div>
+
+		<div
+			th:fragment="table_build (modelData, fieldNames, currentModelName)">
+			<div class="table-responsive">
+				<table class="table table-sm table-bordered table-striped">
+					<thead class="table-dark">
+						<tr>
+							<th class="text-left" th:each="f : ${modelData['fieldNames']}"
+								th:text="${f}">Heading1</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="data : ${modelData['' + currentModelName]}">
+
+							<td class="text-left text-wrap" th:each="d : ${data.fieldData()}"
+								th:text="${d}">Data 1</td>
+							<td class="text-center" style="width: 200px;"><a
+								class="btn btn-sm btn-primary"
+								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/view/' + ${data.fieldData()[0]}}">
+									View </a> <a class="btn btn-sm btn-primary"
+								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/edit/' + ${data.fieldData()[0]}}">
+									Edit </a> <a class="btn btn-sm btn-danger"
+								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/delete/' + ${data.fieldData()[0]}}">
+									Delete </a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>

@@ -54,7 +54,8 @@ public class MainController {
 
 		model.addAttribute("modelNames", modelNames);
 		model.addAttribute("modelData", null);
-		return "layouts/dashboard_components/dashboard";
+//		return "layouts/dashboard_components/dashboard";
+		return "driveTest/dashboard";
 	}
 
 	// Dynamically load each model dashboard
@@ -65,13 +66,16 @@ public class MainController {
 			return str;
 		}).collect(Collectors.toList());
 
+		
 		var modelData = allModel().get(Utilities.unSlug(modelName));
+		ModelMap model1 = (ModelMap) modelData;
 		System.out.println(modelName);
 		model.addAttribute("modelData", modelData);
 		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
 		model.addAttribute("modelNames", modelNames);
-
-		return "layouts/dashboard_components/dashboard";
+		model.addAttribute("modIds", model1.get("modIds"));
+		
+		return "driveTest/table";
 	}
 
 	// Dynamically return the built table for each model
@@ -85,31 +89,31 @@ public class MainController {
 		return "layouts/table_components/main_table";
 	}
 
-	@GetMapping("/app/{modelName}/search")
+	@GetMapping("/dashboard/{modelName}/search")
 	public String products(@PathVariable("modelName") String modelName, @RequestParam("search_id") String id,
 			Model model) {
 
-		List<Question_Category> lq1 = questionCategoryDb.findAll().stream().filter(x-> (x.getCategoryId().getCat_id())== Integer.parseInt(id)).collect(Collectors.toList());
-		List<Question> lq = questionDb.findAll().stream().filter(x-> {
-			boolean t = false;
-			for (Question_Category c : lq1) {
-				if (c.getQuestionId().getQues_id() == x.getQues_id())
-				t= true;
-			}
-			return t;
-		} 
-		).collect(Collectors.toList());
+//		List<Question_Category> lq1 = questionCategoryDb.findAll().stream().filter(x-> (x.getCategoryId().getCat_id())== Integer.parseInt(id)).collect(Collectors.toList());
+//		List<Question> lq = questionDb.findAll().stream().filter(x-> {
+//			boolean t = false;
+//			for (Question_Category c : lq1) {
+//				if (c.getQuestionId().getQues_id() == x.getQues_id())
+//				t= true;
+//			}
+//			return t;
+//		} 
+//		).collect(Collectors.toList());
 		
 		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
 		modelData = fixModel(modelData, Utilities.unSlug(modelName), id);
-//		model.addAttribute("modelData", modelData);
-//		model.addAttribute("modIds", categoryDb.findAll());
-		model.addAttribute("modelData", lq);
+		model.addAttribute("modelData", modelData);
+		model.addAttribute("modIds", modelData.get("modIds"));
+//		model.addAttribute("modelData", lq);
 		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
 		model.addAttribute("filter", id);
 
 //		return "layouts/table_components/main_table";
-		return "driveTest/admin";
+		return "driveTest/table";
 	}
 
 //	get detail
@@ -204,6 +208,14 @@ public class MainController {
 			case "categories": {
 				List<Category> p = (List<Category>) modelData.get(modelName);
 				Category o = p.stream().filter(g -> g.getCat_id() == Integer.parseInt(id))
+						.findFirst().orElse(null);// .get();
+				modelData.addAttribute(modelName, o);
+			}
+				break;
+				
+			case "questions": {
+				List<Question> p = (List<Question>) modelData.get(modelName);
+				Question o = p.stream().filter(g -> g.getQues_id() == Integer.parseInt(id))
 						.findFirst().orElse(null);// .get();
 				modelData.addAttribute(modelName, o);
 			}

@@ -1,6 +1,7 @@
 package ca.lambton.Wildemo.Controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -62,7 +65,7 @@ public class DriveTestController {
 
 	@Autowired
 	private QuestionRepository questionDb;
-	
+
 	@Autowired
 	private CategoryRepository categoryDb;
 
@@ -78,9 +81,14 @@ public class DriveTestController {
 	@Autowired
 	private ApplicantQuizRepository applicantQuizDb;
 
+	// =========================================================================================================================
+	// Login and Logout function
+	// =========================================================================================================================
+	// Entry point into the application
 	@GetMapping("/drive_test")
 	public String driveTest(Model model) {
 
+		// checks if user is already login
 		if (getUserSessionObject() != null) {
 			return "redirect:/main";
 		}
@@ -93,44 +101,73 @@ public class DriveTestController {
 	@GetMapping("/log-out")
 	public String logOut() {
 
+		// remove all session object (revamp code to use loop)
 		session.removeAttribute("Active_User");
+		session.removeAttribute("Quiz");
 		return "redirect:/drive_test";
 	}
 
+	// Validate the user and login
 	@PostMapping("/drive_test")
-	public String driveTest(ProspectLogin prospectLogin) throws MessagingException {
-		
+	public String driveTest(@Valid ProspectLogin prospectLogin, BindingResult bindingResult, Model model)
+			throws MessagingException {
+
+		// server-side validation
+		if (bindingResult.hasErrors()) {
+			return "driveTest/login";
+		}
+
+		// user authentication validation
 		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
 		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
 		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
 				.findFirst().get();
-		// System.out.println(applicant);
+
+		// checks password encryption
 		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
-			// add session for active user
-			// System.out.println(applicant);
 			setUserSessionManager(applicant.getApplicant_id(), "Regular");
 
 			return "redirect:/main";
 		}
+
+		// Error if password is incorrect
+		model.addAttribute("loginErr", "Your username and password is invalid.");
 		return "driveTest/login";
 	}
+
+	// =========================================================================================================================
+	// End of login and logout function
+	// =========================================================================================================================
 
 	// Method sends the authentication code to the user email
 	@PostMapping("/reset-password")
 	@ResponseBody
-	public String driveTestReset(@RequestParam(name = "email") String str) throws MessagingException {
+	public String driveTestReset(@RequestParam(name = "email") String emailStr, Model model) throws MessagingException {
 
-		int result = new Random().nextInt(10);
-		String code = "test" + result; // generates authentication code
-		smtpMailSender.send(str, "Test Mail", "Authentication code " + code); // sends email
-		setAuthCodeSessionManager(code, str); // stores code in a session variable
-		return "data";
+		// checks if the email address exist in the db
+		String existEmail = applicantDb.findAll().stream().map(x -> x.getEmail()).filter(x -> x.equals(emailStr))
+				.findFirst().orElse(null);
+
+		// if email exist send email with authentication code
+		if (existEmail != null) {
+			int result = new Random().nextInt(10);
+			String code = "test" + result; // generates authentication code
+			smtpMailSender.send(emailStr, "Password Reset", "Your authentication code is: " + code); // sends email
+			setAuthCodeSessionManager(code, emailStr); // stores code in a session variable
+			return "data";
+		}
+		return "no-data";
+
 	}
 
+	// =========================================================================================================================
 	// Method changes user password
+	// =========================================================================================================================
 	@PostMapping("/change-password")
+	@ResponseBody
 	public String driveTestPwdChange(@RequestParam(name = "auth_code") String auth_code,
 			@RequestParam(name = "new_password") String new_pwd) {
+
 		ModelMap usrAuth = getAuthCodeSessionObject();
 		if (usrAuth.getAttribute("AuthCode").toString().equals(auth_code)) {
 			Applicant usr = applicantDb.findByEmail(usrAuth.getAttribute("Email").toString());
@@ -140,9 +177,9 @@ public class DriveTestController {
 			pwd.setPassword(Utilities.getMd5(new_pwd));
 
 			passwordDb.save(pwd);
-			return "redirect:/drive_test";
+			return "data";
 		}
-		return "redirect:/drive_test";
+		return "no-data";
 	}
 
 	// Method calls the registration form
@@ -154,6 +191,7 @@ public class DriveTestController {
 		emptyMap.addAttribute("Name", "---------");
 		emptyMap.addAttribute("Num", "");
 
+		// zip code data
 		List<ModelMap> lstLocation = locationDb.findAll().stream().map(x -> {
 			ModelMap std = new ModelMap();
 			std.addAttribute("Name", x.toString());
@@ -171,8 +209,32 @@ public class DriveTestController {
 
 	// Method registers an applicant
 	@PostMapping("/registration")
-	public String driveTestReg(Prospect prospect, @RequestParam("file") MultipartFile file) {
+	public String driveTestReg(@Valid Prospect prospect, BindingResult bindingResult,
+			@RequestParam("file") MultipartFile file, Model model) {
 
+		// server-side validation
+		if (bindingResult.hasErrors()) {
+
+			model.addAttribute("foreign", "foreign");
+			ModelMap emptyMap = new ModelMap();
+			emptyMap.addAttribute("Name", "---------");
+			emptyMap.addAttribute("Num", "");
+
+			// zip code data
+			List<ModelMap> lstLocation = locationDb.findAll().stream().map(x -> {
+				ModelMap std = new ModelMap();
+				std.addAttribute("Name", x.toString());
+				std.addAttribute("Num", x.getLocation_id());
+				return std;
+			}).collect(Collectors.toList());
+
+			lstLocation.add(0, emptyMap);
+			ModelMap foreignModel = new ModelMap();
+			foreignModel.addAttribute("Zip", lstLocation);
+			model.addAttribute("foreignModel", foreignModel);
+
+			return "driveTest/registration";
+		}
 		// System.out.println(prospect.getPassword());
 
 		// Add proof to the database
@@ -301,16 +363,16 @@ public class DriveTestController {
 				i--;
 			} else if (answer.getNext().equals("SUBMIT QUIZ")) {
 				try {
-					// Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
-//					Utilities.ConvertToPDF("John Brown", "34");
-					System.out.println("pdf");
+					Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
+					Utilities.ConvertToPDF("John Brown", "34");
+					//System.out.println("pdf");
 				} catch (Exception e) {
 					System.out.println(e.getMessage());
 				}
 
 				try {
-					System.out.println("email");
-//					smtpMailSender.send("example@example.com", "Test Mail", "Test Results", "src/main/resources/Test_out.pdf");
+					System.out.println("modify to get test taker email");
+					smtpMailSender.send("example@example.com", "Test Mail", "Test Results", "src/main/resources/Test_out.pdf");
 				} catch (Exception e) {// MessagingException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -493,10 +555,10 @@ public class DriveTestController {
 
 		return mcq;
 	}
-	
-	//===================================================================
+
+	// ===================================================================
 	// Admin dashboard
-	
+
 	@GetMapping("/admin")
 	public String driveTestAdmin(Model model) {
 
@@ -507,11 +569,10 @@ public class DriveTestController {
 		model.addAttribute("action", "/admin");
 		return "driveTest/login";
 	}
-	
-	
+
 	@PostMapping("/admin")
 	public String driveTestAdmin(ProspectLogin prospectLogin) throws MessagingException {
-		
+
 		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
 		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
 		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
@@ -526,22 +587,161 @@ public class DriveTestController {
 		}
 		return "driveTest/login";
 	}
-	
-	
+
 	@Autowired
 	private QuestionCategoryRepository questionCategoryDb;
-	
-	@GetMapping("/app/questions")
+
+	@GetMapping("/dashboard/questions")
 	public String getDashboard(Model model) {
 
 		model.addAttribute("modIds", categoryDb.findAll());
 		model.addAttribute("modelData", questionDb.findAll());
-		return "driveTest/admin";
+		model.addAttribute("modQid",
+				questionDb.findAll().stream().map(x -> x.getQues_id()).collect(Collectors.toList()));
+
+		return "driveTest/questiontable";
+
+	}
+
+	@GetMapping("/dashboard/questions/search")
+	public String questionSearch(@RequestParam("question_id") String id,
+			@RequestParam("category_id") String id2, Model model) {
+
+		List<Question> lq;
+		List<Question_Category> lq1;
+		if (id.equals("All") && !id2.equals("All")) {
+			//filter by category
+			lq1 = questionCategoryDb.findAll().stream()
+					.filter(x -> (x.getCategoryId().getCat_id()) == Integer.parseInt(id2)).collect(Collectors.toList());
+			lq = questionDb.findAll().stream().filter(x -> {
+				boolean t = false;
+				for (Question_Category c : lq1) {
+					if (c.getQuestionId().getQues_id() == x.getQues_id())
+						t = true;
+				}
+				return t;
+			}).collect(Collectors.toList());
+		}
+		else if(!id.equals("All") && id2.equals("All")) {
+			//filter by id
+			lq = questionDb.findAll().stream().filter(x ->x.getQues_id() == Integer.parseInt(id)).collect(Collectors.toList());
+		}
+		else if(id.equals("All") && id2.equals("All")) {
+			lq = questionDb.findAll();
+		}
+		else {
+			//filter by category and id
+			 lq1 = questionCategoryDb.findAll().stream()
+					.filter(x -> (x.getCategoryId().getCat_id()) == Integer.parseInt(id2)).collect(Collectors.toList());
+			lq = questionDb.findAll().stream().filter(x -> {
+				boolean t = false;
+				for (Question_Category c : lq1) {
+					if (c.getQuestionId().getQues_id() == x.getQues_id() && (Integer.parseInt(id2) == x.getQues_id()))
+						t = true;
+				}
+				return t;
+			}).collect(Collectors.toList());
+		}
+		
+		model.addAttribute("modIds", categoryDb.findAll());
+		model.addAttribute("modelData", lq);
+		model.addAttribute("modQid",
+				questionDb.findAll().stream().map(x -> x.getQues_id()).collect(Collectors.toList()));
+		model.addAttribute("filterQ", id);
+		model.addAttribute("filterC", id2);
+
+		return "driveTest/questiontable";
+	}
+
+	@GetMapping("/dashboard/question-categories")
+	public String getDashboardqc(Model model) {
+
+		model.addAttribute("modIds", categoryDb.findAll());
+		model.addAttribute("modelData", questionDb.findAll());
+		model.addAttribute("disabled", false);
+		return "driveTest/qcassignment";
+	}
+
+	@GetMapping("/dashboard/{modelName}/qcsearch/")
+	public String categoryAssignmentSearch(@PathVariable("modelName") String modelName,
+			@RequestParam("category_id") String id, @RequestParam("action_id") String id2, Model model) {
+
+		List<Question_Category>  lq1;
+		if (id.equals("All")) {
+			  lq1 = questionCategoryDb.findAll();
+		}else {
+			 lq1 = questionCategoryDb.findAll().stream()
+					.filter(x -> (x.getCategoryId().getCat_id()) == Integer.parseInt(id)).collect(Collectors.toList());
+		}
 		
 		
+
+		
+		List<Question> lq = questionDb.findAll().stream().filter(x -> {
+
+			boolean t = true;
+			if (id2.equals("Assigned")) {
+				t = false;
+				for (Question_Category c : lq1) {
+					t = t || (c.getQuestionId().getQues_id() == x.getQues_id());
+				}
+			} else if (id2.equals("Unassigned")) {
+				t = true;
+				for (Question_Category c : lq1) {
+					t = t && (c.getQuestionId().getQues_id() != x.getQues_id());
+				}
+			}
+			
+
+			return t;
+		}).collect(Collectors.toList());
+
+		model.addAttribute("modIds", categoryDb.findAll());
+		model.addAttribute("modelData", lq);
+		model.addAttribute("filter_category", id);
+		model.addAttribute("filter_action", id2);
+		model.addAttribute("disabled", true);
+
+		return "driveTest/qcassignment";
+	}
+	
+	@PostMapping("/dashboard/question-categories")
+	@ResponseBody
+	public String assignQCategories(@RequestParam(name = "questions") String question,
+			@RequestParam(name = "category_id") String category, @RequestParam(name = "action_id") String action) {
+
+		// create a list of contributors from the json file
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Integer> options =null;
+		try {
+			options = objectMapper.readValue(question, new TypeReference<List<Integer>>() {
+			});
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(options);
+		System.out.println(category);
+		System.out.println(action);
+		if(action.equals("Assign")) {
+			for (Integer i: options) {
+				Question_Category qc = new Question_Category();
+				qc.setCategoryId(categoryDb.findById(Integer.parseInt(category)).orElse(null));
+				qc.setQuestionId(questionDb.findById(i).orElse(null));
+				questionCategoryDb.save(qc);
+			}
+		}
+		else if(action.equals("Unassign")){
+			for (Integer i: options) {
+				Question_Category qc = questionCategoryDb.findAll().stream().filter(x->x.getCategoryId().getCat_id()==Integer.parseInt(category))
+						.filter(y->y.getQuestionId().getQues_id()==i).findFirst().orElse(null);
+				questionCategoryDb.delete(qc);
+			}
+		}
 		
 		
-		
+		return "assigned";
 	}
 
 }

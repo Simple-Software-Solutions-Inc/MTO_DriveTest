@@ -35,6 +35,7 @@ import ca.lambton.Wildemo.Models.WIL.Question;
 
 public class Utilities {
 
+	public static final int QUESTION_COUNT = 1;
 	public static int[] loopNum(int num) {
 
 		int[] numArray = new int[num];
@@ -45,12 +46,12 @@ public class Utilities {
 	}
 
 	public static <T> int[] loopNum(int startNum, T[] genArray) {
-		System.out.println(genArray.length);
+		//System.out.println(genArray.length);
 		int[] numArray = new int[genArray.length - startNum];
-		System.out.println(numArray.length);
+		//System.out.println(numArray.length);
 		for (int i = 0; i < genArray.length - startNum; i++) {
 			numArray[i] = i + startNum;
-			System.out.println(i);
+			//System.out.println(i);
 		}
 
 		return numArray;
@@ -193,7 +194,7 @@ public class Utilities {
 
 		List<MultipleChoice> mcq2 = new ArrayList<MultipleChoice>();
 		
-		for (int i=0; i<5; i++) {
+		for (int i=0; i<QUESTION_COUNT; i++) {
 			int high = mcq.size();
 			int result = new Random().nextInt(high);
 			MultipleChoice random_mq = mcq.get(result);
@@ -206,15 +207,15 @@ public class Utilities {
 	
 	public static double quizScore(List<MultipleChoice> lstQ, List<String> lstAns) {
 		int score = 0;
-		for(int i=0; i<5; i++ ) {
-			System.out.println(lstQ.get(i).getAnswer());
-			System.out.println(lstAns.get(i));
+		for(int i=0; i<QUESTION_COUNT; i++ ) {
+//			System.out.println(lstQ.get(i).getAnswer());
+//			System.out.println(lstAns.get(i));
 			if (lstQ.get(i).getAnswer().equals(lstAns.get(i))) {
 				score++;
 			}
 		}
 		
-		return (score /(double) 5) * 100;
+		return (score /(double) QUESTION_COUNT) * 100;
 	}
 	
 	

@@ -40,8 +40,8 @@
             "Option_C": "Neither Jailtime nor a fine",
             "Option_D": "A fine of between $1,000 and $5,000",
             "Answer": "A",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image4.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "5",
@@ -51,8 +51,8 @@
             "Option_C": "2",
             "Option_D": "4",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image5.jpg"
+            "Media_Type":"Video",
+             "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "6",
@@ -62,8 +62,8 @@
             "Option_C": "2",
             "Option_D": "0",
             "Answer": "C",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image6.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "7",
@@ -73,8 +73,8 @@
             "Option_C": "2",
             "Option_D": "1",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image7.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "8",
@@ -84,8 +84,8 @@
             "Option_C": "5",
             "Option_D": "2",
             "Answer": "B",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image8.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "9",
@@ -95,8 +95,8 @@
             "Option_C": "pull over if an emergency vehicle is following you with its lights flashing.",
             "Option_D": "do none of the above.",
             "Answer": "A",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image9.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "10",
@@ -106,8 +106,8 @@
             "Option_C": "2",
             "Option_D": "4",
             "Answer": "B",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image10.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "11",
@@ -117,8 +117,8 @@
             "Option_C": "a one-year licence suspension",
             "Option_D": "a two-year licence suspension",
             "Answer": "C",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image11.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/ZaX9Q6nvUK8"
         },
         {
             "Number": "12",
@@ -161,8 +161,8 @@
             "Option_C": "Continue at the same speed.",
             "Option_D": "Pull to the right as far as possible and stop.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image15.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "16",
@@ -172,8 +172,8 @@
             "Option_C": "14 days.",
             "Option_D": "60 days.",
             "Answer": "B",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image16.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "17",
@@ -183,8 +183,8 @@
             "Option_C": "stop until no other vehicles are approaching and then go.",
             "Option_D": "treat it as if there were all-way stop signs.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image17.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "18",
@@ -194,8 +194,8 @@
             "Option_C": "Concentrate on steering.",
             "Option_D": "Do all of the above.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image18.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "19",
@@ -227,8 +227,8 @@
             "Option_C": "whenever you are within 150 metres of another vehicle.",
             "Option_D": "whenever you are within 150 metres of an oncoming vehicle or within 60 metres of a vehicle you are following.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image21.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/d0_IPag1LxY"
         },
         {
             "Number": "22",
@@ -238,8 +238,8 @@
             "Option_C": "For failure to satisfactorily complete a driver re-examination",
             "Option_D": "Any of the above circumstances",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image22.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/d0_IPag1LxY"
         },
         {
             "Number": "23",
@@ -249,8 +249,8 @@
             "Option_C": "Stop and make sure that the police officer really wants you to go through.",
             "Option_D": "Tell the police officer that the light is red.",
             "Answer": "B",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image23.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/d0_IPag1LxY"
         },
         {
             "Number": "24",
@@ -260,8 +260,8 @@
             "Option_C": "you may go straight.",
             "Option_D": "all of the above.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image24.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/d0_IPag1LxY"
         },
         {
             "Number": "25",
@@ -271,8 +271,8 @@
             "Option_C": "2 years.",
             "Option_D": "3 years.",
             "Answer": "B",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image25.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/d0_IPag1LxY"
         },
         {
             "Number": "26",
@@ -304,8 +304,8 @@
             "Option_C": "a fine of up to $2,000.",
             "Option_D": "all of the above.",
             "Answer": "D",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image28.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "29",
@@ -326,8 +326,8 @@
             "Option_C": "The vehicle approaching from the right",
             "Option_D": "Neither one",
             "Answer": "C",
-            "Media_Type":"Image",
-            "Media_Path":"/media/drivetest/images/image30.jpg"
+            "Media_Type":"Video",
+            "Media_Path":"https://www.youtube.com/embed/iTADc13Kd8M"
         },
         {
             "Number": "31",
