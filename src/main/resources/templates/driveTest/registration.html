@@ -84,7 +84,9 @@
 							class="text-danger p-1">Error</span>
 					</div>
 					<div class="col-6 form-group text-start">
-						<label>Zip Code</label> 
+						<label>Zip Code</label> <!-- <input class="form-control"
+							aria-describedby="" type="text" name="zip" id="zip" th:field="*{applicant.location_id}"
+							placeholder="Enter zip code" /> -->
 							
 							<select class="custom-select"
 								aria-label=".form-select-lg example"
@@ -99,7 +101,8 @@
 								
 
 							</select>
-							
+							<!-- <span	th:if="${#fields.hasErrors('applicant.location_id')}" th:errors="*{applicant.location_id}"
+							class="text-danger p-1">Error</span> -->
 					</div>
 				</div>
 

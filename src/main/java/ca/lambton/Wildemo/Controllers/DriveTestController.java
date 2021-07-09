@@ -13,12 +13,14 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,14 +31,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+
 import ca.lambton.Wildemo.AdditionalFunction.FileUploadUtil;
 import ca.lambton.Wildemo.AdditionalFunction.SmtpMailSender;
 import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Models.WIL.Answer;
 import ca.lambton.Wildemo.Models.WIL.Applicant;
 import ca.lambton.Wildemo.Models.WIL.Applicant_Quiz;
+import ca.lambton.Wildemo.Models.WIL.Category;
 import ca.lambton.Wildemo.Models.WIL.MultipleChoice;
 import ca.lambton.Wildemo.Models.WIL.Password;
+import ca.lambton.Wildemo.Models.WIL.Product;
 import ca.lambton.Wildemo.Models.WIL.ProofIdentity;
 import ca.lambton.Wildemo.Models.WIL.Prospect;
 import ca.lambton.Wildemo.Models.WIL.ProspectLogin;
@@ -47,6 +52,7 @@ import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
 import ca.lambton.Wildemo.Repositories.WIL.CategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.LocationRepository;
 import ca.lambton.Wildemo.Repositories.WIL.PasswordRepository;
+import ca.lambton.Wildemo.Repositories.WIL.ProductRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ProofIdentityRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionCategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionRepository;
@@ -77,6 +83,9 @@ public class DriveTestController {
 
 	@Autowired
 	private PasswordRepository passwordDb;
+	
+	@Autowired
+	private ProductRepository productDb;
 
 	@Autowired
 	private ApplicantQuizRepository applicantQuizDb;
@@ -363,7 +372,7 @@ public class DriveTestController {
 				i--;
 			} else if (answer.getNext().equals("SUBMIT QUIZ")) {
 				try {
-					Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
+					//Utilities.generatePDFFromHTML("src/main/resources/templates/driveTest/certificate.html");
 					Utilities.ConvertToPDF("John Brown", "34");
 					//System.out.println("pdf");
 				} catch (Exception e) {
@@ -742,6 +751,212 @@ public class DriveTestController {
 		
 		
 		return "assigned";
+	}
+	
+	@GetMapping("/dashboard/categories/add-new")
+	public String newCategory(Model model) {
+
+		model.addAttribute("modelClass", new Category());
+		model.addAttribute("destination", "/dashboard/categories/add-new/");
+		//model.addAttribute("encoding", "multipart/form-data");
+		model.addAttribute("method", "post");
+		return "driveTest/form";
+	}
+	
+	@PostMapping("/dashboard/categories/add-new")
+	public String newGuardian(@Valid @ModelAttribute("modelClass") Category category, BindingResult bindingResult, ModelMap model) {
+
+		if (bindingResult.hasErrors()) {
+			return "layouts/form_components/main_form";
+		}
+		categoryDb.save(category);
+		
+		return "redirect:/dashboard/categories";
+	}
+	
+	@GetMapping("/dashboard/categories/edit/{id}")
+	public String editCategory(@PathVariable("id") Integer id, Model model) {
+
+		if (categoryDb.findById(id).isPresent()) {
+			Category category = categoryDb.findById(id).get();
+			model.addAttribute("modelClass", category);
+			model.addAttribute("destination", "/dashboard/categories/edit/"+ id);
+			model.addAttribute("prod_status", "edit");
+			//model.addAttribute("encoded", "multipart/form-data");
+			model.addAttribute("method", "post");
+			return "driveTest/form";
+		}
+		return "error";
+	}
+	
+	@PostMapping("/dashboard/categories/edit/{id}")
+	public String editCategory(@PathVariable("id") Integer id,  @Valid @ModelAttribute("modelClass") Category category, BindingResult bindingResult, ModelMap model) {
+
+		if (bindingResult.hasErrors()) { 
+			return "driveTest/form";
+		}
+		if (categoryDb.findById(id).isPresent()){
+			Category categoryUpdate =categoryDb.findById(id).get();
+			categoryUpdate.setDescription(category.getDescription());
+			categoryUpdate.setName(category.getName());
+			categoryDb.save(categoryUpdate);
+			return "redirect:/dashboard/categories";	
+		}
+		return "error";
+	}
+	
+	
+	@GetMapping("/dashboard/questions/add-new")
+	public String newQuestion(Model model) {
+
+		model.addAttribute("modelClass", new Question());
+		model.addAttribute("destination", "/dashboard/categories/add-new/");
+		//model.addAttribute("encoding", "multipart/form-data");
+		model.addAttribute("method", "post");
+		return "driveTest/form";
+	}
+	
+	@GetMapping("/dashboard/questions/edit/{id}")
+	public String editQuestion(@PathVariable("id") Integer id, Model model) {
+
+		if (questionDb.findById(id).isPresent()) {
+			Question question = questionDb.findById(id).get();
+			model.addAttribute("modelClass", question);
+			model.addAttribute("destination", "/dashboard/questions/edit/"+ id);
+			model.addAttribute("prod_status", "edit");
+			//model.addAttribute("encoded", "multipart/form-data");
+			model.addAttribute("method", "post");
+			return "driveTest/form";
+		}
+		return "error";
+	}
+	
+	@PostMapping("/dashboard/questions/edit/{id}")
+	public String editQuestion(@PathVariable("id") Integer id,  @Valid @ModelAttribute("modelClass") Question question, BindingResult bindingResult, ModelMap model) {
+
+		if (bindingResult.hasErrors()) { 
+			return "driveTest/form";
+		}
+		if (questionDb.findById(id).isPresent()){
+			Question questionUpdate = questionDb.findById(id).get();
+			questionUpdate.setAnswer(question.getAnswer());
+			questionUpdate.setMediaType(question.getMediaType());
+			questionUpdate.setQuestion(question.getQuestion());
+			questionUpdate.setQuestionType(question.getQuestionType());
+			questionUpdate.setMediaPath(question.getMediaPath());
+			questionDb.save(questionUpdate);
+			return "redirect:/dashboard/questions";	
+		}
+		return "error";
+	}
+	
+	
+	@GetMapping("/dashboard/products/add-new")
+	public String newProduct(Model model) {
+
+		model.addAttribute("modelClass", new Product());
+		model.addAttribute("destination", "/dashboard/products/add-new/");
+		model.addAttribute("encoding", "multipart/form-data");
+		model.addAttribute("method", "post");
+		return "driveTest/form";
+	}
+
+	@PostMapping("/dashboard/products/add-new")
+	public String newProductW(@Valid @ModelAttribute("modelClass") Product product, BindingResult bindingResult,
+			@RequestParam("file") MultipartFile file) {
+
+		if (bindingResult.hasErrors()) {
+			return "driveTest/form";
+		}
+
+		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		Product pd = productDb.save(product);
+		int pid = pd.getProductId();
+		
+		String uploadDir = "resource-uploads/product-images/" + pid;
+		pd.setImage_file("/" + uploadDir + "/" + fileName);
+		productDb.save(pd);
+		try {
+			FileUploadUtil.saveFile(uploadDir, fileName, file);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		return "redirect:/dashboard/products";
+	}
+	
+	@GetMapping("/dashboard/products/edit/{id}")
+	public String editProduct(@PathVariable("id") Integer id, Model model) {
+
+		if (productDb.findById(id).isPresent()) {
+			Product product = productDb.findById(id).get();
+			model.addAttribute("modelClass", product);
+			model.addAttribute("destination", "/dashboard/products/edit/"+ id);
+			model.addAttribute("prod_status", "edit");
+			model.addAttribute("encoded", "multipart/form-data");
+			model.addAttribute("method", "post");
+			return "driveTest/form";
+		}
+		return "error";
+	}
+	
+	@PostMapping("/dashboard/products/edit/{id}")
+	public String editProduct(@PathVariable("id") Integer id,  @Valid Product product,  
+			BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
+		
+		if (bindingResult.hasErrors()) { 
+			return "layouts/form_components/main_form";
+		}
+		if (productDb.findById(id).isPresent()){
+			Product productToUpdate = productDb.findById(id).get();
+			productToUpdate.setName(product.getName());
+			productToUpdate.setPrice(product.getPrice());
+			productToUpdate.setDescription(product.getDescription());
+					
+			if (!file.isEmpty()) {
+				try {
+					String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+					String uploadDir = "resource-uploads/product-images/" + productToUpdate.getProductId();
+					productToUpdate.setImage_file("/" + uploadDir + "/" + fileName);
+					FileUploadUtil.saveFile(uploadDir, fileName, file);
+				}
+				catch(IOException e) {
+					System.out.println("The product image wasn't uploaded.");
+				}
+			}
+			productDb.save(productToUpdate);
+			return "redirect:/app/products";			
+		}
+		return "error";
+	}
+	
+	@GetMapping("/store/checkout/")
+	public String getOrder(@RequestParam("product") String id, Model model) {
+
+		// create a list of contributors from the json file
+				ObjectMapper objectMapper = new ObjectMapper();
+				List<ModelMap> options =null;
+				try {
+					options = objectMapper.readValue(id, new TypeReference<List<ModelMap>>() {
+					});
+				} catch (JsonProcessingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			double totalCost = 0;
+			for (ModelMap m: options) {
+			//System.out.println(m.get("name"));
+			//System.out.println(m.get("value"));
+//				totalCost += 
+						Integer j = (Integer) m.get("value");
+						totalCost +=j.doubleValue();
+			}
+			String clientID = "Link from the application.properties";
+			model.addAttribute("model", options);
+			model.addAttribute("count", options.size());
+			model.addAttribute("totalcost", totalCost);
+			model.addAttribute("clientID", clientID);
+		return "driveTest/order";
 	}
 
 }

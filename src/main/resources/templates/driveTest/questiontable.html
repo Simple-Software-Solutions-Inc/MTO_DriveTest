@@ -78,7 +78,7 @@
 				<a class="btn btn-sm btn-outline-secondary mr-1"
 					th:href="@{/dashboard/products/thumbnail}">View Product
 					Thumbnail</a><a class="btn btn-sm btn-success"
-					th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/add-new'}">Add
+					th:href="@{'/dashboard/questions/add-new'}">Add
 					New</a>
 			</div>
 		</div>
@@ -101,11 +101,11 @@
 							<td th:each="d : ${data.fieldData()}" th:text="${d}">Data 1</td>
 							<td class="text-center" style="width: 200px;"><a
 								class="btn btn-sm btn-primary"
-								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/view/' + ${data.fieldData()[0]}}">
+								th:href="@{'/dashboard/questions/view/' + ${data.fieldData()[0]}}">
 									View </a> <a class="btn btn-sm btn-primary"
-								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/edit/' + ${data.fieldData()[0]}}">
+								th:href="@{'/dashboard/questions/edit/' + ${data.fieldData()[0]}}">
 									Edit </a> <a class="btn btn-sm btn-danger"
-								th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/delete/' + ${data.fieldData()[0]}}">
+								th:href="@{'/dashboard/questions/delete/' + ${data.fieldData()[0]}}">
 									Delete </a></td>
 						</tr>
 					</tbody>

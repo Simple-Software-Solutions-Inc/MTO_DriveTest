@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
+import ca.lambton.Wildemo.Models.Navigate;
 import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Models.WIL.Category;
+import ca.lambton.Wildemo.Models.WIL.Product;
 import ca.lambton.Wildemo.Models.WIL.Question;
 import ca.lambton.Wildemo.Models.WIL.Question_Category;
 import ca.lambton.Wildemo.Repositories.WIL.CategoryRepository;
+import ca.lambton.Wildemo.Repositories.WIL.ProductRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionCategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionRepository;
 import lombok.var;
@@ -39,6 +41,9 @@ public class MainController {
 	
 	@Autowired
 	private QuestionRepository questionDb;
+	
+	@Autowired
+	private ProductRepository productDb;
 
 
 
@@ -117,7 +122,7 @@ public class MainController {
 	}
 
 //	get detail
-	@GetMapping("/app/{modelName}/view/{id}")
+	@GetMapping("/dashboard/{modelName}/view/{id}")
 	public String getModelObjectDetail(@PathVariable("id") Integer id, @PathVariable("modelName") String modelName,
 			Model model) {
 
@@ -133,7 +138,7 @@ public class MainController {
 			model.addAttribute("modelId", id);
 //			model.addAttribute("modelNav", new Navigate());
 
-			return "layouts/table_components/view_details";
+			return "driveTest/view_detail";
 		}
 		return "error";
 	}
@@ -145,7 +150,7 @@ public class MainController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/app/{modelName}/delete/{id}")
+	@GetMapping("/dashboard/{modelName}/delete/{id}")
 	public String deleteModelObject(@PathVariable("id") Integer id, @PathVariable("modelName") String modelName,
 			Model model) {
 
@@ -162,9 +167,68 @@ public class MainController {
 
 //			pageCounter.increment();
 
-			return "layouts/table_components/view_details";
+			return "driveTest/view_detail";
 		}
 		return "error";
+	}
+	
+	@PostMapping("/dashboard/products/delete/{id}")
+	public String deleteProduct(@PathVariable("id") Integer id) {
+
+		if (productDb.findById(id).isPresent()) {
+			Product product = productDb.findById(id).get();
+			productDb.delete(product);
+			return "redirect:/dashboard/products";
+		}
+		return "error";
+	}
+	
+	@PostMapping("/dashboard/categories/delete/{id}")
+	public String deleteCategory(@PathVariable("id") Integer id) {
+
+		if (categoryDb.findById(id).isPresent()) {
+			Category category = categoryDb.findById(id).get();
+			categoryDb.delete(category);
+			return "redirect:/dashboard/products";
+		}
+		return "error";
+	}
+	
+	@PostMapping("/dashboard/questions/delete/{id}")
+	public String deleteQuestions(@PathVariable("id") Integer id) {
+
+		if (questionDb.findById(id).isPresent()) {
+			Question question = questionDb.findById(id).get();
+			questionDb.delete(question);
+			return "redirect:/dashboard/questions";
+		}
+		return "error";
+	}
+	
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	@PostMapping("/dashboard/{modelName}/view/{id}")
+	public String getModelObjectDetail(@Valid Navigate navigate, @PathVariable("modelName") String modelName) {
+		int id = navigate.getModelObjectId();
+		String btnDetail = navigate.getNext();
+
+		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
+
+		if (modelData != null) {
+
+			List<Integer> pint = (List<Integer>) modelData.get("modIds");
+			int i = pint.indexOf(id);
+			if (btnDetail.equals("Next") && pint.size() - 1 > i) {
+				i++;
+			} else if (btnDetail.equals("Previous") && i > 0) {
+				i--;
+			}
+			return "redirect:/dashboard/" + modelName + "/view/" + pint.get(i);
+		}
+		return "error";
+
 	}
 	
 
@@ -196,6 +260,15 @@ public class MainController {
 		questionCategoryModel.addAttribute("modIds",
 				questionCategoryDb.findAll().stream().map(x -> x.getQuesCatId()).collect(Collectors.toList()));
 		model.addAttribute("question categories", questionCategoryModel);
+		
+		
+		ModelMap productModel = new ModelMap();
+		productModel.addAttribute("products", productDb.findAll());
+		productModel.addAttribute("fieldNames", Product.fieldNames());
+		productModel.addAttribute("currentModel", "products");
+		productModel.addAttribute("modIds",
+				productDb.findAll().stream().map(x -> x.getProductId()).collect(Collectors.toList()));
+		model.addAttribute("products", productModel);
 		
 		return model;
 	}
@@ -229,11 +302,30 @@ public class MainController {
 				modelData.addAttribute(modelName, o);
 			}
 				break;
+				
+			case "products": {
+				List<Product> p = (List<Product>) modelData.get(modelName);
+				Product o = p.stream().filter(g -> g.getProductId() == Integer.parseInt(id))
+						.findFirst().orElse(null);// .get();
+				modelData.addAttribute(modelName, o);
+			}
+				break;
 //			  default:
 			}
 		}
 		return modelData;
 
 	}
+	
+	// store board
+		@GetMapping("/store")
+		public String shoreStore(Model model) {
+			List<Product> storeproducts = productDb.findAll();
+
+			model.addAttribute("storeproducts", storeproducts);
+			model.addAttribute("modelData", null);
+//			return "layouts/dashboard_components/dashboard";
+			return "driveTest/store";
+		}
 
 }

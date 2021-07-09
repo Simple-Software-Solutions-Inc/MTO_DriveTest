@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+
+	<div id="breadcrumbs" class="container">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<ul class="breadcrumb m-0">
+					<li><a href="#">Home</a></li>
+					<li>Store</li>
+				</ul>
+			</div>
+			<div class="col-auto">
+				<form class="form-inline">
+					<div class="input-group input-group-sm m-2">
+						<input type="text" class="form-control" placeholder="Search"
+							aria-label="Search" aria-describedby="button-addon2" />
+
+						<div class="input-group-append">
+							<input class="btn btn-primary btn-sm" type="submit"
+								id="button-addon2" value="Search" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-5 bg-white" th:fragment="main_content">
+	<h5>Product List</h5>
+		<div id="storeProducts" class="row">
+			<div class="col-10">
+				<div th:each="product : ${storeproducts}"
+					class="col-auto btn btn-outline-secondary">
+					<a class="text-decoration-none"
+						th:href="@{'/dashboard/' + ${#strings.toLowerCase(product.name)}}"
+						data-bs-toggle="tooltip" data-bs-placement="bottom"
+						th:title="${#strings.capitalize(product.name)}"> <img
+						class="d-block" th:src="${product.image_file}" width="100"
+						height="100" th:alt="${product.name}" />
+					</a>
+					<div class="text-truncate" style="width: 100px;"
+						th:text="${#strings.capitalize(product.name)}">Name</div>
+					<div class="text-truncate" style="width: 100px;"
+						th:text="${#strings.capitalize(product.price)}">Name</div>
+					<button class="btn btn-primary">Add to Cart</button>
+				</div>
+			</div>
+			<div class="col-2 py-3 px-2 text-white text-center bg-secondary rounded">
+				<p class="pl-2 text-justify">
+					Total: <span id="itemCount" class="d-block">Number of Item</span> <span
+						id="totalCost" class="d-block">Total Cost</span>
+				</p>
+				<form method="get" action="/store/checkout/">
+					<input type="hidden" name="product">
+					<input  id="gotoCart" class="btn btn-warning" type="submit" value="Go to Cart" />
+				</form>
+				
+			</div>
+		</div>
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>

@@ -47,6 +47,10 @@ public class Product {
 	@Column(name="price")
 	private Double price;
 	
+	@NonNull
+	@Column(name="image_path")
+	private String image_file;
+	
 	
 	@Transient
 	public String toString() {
@@ -69,10 +73,10 @@ public class Product {
 	//modify arrays to customize the fields shown on form
 	@Transient
 	public static String[][] formBuilder() {
-		String[] fieldName = {"productId", "name", "description", "price"};
-		String[] fieldLabel =  { "ID", "Name", "Description", "Price"};
-		String[] fieldTag = {"number", "text", "text", "number"};
-		String[][] fData = new String[4][3];
+		String[] fieldName = {"productId", "name", "description", "price", "image_file"};
+		String[] fieldLabel =  { "ID", "Name", "Description", "Price", "Image"};
+		String[] fieldTag = {"number", "text", "text", "number", "file"};
+		String[][] fData = new String[5][3];
 		for(int i=0; i<fData.length; i++) {
 			fData[i][0] = fieldName[i];
 			fData[i][1] = fieldLabel[i];

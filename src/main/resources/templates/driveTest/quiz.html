@@ -25,6 +25,11 @@
 							<span class="float-left">Click image to view</span>
 							<th:block th:switch="${ques.mediaType}">
 								<th:block th:case="'Video'">
+									<!-- <video width="320" height="240" controls>
+										<source th:src="${ques.mediaPath}" type="video/mp4">
+										<source th:src="${ques.mediaPath}" type="video/ogg">
+										Your browser does not support the video tag.
+									</video> -->
 									<iframe width="560" height="315"
 										th:src="${ques.mediaPath}"
 										title="YouTube video player" frameborder="0"
@@ -109,6 +114,20 @@
 
 
 					</div>
+
+					<!-- <div id="option_A"
+						class="row rounded border-primary border ml-2 bg-light mb-2 p-2"
+						th:text="${ques.option_A}">Answer 1</div>
+					<div id="option_B"
+						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
+						th:text="${ques.option_B}">Answer 2</div>
+					<div id="option_C"
+						class="row rounded border-primary border ml-2 bg-light my-2 p-2"
+						th:text="${ques.option_C}">Answer 3</div>
+					<div id="option_D"
+						class="row rounded border-primary border ml-2 bg-light mt-2 p-2"
+						th:text="${ques.option_D}">Answer 4</div>
+				</div> -->
 				</div>
 
 				<div class="row mt-3">

@@ -65,10 +65,10 @@ public class Question {
 	//modify arrays to customize the fields shown on form
 	@Transient
 	public static String[][] formBuilder() {
-		String[] fieldName = {"ques_id", "question", "answer"};
-		String[] fieldLabel =  { "ID", "Question", "Answer"};
-		String[] fieldTag = {"number", "text", "text"};
-		String[][] fData = new String[3][3];
+		String[] fieldName = {"ques_id", "question", "answer", "questionType","mediaType" ,"mediaPath"};
+		String[] fieldLabel =  { "ID", "Question", "Answer", "Type", "Media", "MediaType"};
+		String[] fieldTag = {"number", "text", "text", "text", "text", "text"};
+		String[][] fData = new String[6][3];
 		for(int i=0; i<fData.length; i++) {
 			fData[i][0] = fieldName[i];
 			fData[i][1] = fieldLabel[i];

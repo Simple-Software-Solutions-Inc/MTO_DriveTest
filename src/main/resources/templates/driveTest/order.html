@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="driveTest/drive_test_layout :: head">
+
+</head>
+<body>
+	<header th:replace="driveTest/drive_test_layout :: header"> </header>
+
+	<div id="breadcrumbs" class="container">
+		<div class="row justify-content-between">
+			<div class="col-auto">
+				<ul class="breadcrumb m-0">
+					<li><a href="#">Home</a></li>
+					<li><a href="#">Store</a></li>
+					<li>Review Cart</li>
+					<!-- <li><a href="#">Home</a></li>
+					<li>Italy</li> -->
+				</ul>
+			</div>
+			<div class="col-auto">
+				<form class="form-inline">
+					<div class="input-group input-group-sm m-2">
+						<input type="text" class="form-control" placeholder="Search"
+							aria-label="Search" aria-describedby="button-addon2" />
+
+						<div class="input-group-append">
+							<input class="btn btn-primary btn-sm" type="submit"
+								id="button-addon2" value="Search" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="container p-5 bg-white">
+			<div class="App">
+      <div id="order" class="row">
+      
+        <div id="orderInfo" class="col-8 m-0">
+          <h2 class="text-start mb-2">Shopping Cart</h2>
+          <div class="row m-0">
+          <span class="text-left h-6 col">Description</span>
+          <span class="text-right col">Price</span>
+          </div>
+          <hr>
+          <div th:each="data: ${model}" class="col border m-0 p-0">
+            <div class="row m-0 col">
+              <div class="row  col-8 m-0 p-1">
+                <div class="col-auto  p-1 ">
+                  <h6 class="text-start" th:text="${data.name}">Product Name</h6>
+                 <!--  <p class="text-start">Description:</p> -->
+                  <!-- <form class="form-inline">
+                    <p class="text-start form-group">
+                      <label class="input-label">Quantity</label>
+                      <input class="form-control" type="text">
+                    </p>
+                  </form> -->
+                </div>
+              </div>
+              <div class="col-4 m-0  p-1 ">
+                <h6 class="text-right" th:text="${data.value}">Price</h6>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h5 class="text-right mb-2" th:text="'Subtotal (' + ${count} + ' Items): $' +${totalcost} + ' CAD'">Subtotal (3 Items): $1,4000.00</h5>
+        </div>
+        <div class="bg-secondary  rounded col-4">
+          <div class="container">
+            <div class="row">
+              <div style="height: 100%" class="
+                 col "><div id="paymentContainer"  th:data-total="${totalcost}" class="my-5 p-5
+               col bg-white align-self-end rounded">
+                <h5>Checkout with</h5>
+                <input class="btn btn-primary d-none" type="submit">
+                <script
+    th:src="'https://www.paypal.com/sdk/js?client-id=' + ${clientID}"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+  </script>
+
+  <div id="paypal-button-container"></div>
+
+ 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+		
+	</div>
+	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script src="/js/newsite.js"></script>
+</body>
+</html>
