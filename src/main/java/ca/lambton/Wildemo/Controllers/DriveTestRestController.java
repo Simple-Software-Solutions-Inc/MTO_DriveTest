@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.lambton.Wildemo.Models.WIL.Applicant;
 import ca.lambton.Wildemo.Models.WIL.Applicant_Quiz;
+import ca.lambton.Wildemo.Models.WIL.Product;
 import ca.lambton.Wildemo.Models.WIL.Question;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantQuizRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
+import ca.lambton.Wildemo.Repositories.WIL.ProductRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionRepository;
 
 @RestController
@@ -27,6 +29,9 @@ public class DriveTestRestController {
 
 	@Autowired
 	private ApplicantQuizRepository applicantQuizDb;
+	
+	@Autowired
+	private ProductRepository productDb;
 	
 	@Scheduled(fixedRate = 3000) 
 	public void myScheduledMethod() { 
@@ -50,4 +55,12 @@ public class DriveTestRestController {
 		int[] passrate ={numFailAttempts, numPassAttempts };
 		return passrate;
 	}
+	
+	@GetMapping("/api/products")
+	public List<Product> driveTesApiProducts() {
+		
+		List<Product> product = productDb.findAll();		
+		return product;
+	}
+	
 }

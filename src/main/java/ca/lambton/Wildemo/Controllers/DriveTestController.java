@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ca.lambton.Wildemo.AdditionalFunction.FileUploadUtil;
 import ca.lambton.Wildemo.AdditionalFunction.SmtpMailSender;
+import ca.lambton.Wildemo.Models.BreadCrumbs;
 import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Models.WIL.Answer;
 import ca.lambton.Wildemo.Models.WIL.Applicant;
@@ -89,7 +92,10 @@ public class DriveTestController {
 
 	@Autowired
 	private ApplicantQuizRepository applicantQuizDb;
-
+	
+	@Autowired
+	private BreadCrumbs breadCrumbs;
+	
 	// =========================================================================================================================
 	// Login and Logout function
 	// =========================================================================================================================
@@ -212,7 +218,12 @@ public class DriveTestController {
 		ModelMap foreignModel = new ModelMap();
 		foreignModel.addAttribute("Zip", lstLocation);
 		model.addAttribute("foreignModel", foreignModel);
-
+		
+		//Breadcrumbs
+		breadCrumbs.start("Registration");
+		model.addAttribute("links", breadCrumbs);
+		
+		
 		return "driveTest/registration";
 	}
 
@@ -292,6 +303,10 @@ public class DriveTestController {
 		model.addAttribute("attempts", appQuiz);
 		// System.out.println(appQuiz.size());
 		// System.out.println((Integer) getUserSessionObject().getAttribute("uid"));
+		
+		//Breadcrumbs
+//				breadCrumbs.start("registration");
+//				model.addAttribute("links", breadCrumbs);
 		return "driveTest/main";
 	}
 
@@ -760,6 +775,9 @@ public class DriveTestController {
 		model.addAttribute("destination", "/dashboard/categories/add-new/");
 		//model.addAttribute("encoding", "multipart/form-data");
 		model.addAttribute("method", "post");
+		
+		breadCrumbs.start("categories_add-new");
+		model.addAttribute("links", breadCrumbs);
 		return "driveTest/form";
 	}
 	
@@ -784,6 +802,9 @@ public class DriveTestController {
 			model.addAttribute("prod_status", "edit");
 			//model.addAttribute("encoded", "multipart/form-data");
 			model.addAttribute("method", "post");
+			
+			breadCrumbs.start("categories_edit");
+			model.addAttribute("links", breadCrumbs);
 			return "driveTest/form";
 		}
 		return "error";
@@ -858,6 +879,9 @@ public class DriveTestController {
 		model.addAttribute("destination", "/dashboard/products/add-new/");
 		model.addAttribute("encoding", "multipart/form-data");
 		model.addAttribute("method", "post");
+		
+		breadCrumbs.start("Products_add-new");
+		model.addAttribute("links", breadCrumbs);
 		return "driveTest/form";
 	}
 
@@ -881,6 +905,8 @@ public class DriveTestController {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		
 		return "redirect:/dashboard/products";
 	}
 	
@@ -892,8 +918,11 @@ public class DriveTestController {
 			model.addAttribute("modelClass", product);
 			model.addAttribute("destination", "/dashboard/products/edit/"+ id);
 			model.addAttribute("prod_status", "edit");
-			model.addAttribute("encoded", "multipart/form-data");
+			model.addAttribute("encoding", "multipart/form-data");
 			model.addAttribute("method", "post");
+			
+			breadCrumbs.start("Products_edit");
+			model.addAttribute("links", breadCrumbs);
 			return "driveTest/form";
 		}
 		return "error";
@@ -904,7 +933,7 @@ public class DriveTestController {
 			BindingResult bindingResult, @RequestParam("file") MultipartFile file) {
 		
 		if (bindingResult.hasErrors()) { 
-			return "layouts/form_components/main_form";
+			return "driveTest/form";
 		}
 		if (productDb.findById(id).isPresent()){
 			Product productToUpdate = productDb.findById(id).get();
@@ -924,7 +953,7 @@ public class DriveTestController {
 				}
 			}
 			productDb.save(productToUpdate);
-			return "redirect:/app/products";			
+			return "redirect:/dashboard/products";			
 		}
 		return "error";
 	}
@@ -956,6 +985,9 @@ public class DriveTestController {
 			model.addAttribute("count", options.size());
 			model.addAttribute("totalcost", totalCost);
 			model.addAttribute("clientID", clientID);
+			
+			breadCrumbs.start("Checkout");
+			model.addAttribute("links", breadCrumbs);
 		return "driveTest/order";
 	}
 
