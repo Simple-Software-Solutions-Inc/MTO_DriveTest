@@ -2,6 +2,7 @@
 <html lang="en">
 <head th:replace="driveTest/drive_test_layout :: head">
 
+//initialize instance
 </head>
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
@@ -20,11 +21,9 @@
 							allowfullscreen></iframe>
 							<a href="https://peeldrivingschool.com/images/Smart_Guide.pdf">Download PDF for G1</a>
 					</p>
-
-
 				</div>
 				<div class=" mx-auto ml-1 col-4">
-						<div class="col border rounded p-3 bg-white ">
+						<div  class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
 							<table class="table table-bordered table-sm">
 								<thead class="table-dark">
@@ -52,7 +51,7 @@
 							</div>
 						</div>
 						
-						<div class="mt-5 text-right">
+						<div data-intro='Start your Quiz! &#128552;' class="mt-5 text-right">
 							<a th:href="@{/quiz}"
 								class="btn btn-success btn-lg">Start
 								Quiz</a>
@@ -63,6 +62,5 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
-
 </body>
 </html>

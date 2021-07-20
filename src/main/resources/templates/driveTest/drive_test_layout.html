@@ -4,8 +4,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Spring App</title>
+<script type="text/javascript" th:src="@{/js/jquery.js}" />
+<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css" />
+<link rel="stylesheet" href="/js/introjs.css" />
 <link rel="stylesheet" href="/css/site.css" />
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -13,9 +15,7 @@
 <link rel="stylesheet" href="/css/newsite.css" />
 <link rel="stylesheet" href="/css/admin.css" />
 
-<script src="/lib/jquery/jquery.min.js"></script>
-<!-- <script src="/lib/popper.js/cjs/popper.min.js"></script> -->
-<script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/intro.js}"></script>
 
 <script src="/lib/jquery-validate/jquery.validate.min.js"></script>
 <script
@@ -35,6 +35,7 @@
     	
     </script>   
 </head>
+
 <body>
 	<header th:fragment="header">
 		<nav
@@ -65,7 +66,6 @@
 		<main role="main" class="pb-3">
 			<div class="p-5 col text-center text-white">DriveTest Application</div>
 			<div class="row" th:fragment="main_content1"></div>
-			
 			
 		</main>
 	</div>
