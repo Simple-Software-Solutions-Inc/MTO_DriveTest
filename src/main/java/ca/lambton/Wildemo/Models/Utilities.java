@@ -35,7 +35,7 @@ import ca.lambton.Wildemo.Models.WIL.Question;
 
 public class Utilities {
 
-	public static final int QUESTION_COUNT = 1;
+	public static final int QUESTION_COUNT = 5;
 	public static int[] loopNum(int num) {
 
 		int[] numArray = new int[num];
@@ -179,6 +179,7 @@ public class Utilities {
 				String qText = q.getQuestion();
 				mq.setQuestion(qText.split("\n")[0]);
 				ObjectMapper objectMapper = new ObjectMapper();
+				System.out.println(qText.split("\n")[1]);
 				List<String> options = objectMapper.readValue(qText.split("\n")[1], new TypeReference<List<String>>() {
 				});
 				mq.setOption_A(options.get(0));

@@ -51,7 +51,7 @@ public class Admin {
 	@NotNull(message = "Admin must have a email")
 	@NotBlank(message = "Admin Email can't be blank")
 	@Column(name="admin_email")
-	private String admin_email;
+	private String adminEmail;
 
 	@NonNull
 	@NotNull(message = "Admin must have a status")
@@ -76,7 +76,7 @@ public class Admin {
 	public String[] fieldData() {
 		String[] fData = {
 				this.adminId.toString(), this.admin_name + " " + this.admin_role,
-				this.admin_status, this.admin_email };
+				this.admin_status, this.adminEmail };
 		return fData;
 	}
 

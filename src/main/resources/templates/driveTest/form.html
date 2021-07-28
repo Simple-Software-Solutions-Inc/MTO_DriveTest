@@ -6,31 +6,8 @@
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 
-	<div id="breadcrumbs" class="container">
-		<div class="row justify-content-between">
-			<div class="col-auto">
-				<ul class="breadcrumb m-0">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Pictures</a></li>
-					<li><a href="#">Summer 15</a></li>
-					<li>Italy</li>
-				</ul>
-			</div>
-			<div class="col-auto">
-				<form class="form-inline">
-					<div class="input-group input-group-sm m-2">
-							<input type="text" class="form-control" placeholder="Search"
-								aria-label="Search" aria-describedby="button-addon2" />
-						
-						<div class="input-group-append">
-						<input class="btn btn-primary btn-sm" type="submit"
-							id="button-addon2" value="Search" />
-							</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
+
 
 	<div class="container p-5 bg-white" th:fragment="main_content">
 		<div class="w-50"

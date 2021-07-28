@@ -38,6 +38,8 @@ import ca.lambton.Wildemo.AdditionalFunction.FileUploadUtil;
 import ca.lambton.Wildemo.AdditionalFunction.SmtpMailSender;
 import ca.lambton.Wildemo.Models.BreadCrumbs;
 import ca.lambton.Wildemo.Models.Utilities;
+import ca.lambton.Wildemo.Models.WIL.Admin;
+import ca.lambton.Wildemo.Models.WIL.AdminPassword;
 import ca.lambton.Wildemo.Models.WIL.Answer;
 import ca.lambton.Wildemo.Models.WIL.Applicant;
 import ca.lambton.Wildemo.Models.WIL.Applicant_Quiz;
@@ -50,6 +52,8 @@ import ca.lambton.Wildemo.Models.WIL.Prospect;
 import ca.lambton.Wildemo.Models.WIL.ProspectLogin;
 import ca.lambton.Wildemo.Models.WIL.Question;
 import ca.lambton.Wildemo.Models.WIL.Question_Category;
+import ca.lambton.Wildemo.Repositories.WIL.AdminPasswordRepository;
+import ca.lambton.Wildemo.Repositories.WIL.AdminRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantQuizRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
 import ca.lambton.Wildemo.Repositories.WIL.CategoryRepository;
@@ -71,6 +75,10 @@ public class DriveTestController {
 
 	@Autowired
 	private ApplicantRepository applicantDb;
+	
+	@Autowired
+	private AdminRepository adminDb;
+
 
 	@Autowired
 	private QuestionRepository questionDb;
@@ -86,6 +94,9 @@ public class DriveTestController {
 
 	@Autowired
 	private PasswordRepository passwordDb;
+	
+	@Autowired
+	private AdminPasswordRepository adminPasswordDb;
 	
 	@Autowired
 	private ProductRepository productDb;
@@ -197,7 +208,9 @@ public class DriveTestController {
 		return "no-data";
 	}
 
+	// =========================================================================================================================
 	// Method calls the registration form
+	// =========================================================================================================================
 	@GetMapping("/registration")
 	public String driveTestReg(Model model) {
 		model.addAttribute("prospect", new Prospect());
@@ -227,7 +240,9 @@ public class DriveTestController {
 		return "driveTest/registration";
 	}
 
+	// =========================================================================================================================
 	// Method registers an applicant
+	// =========================================================================================================================
 	@PostMapping("/registration")
 	public String driveTestReg(@Valid Prospect prospect, BindingResult bindingResult,
 			@RequestParam("file") MultipartFile file, Model model) {
@@ -253,9 +268,12 @@ public class DriveTestController {
 			foreignModel.addAttribute("Zip", lstLocation);
 			model.addAttribute("foreignModel", foreignModel);
 
+			//Breadcrumbs
+			breadCrumbs.start("Registration");
+			model.addAttribute("links", breadCrumbs);
+			
 			return "driveTest/registration";
 		}
-		// System.out.println(prospect.getPassword());
 
 		// Add proof to the database
 		ProofIdentity prospect_proof = prospect.getProof();
@@ -290,6 +308,8 @@ public class DriveTestController {
 		return "redirect:/drive_test";
 	}
 
+	
+	// =========================================================================================================================
 	@GetMapping("/main")
 	public String driveTestMain(Model model) {
 		if (getUserSessionObject() == null) {
@@ -304,9 +324,9 @@ public class DriveTestController {
 		// System.out.println(appQuiz.size());
 		// System.out.println((Integer) getUserSessionObject().getAttribute("uid"));
 		
-		//Breadcrumbs
-//				breadCrumbs.start("registration");
-//				model.addAttribute("links", breadCrumbs);
+//		Breadcrumbs
+				breadCrumbs.start("Main");
+				model.addAttribute("links", breadCrumbs);
 		return "driveTest/main";
 	}
 
@@ -597,20 +617,36 @@ public class DriveTestController {
 	@PostMapping("/admin")
 	public String driveTestAdmin(ProspectLogin prospectLogin) throws MessagingException {
 
-		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
-		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
-		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
+//		Applicant applicant = applicantDb.findByEmail(prospectLogin.getEmail());
+//		List<Password> lstpassword = passwordDb.findByApplicantId(applicant);
+//		Password password = lstpassword.stream().sorted(Comparator.comparingInt(Password::getPassword_id).reversed())
+//				.findFirst().get();
+//		// System.out.println(applicant);
+//		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
+//			// add session for active user
+//			// System.out.println(applicant);
+//			setUserSessionManager(applicant.getApplicant_id(), "Regular");
+//
+//			return "redirect:/dashboard";
+//		}
+//		return "driveTest/login";
+//	}
+		
+		Admin admin = adminDb.findByAdminEmail(prospectLogin.getEmail());
+		List<AdminPassword> lstAdminPassword = adminPasswordDb.findByAdminId(admin);
+		AdminPassword adminPassword = lstAdminPassword.stream().sorted(Comparator.comparingInt(AdminPassword::getPassword_id).reversed())
 				.findFirst().get();
 		// System.out.println(applicant);
-		if (Utilities.getMd5(prospectLogin.getPassword()).equals(password.getPassword())) {
+		if (Utilities.getMd5(prospectLogin.getPassword()).equals(adminPassword.getPassword())) {
 			// add session for active user
 			// System.out.println(applicant);
-			setUserSessionManager(applicant.getApplicant_id(), "Regular");
+			setUserSessionManager(admin.getAdminId(), "Regular");
 
 			return "redirect:/dashboard";
 		}
 		return "driveTest/login";
 	}
+
 
 	@Autowired
 	private QuestionCategoryRepository questionCategoryDb;
@@ -989,6 +1025,25 @@ public class DriveTestController {
 			breadCrumbs.start("Checkout");
 			model.addAttribute("links", breadCrumbs);
 		return "driveTest/order";
+	}
+	
+	public void setUpAdmin() {
+		final String ADMIN_ID = "admin@admin.com";
+		final String ADMIN_PWD = "admin";
+		if (adminDb.findAll().stream().filter(x->x.getAdmin_role().equals("Super User")).count() ==0){
+		Admin admin = new Admin();
+		admin.setAdmin_name("Super User");
+		admin.setAdmin_role("Super User");
+		admin.setAdminEmail(ADMIN_ID);
+		admin.setAdmin_status("active");
+		adminDb.save(admin);
+		
+		AdminPassword adminPwd = new AdminPassword();
+		adminPwd.setAdminId(adminDb.findByAdminEmail(admin.getAdminEmail()));
+		adminPwd.setPassword(Utilities.getMd5(ADMIN_PWD));
+		adminPwd.setExpiryDate(Utilities.pwdExpiryDate());
+		adminPasswordDb.save(adminPwd);
+		}
 	}
 
 }

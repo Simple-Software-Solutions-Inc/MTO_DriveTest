@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Models.WIL.Applicant;
 import ca.lambton.Wildemo.Models.WIL.Applicant_Quiz;
+import ca.lambton.Wildemo.Models.WIL.MultipleChoice;
 import ca.lambton.Wildemo.Models.WIL.Product;
 import ca.lambton.Wildemo.Models.WIL.Question;
 import ca.lambton.Wildemo.Repositories.WIL.ApplicantQuizRepository;
@@ -61,6 +63,13 @@ public class DriveTestRestController {
 		
 		List<Product> product = productDb.findAll();		
 		return product;
+	}
+	
+	@GetMapping("/api/questions")
+	public List<MultipleChoice> driveTesApiQuestionss() {
+		
+		List<Question> question = questionDb.findAll();		
+		return  Utilities.getMCQQuestions(question);
 	}
 	
 }

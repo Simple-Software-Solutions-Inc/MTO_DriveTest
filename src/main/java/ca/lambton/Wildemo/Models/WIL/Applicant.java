@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -84,8 +85,9 @@ public class Applicant {
 	@NonNull
 	@ManyToOne // (cascade = CascadeType.ALL)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
-	@NotNull(message = "Applicant must have a zip code")
-	@NotBlank(message = "Zip Code can't be blank")
+//	@NotNull(message = "Applicant must have a zip code")
+//	@NotBlank(message = "Zip Code can't be blank")
+	@Valid
 	private Location location_id;
 	
 	@NonNull

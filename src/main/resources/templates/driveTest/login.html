@@ -8,7 +8,7 @@
 	<div class="container mainBackground pb-5" th:fragment="main_content">
 		<div class="p-5 col text-center text-white appText">DriveTest
 			Application</div>
-		<div id="loginRequest" class="border border-round form-box mx-auto mb-5 bg-white">
+		<div id="loginRequest" class=" col border border-round form-box mx-auto mb-5">
 		<h5 class="text-justify">Login</h5>
 		
 		<span th:if="${loginErr} != null" th:text="${loginErr}" class="text-danger p-1"></span> 
@@ -29,7 +29,7 @@
 						<span	th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 							class="text-danger p-1">Error</span>
 				</div>
-				<div class="g-recaptcha mb-3" th:data-sitekey="6LfmPWsbAAAAAHS-aHc__wkwmXqLO5W1c_uknHUf">Recaptcha</div>
+				<div class="g-recaptcha mb-3" th:data-sitekey="" style="transform:scale(0.50);-webkit-transform:scale(0.50);transform-origin:0 0;-webkit-transform-origin:0 0;">Recaptcha</div>
 				<div class="row mb-3">
 					<div class="col text-start">
 						<a id="cpwd1" class="text-danger" href="">Forgot Password?</a>

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import ca.lambton.Wildemo.Models.BreadCrumbs;
 import ca.lambton.Wildemo.Models.Navigate;
 import ca.lambton.Wildemo.Models.Utilities;
 import ca.lambton.Wildemo.Models.WIL.Category;
@@ -45,7 +47,8 @@ public class MainController {
 	@Autowired
 	private ProductRepository productDb;
 
-
+	@Autowired
+	private BreadCrumbs breadCrumbs;
 
 	
 
@@ -60,6 +63,9 @@ public class MainController {
 		model.addAttribute("modelNames", modelNames);
 		model.addAttribute("modelData", null);
 //		return "layouts/dashboard_components/dashboard";
+		
+		breadCrumbs.start("Dashboard");
+		model.addAttribute("links", breadCrumbs);
 		return "driveTest/dashboard";
 	}
 
@@ -80,6 +86,9 @@ public class MainController {
 		model.addAttribute("modelNames", modelNames);
 		model.addAttribute("modIds", model1.get("modIds"));
 		
+		breadCrumbs.start(modelName);
+//		breadCrumbs.start("Products");
+		model.addAttribute("links", breadCrumbs);
 		return "driveTest/table";
 	}
 
@@ -138,6 +147,9 @@ public class MainController {
 			model.addAttribute("modelId", id);
 //			model.addAttribute("modelNav", new Navigate());
 
+			//Breadcrumbs
+			breadCrumbs.start(modelName + "_view");
+			model.addAttribute("links", breadCrumbs);
 			return "driveTest/view_detail";
 		}
 		return "error";
@@ -165,7 +177,9 @@ public class MainController {
 			model.addAttribute("modelName", modelName);
 			model.addAttribute("modelId", id);
 
-//			pageCounter.increment();
+			//Breadcrumbs
+			breadCrumbs.start(modelName + "_delete");
+			model.addAttribute("links", breadCrumbs);
 
 			return "driveTest/view_detail";
 		}
@@ -325,6 +339,10 @@ public class MainController {
 			model.addAttribute("storeproducts", storeproducts);
 			model.addAttribute("modelData", null);
 //			return "layouts/dashboard_components/dashboard";
+			//Breadcrumbs
+//			breadCrumbs.resetBreadCrumbs();
+			breadCrumbs.start("Store");
+			model.addAttribute("links", breadCrumbs);
 			return "driveTest/store";
 		}
 

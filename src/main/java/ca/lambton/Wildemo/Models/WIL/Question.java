@@ -25,7 +25,7 @@ public class Question {
 	private Integer ques_id;
 	
 	@NonNull
-	@Column(name="question")
+	@Column(name="question", length = 1000)
 	private String question;
 	
 	@NonNull
@@ -40,7 +40,7 @@ public class Question {
 	private String mediaType;
 	
 	@NonNull
-	@Column(name="media_path")
+	@Column(name="media_path", length = 100)
 	private String mediaPath;
 
 	

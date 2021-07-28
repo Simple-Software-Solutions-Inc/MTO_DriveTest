@@ -1,5 +1,6 @@
 package ca.lambton.Wildemo.Models.WIL;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,25 +30,30 @@ public class ProofIdentity {
 	
 	
 	@NonNull
+	@NotBlank(message = "Enter your ID's serial number")
 	private String serial_no;
 	
 	
 	@NonNull
+	@NotBlank(message = "Enter the date the ID was issued")
 	private String issue_date;
 	
 	
 	@NonNull
+	@NotBlank(message = "Enter the date the ID will expire")
 	private String expiry_date;
 	
 	
 	@NonNull
+	@NotBlank(message = "Enter the type for the ID")
 	private String identification_type;
 	
 	
 	@NonNull
+	@NotBlank(message = "Enter where the ID was issued")
 	private String issued_location;
 	
-	
+	@Column(length = 100)
 	private String image_file;
 	
 	

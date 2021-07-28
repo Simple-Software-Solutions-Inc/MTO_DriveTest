@@ -1,20 +1,6 @@
-
-$(document).ready(function() {
-console.log("hello there");
-var enjoyhint_instance = new EnjoyHint({});
-var enjoyhint_script_steps = [
-  {
-    'click #bttn' : 'Click the New button to start creating your project'
-  }  
-]; 
-//set script config
-enjoyhint_instance.set(enjoyhint_script_steps);
-//run Enjoyhint script
-enjoyhint_instance.run();
- 
-});
-$("#cpwd1").click(function(){
-  $("#requestPwd").hide(1000);
+/**
+ * 
+ */
 
 $("#cpwd1").click(function(event) {
 	$("#requestPwd").toggleClass("d-none");
@@ -22,10 +8,6 @@ $("#cpwd1").click(function(event) {
 	$("#loginRequest").toggleClass("d-none");
 	event.preventDefault();
 	console.log("This link was click");
-  //$("#changePwd").hide(1000);
-   $("#loginRequest").toggleClass("d-none");
-   event.preventDefault();
-  console.log("This link was click");
 });
 
 $("#requestbtn").click(function(event) {
@@ -144,7 +126,10 @@ $('div#scroll input[type=checkbox]').change(function() {
 //
 
 if($('#action_id').val()!=='All' && $('#category_id').val()!=='All'){
-	$('#titleCategory').html($('#action_id').val() + ' ' + $('#category_id').children()[$('#category_id').prop('selectedIndex')].text  + ' Questions');
+	if($('#category_id').children()[$('#category_id').prop('selectedIndex')] != undefined){
+		$('#titleCategory').html($('#action_id').val() + ' ' + $('#category_id').children()[$('#category_id').prop('selectedIndex')].text  + ' Questions');
+	}
+	
 }
 
 
@@ -201,3 +186,174 @@ $(item).click(function(evt) {
 });
 });
 //*******************************end of javascript code for qcassignment.html
+
+
+
+//Add the following code if you want the name of the file appear on select
+$(".custom-file-input").change(function() {
+  var fileName = $(this).val().split("\\").pop();
+  //console.log(fileName);
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+
+var orderDetail = [];
+var orderSum = 0;
+//const orderDetail = new Set()
+$('#storeProducts button').click(function(){
+	var product = {
+			name: $(this).prev().prev().text(),
+			value: parseFloat($(this).prev().text()),
+	};
+	console.log("" + $(this).prev().prev().text());
+	console.log("" + $(this).prev().text());
+	console.log(product);
+	if(orderDetail.length>0){
+		console.log("in loop");
+		var exist = false;
+		orderDetail.forEach(function(item){
+			if (item.name === product.name && item.value === product.value){
+				exist = true;
+			}
+		});
+		if (!exist){
+			orderDetail.push(product);
+			orderSum += parseFloat(product.value);
+			$('#itemCount').html('Number of Item: ' + orderDetail.length);
+			$('#totalCost').html('Total Cost: $' + orderSum);
+			
+		}
+		
+	}else{
+		orderDetail.push(product);
+		orderSum += parseFloat(product.value);
+		$('#itemCount').html('Number of Item: ' + orderDetail.length);
+		$('#totalCost').html('Total Cost: $' + orderSum);
+	}
+	 
+	console.log(orderDetail);
+});
+
+$('#gotoCart').click(function(evt){
+	$(this).prev().val(JSON.stringify(orderDetail));
+});
+
+
+var billingBalance = 0;
+console.log($('#paymentContainer').attr("data-total"));
+var val = $('#paymentContainer').attr("data-total");
+
+//if(paypal !== undefined){
+//	paypal.Buttons({
+//	    createOrder: function(data, actions) {
+//	      // This function sets up the details of the transaction, including the amount and line item details.
+//	      return actions.order.create({
+//	        purchase_units: [{
+//	          amount: {
+//	        	currency_code: "USD",
+//	            value: $('#paymentContainer').attr("data-total")
+//	          }
+//	        }]
+//	      });
+//	    },
+//	    onApprove: function(data, actions) {
+//	      // This function captures the funds from the transaction.
+//	      return actions.order.capture().then(function(details) {
+//	        // This function shows a transaction success message to your buyer.
+////	        alert('Transaction completed by ' + details.payer.name.given_name);
+////	        window.location.replace("http://localhost:8080/store/");
+//	        $('#order').html('<div class="col  rounded  display-3"><i class="fa fa-check-circle" style="font-size:100px;color:green"></i>Payment Complete!</div>')
+//	      });
+//	    }
+//	  }).render('#paypal-button-container');
+//	  //This function displays Smart Payment Buttons on your web page.
+//
+//}
+
+
+//registration
+$('#breadcrumbsList').children().last().find('a').removeAttr("href");
+
+//validation code for the registration form
+$('#btn2').click(function(event){
+	var filled = false;
+	var checkfield = ["female", "male"];
+	for(const elem of checkfield){
+		filled = filled || $('#'+ elem).is(':checked');
+	}
+
+
+	
+	var inputFields = ["first_name", "last_name", "nationality", "dob", "height", "address", "phone", "email", "password", "pwd2", "identification_type", "serial_no", "issue_date", "expiry_date", "issued_location", "file"];
+
+	for(const elem of inputFields){
+		filled = filled && ($('#'+ elem).val().trim()!=='');
+	}
+
+	filled = filled && ($("#password").val() == $("#pwd2").val()) && $('#location_id').find(":selected").text()!=='';
+	
+	if (!filled){
+		alert('Please check the information you have entered.');
+		getLabel('#registration', '.col-6');
+		event.preventDefault();
+	}
+});
+
+
+//const inputList = $('#registration input');
+//var inputListId = [];
+//for(const elem of inputList){
+//	inputListId.push(elem.id);
+//}
+//console.log(inputListId);
+
+
+//var getId = (idName, inputType)=>{
+//	const inputList = $(idName + ' ' + inputType);
+//	var inputListId = [];
+//	for(const elem of inputList){
+//		inputListId.push(elem.id);
+//	}
+//	return inputListId;
+//}
+
+//var selectArray = getId('#registration', 'select');
+//var textArray = getId('#registration', 'input[type=text]');
+//var radioArray = getId('#registration', 'input[type=radio]');
+//var fileArray = getId('#registration', 'input[type=file]');
+//var dateArray = getId('#registration', 'input[type=date]');
+//var numberArray = getId('#registration', 'input[type=number]');
+//var passwordArray = getId('#registration', 'input[type=password]');
+
+var getLabel = (idName, inputType)=>{
+	const inputList = $(idName + ' ' + inputType);
+	var inputListId = [];
+	for(const elem of inputList){
+		 var txt3 = document.createElement("span");
+		 txt3.append("*This field is required.")
+		 txt3.className = 'text-danger';
+		elem.append(txt3);
+		inputListId.push(elem);
+		
+	}
+	return inputListId;
+}
+
+
+
+//const inputField2 = textArray.concat(fileArray, numberArray, passwordArray, numberArray, fileArray, radioArray)
+//for(const elem of inputField2){
+//	filled = filled && ($('#'+ elem).val().trim()!=='');
+//}
+
+
+//var width = $('.g-recaptcha').parent().width();
+//if (width < 302) {
+//	var scale = width / 302;
+//	$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+//	$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+//	$('.g-recaptcha').css('transform-origin', '0 0');
+//	$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+//}
+
+//
+//console.log(width);

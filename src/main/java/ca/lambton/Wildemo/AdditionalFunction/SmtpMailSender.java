@@ -1,10 +1,13 @@
 package ca.lambton.Wildemo.AdditionalFunction;
 
+import java.io.File;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -30,8 +33,8 @@ public class SmtpMailSender {
 		
 		javaMailSender.send(message);
 	}
-
-	public void send(String to, String subject, String body, String pathToAttachment) throws MessagingException {
+	
+public void send(String to, String subject, String body, String pathToAttachment) throws MessagingException {
 		//https://www.baeldung.com/spring-email
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper;

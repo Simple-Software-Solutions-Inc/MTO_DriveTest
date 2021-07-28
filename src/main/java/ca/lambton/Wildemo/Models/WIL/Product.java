@@ -51,6 +51,10 @@ public class Product {
 	@Column(name="image_path")
 	private String image_file;
 	
+//	@NonNull
+//	@Column(name="in_active")
+//	private boolean isInActive=false;
+	
 	
 	@Transient
 	public String toString() {

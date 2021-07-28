@@ -34,7 +34,7 @@ public class Applicant_Quiz {
 	private Integer quizId;
 	
 	@NonNull
-	@Column(name="quiz_questions")
+	@Column(name="quiz_questions", length = 1000)
 	private String quizQuestionList;
 	
 	@NonNull

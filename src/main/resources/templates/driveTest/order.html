@@ -6,32 +6,7 @@
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 
-	<div id="breadcrumbs" class="container">
-		<div class="row justify-content-between">
-			<div class="col-auto">
-				<ul class="breadcrumb m-0">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Store</a></li>
-					<li>Review Cart</li>
-					<!-- <li><a href="#">Home</a></li>
-					<li>Italy</li> -->
-				</ul>
-			</div>
-			<div class="col-auto">
-				<form class="form-inline">
-					<div class="input-group input-group-sm m-2">
-						<input type="text" class="form-control" placeholder="Search"
-							aria-label="Search" aria-describedby="button-addon2" />
-
-						<div class="input-group-append">
-							<input class="btn btn-primary btn-sm" type="submit"
-								id="button-addon2" value="Search" />
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 
 	<div class="container p-5 bg-white">
 			<div class="App">
@@ -75,7 +50,7 @@
                 <h5>Checkout with</h5>
                 <input class="btn btn-primary d-none" type="submit">
                 <script
-    th:src="'https://www.paypal.com/sdk/js?client-id=' + ${clientID}"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+    src="https://www.paypal.com/sdk/js?client-id=key#"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
   </script>
 
   <div id="paypal-button-container"></div>
@@ -91,6 +66,34 @@
 		
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
+	<script type="text/javascript">
+	if(paypal !== undefined){
+	paypal.Buttons({
+	    createOrder: function(data, actions) {
+	      // This function sets up the details of the transaction, including the amount and line item details.
+	      return actions.order.create({
+	        purchase_units: [{
+	          amount: {
+	        	currency_code: "USD",
+	            value: $('#paymentContainer').attr("data-total")
+	          }
+	        }]
+	      });
+	    },
+	    onApprove: function(data, actions) {
+	      // This function captures the funds from the transaction.
+	      return actions.order.capture().then(function(details) {
+	        // This function shows a transaction success message to your buyer.
+//	        alert('Transaction completed by ' + details.payer.name.given_name);
+//	        window.location.replace("http://localhost:8080/store/");
+	        $('#order').html('<div class="col  rounded  display-3"><i class="fa fa-check-circle" style="font-size:100px;color:green"></i>Payment Complete!</div>')
+	      });
+	    }
+	  }).render('#paypal-button-container');
+	  //This function displays Smart Payment Buttons on your web page.
+
+}</script>
 	<script src="/js/newsite.js"></script>
+	
 </body>
 </html>

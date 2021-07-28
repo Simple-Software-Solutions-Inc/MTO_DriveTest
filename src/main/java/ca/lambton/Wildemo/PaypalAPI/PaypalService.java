@@ -63,7 +63,7 @@ public class PaypalService {
 		
 		
 		Map configMap = new HashMap<>();
-		configMap.put("PayPal-Request-Id", "123e4567-e89b-12d3-a456-426655440010" + invoiceNumber);
+		configMap.put("PayPal-Request-Id", "key" + invoiceNumber);
 		apiContext.setHTTPHeaders(configMap);
 		
 //		Map configMap = apiContext.getHTTPHeaders();
