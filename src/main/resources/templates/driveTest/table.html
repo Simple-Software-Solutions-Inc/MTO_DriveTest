@@ -11,7 +11,7 @@
 	<div class="container p-5 bg-white" th:fragment="main_content">
 		<div class="row">
 
-			<div class="col-6"
+			<div class="col-sm-12 col-md-6"
 				th:fragment="search_byID (modelName, modIds, filter)">
 				<form method="get"
 					th:action="@{'/dashboard/' + ${#strings.replace(modelName, ' ', '-')} + '/search'}"
@@ -36,7 +36,7 @@
 
 
 
-			<div class=" col-6 mb-1 text-right">
+			<div class="col-sm-12 col-md-6 mb-1 text-right">
 				<a class="btn btn-sm btn-success"
 					th:href="@{'/dashboard/' + ${#strings.replace(currentModelName,' ', '-')} + '/add-new'}">Add
 					New</a>

@@ -31,9 +31,9 @@
 	</div>
 
 	<div class="container p-5 bg-white" th:fragment="main_content">
-	<h5>Product List</h5>
+	<h5 class="">Product List</h5>
 		<div id="storeProducts" class="row">
-			<div class="col-10">
+			<div class="col-xs-12 col-lg-10">
 				<div th:each="product : ${storeproducts}"
 					class="col-auto btn btn-outline-secondary">
 					<a class="text-decoration-none"
@@ -50,7 +50,7 @@
 					<button class="btn btn-primary">Add to Cart</button>
 				</div>
 			</div>
-			<div class="col-2 py-3 px-2 text-white text-center bg-secondary rounded">
+			<div class="col-xs-12 col-lg-2 py-3 px-2 text-white text-center bg-secondary rounded">
 				<p class="pl-2 text-justify">
 					Total: <span id="itemCount" class="d-block">Number of Item</span> <span
 						id="totalCost" class="d-block">Total Cost</span>
