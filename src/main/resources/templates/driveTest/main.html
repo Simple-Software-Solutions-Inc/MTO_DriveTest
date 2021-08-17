@@ -7,56 +7,65 @@
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 	<div class="mt-0 container mainBackground pb-5" th:fragment="main_content">
-		<div class="p-5 col text-center text-white appText">DriveTest
+		<div class="p-1 mb-3 mb-md-0 p-md-5 col text-center text-white appText">DriveTest
 			Application</div>
 		<div class="mb-5">
-			<div class="row gx-2">
-				<div class="mx-auto col-6 border rounded p-3 bg-white">
+		<div class="row p-2 px-lg-5 justify-content-start justify-content-md-end "> <!-- tour feature -->
+							<th:block th:if="${isSuccess} == true">
+							<a data-intro='Start your Quiz! &#128515;' id="quizStart" th:data-start="${!isSuccess}"
+								class="btn btn-danger btn-md">Start
+								Quiz</a>
+								</th:block>
+							<th:block th:if="${isSuccess} == false">
+							<a data-intro='Start your Quiz! &#128515;' id="quizStart"  th:data-start="${!isSuccess}" th:href="@{/quiz}"
+								class="btn btn-success btn-md">Start
+								Quiz</a>
+								</th:block>
+						</div>
+			<div class="row p-2 gx-2">
+				<div class="mx-auto col-12 col-lg-6 p-0">
+				<div class="mb-3 col-12 border rounded p-3 bg-white">
 					<h5>Watch Video to Prepare for G1 test</h5>
-					<p>
-						<iframe width="560" height="315"
+					<!-- tour feature -->
+					<div data-intro='Prepare with a tutorial! &#128515;' class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item"
 							src="https://www.youtube.com/embed/01nuVspc7G4"
 							title="YouTube video player" frameborder="0"
 							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen></iframe>
-							<a href="https://peeldrivingschool.com/images/Smart_Guide.pdf">Download PDF for G1</a>
-					</p>
-
-
+					</div>
+					<div class="col-12">
+							<a data-intro='Download the Guide! &#128515;' href="https://peeldrivingschool.com/images/Smart_Guide.pdf">Download PDF for G1</a> <!-- tour feature -->
+					</div>
+</div>
 				</div>
-				<div class=" mx-auto ml-1 col-4">
+				<div class="  mx-auto col-lg-4 p-0 col-12">
 						<div class="col border rounded p-3 bg-white ">
 							<h5>Your Quiz Attempt</h5>
-							<table class="table table-bordered table-sm">
+							<table data-intro='Check your results! &#128515;' id="result_table" class="table table-bordered table-sm">
 								<thead class="table-dark">
 									<tr>
-										<th>Date</th>
-										<th>Score</th>
-										<th>Result</th>
+										<th class="text-center">Date</th>
+										<th class="text-center">Score</th>
+										<th class="text-center">Result</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="attempt : ${attempts}">
-										<td th:text="${#dates.format(attempt.quizDate, 'dd-MM-yyyy HH:mm')}">Jun 05, 2021</td>
-										<td th:text="${attempt.result} + '%'">2/5</td>
-										<td><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  alt="result" width="40"></td>
+										<td class="text-center" th:text="${#dates.format(attempt.quizDate, 'dd-MM-yyyy HH:mm')}">Jun 05, 2021</td>
+										<td class="text-center" th:text="${attempt.result} + '%'">2/5</td>
+										<td class="text-center"><img th:src="${attempt.result}>=80.0 ? '/media/images/checkmark.png' : '/media/images/close.png'"  th:alt="${attempt.result}>=80.0 ? 'pass' : 'fail'" width="40"></td>
 									</tr>
 								</tbody>
 							</table>
-							<div class="row">
-							<div class="col mx-auto">
+							<div  class="row justify-content-between"> <!-- tour feature -->
+							<div class="col-6 text-center">
 							<span class="h5"><img src="/media/images/checkmark.png" alt="pass" width="40"> Pass</span>
 							</div>
-							<div class="col mx-auto">
+							<div class="col-6 text-center">
 							<span class="h5"><img src="/media/images/close.png" alt="fail" width="40"> Fail</span>
 							</div>
 							</div>
-						</div>
-						
-						<div class="mt-5 text-right">
-							<a th:href="@{/quiz}"
-								class="btn btn-success btn-lg">Start
-								Quiz</a>
 						</div>
 				</div>
 			</div>
@@ -64,6 +73,6 @@
 
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
-
+<script src="/js/newsite.js"></script>
 </body>
 </html>

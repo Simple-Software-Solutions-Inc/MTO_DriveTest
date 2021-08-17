@@ -3,6 +3,7 @@ package ca.lambton.Wildemo.Controllers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -22,6 +23,8 @@ import ca.lambton.Wildemo.Models.WIL.Category;
 import ca.lambton.Wildemo.Models.WIL.Product;
 import ca.lambton.Wildemo.Models.WIL.Question;
 import ca.lambton.Wildemo.Models.WIL.Question_Category;
+import ca.lambton.Wildemo.Repositories.WIL.AdminRepository;
+import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
 import ca.lambton.Wildemo.Repositories.WIL.CategoryRepository;
 import ca.lambton.Wildemo.Repositories.WIL.ProductRepository;
 import ca.lambton.Wildemo.Repositories.WIL.QuestionCategoryRepository;
@@ -33,7 +36,11 @@ public class MainController {
 
 
 	
-	
+	@Autowired
+	private ApplicantRepository applicantDb;
+
+	@Autowired
+	private AdminRepository adminDb;
 	
 	@Autowired
 	private CategoryRepository categoryDb;
@@ -50,84 +57,104 @@ public class MainController {
 	@Autowired
 	private BreadCrumbs breadCrumbs;
 
+	@Autowired
+	private HttpSession session;
 	
-
+ 
 	// dashboard
 	@GetMapping("/dashboard")
-	public String signUp(Model model) {
-		List<String[]> modelNames = allModel().keySet().stream().map(x -> {
-			String[] str = { x.toString(), Utilities.slug(x.toString()) };
-			return str;
-		}).collect(Collectors.toList());
-
-		model.addAttribute("modelNames", modelNames);
-		model.addAttribute("modelData", null);
-//		return "layouts/dashboard_components/dashboard";
+	public String dashboard(Model model) {
 		
-		breadCrumbs.start("Dashboard");
-		model.addAttribute("links", breadCrumbs);
-		return "driveTest/dashboard";
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				List<String[]> modelNames = allModel().keySet().stream().map(x -> {
+					String[] str = { x.toString(), Utilities.slug(x.toString()) };
+					return str;
+				}).collect(Collectors.toList());
+
+				model.addAttribute("modelNames", modelNames);
+				model.addAttribute("modelData", null);
+				
+				breadCrumbs.start("Dashboard");
+				model.addAttribute("links", breadCrumbs);
+				model.addAttribute("isSetUser", Utilities.isSetUser(session, applicantDb, adminDb));
+				return "driveTest/dashboard";
+			}
+			return "redirect:/";
+		}
+		return "redirect:/admin";
+		
+		
 	}
 
 	// Dynamically load each model dashboard
 	@GetMapping("/dashboard/{modelName}")
-	public String signUp(@PathVariable("modelName") String modelName, Model model) {
-		List<String[]> modelNames = allModel().keySet().stream().map(x -> {
-			String[] str = { x.toString(), Utilities.slug(x.toString()) };
-			return str;
-		}).collect(Collectors.toList());
+	public String dashboardModel(@PathVariable("modelName") String modelName, Model model) {
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				try {
+					List<String[]> modelNames = allModel().keySet().stream().map(x -> {
+						String[] str = { x.toString(), Utilities.slug(x.toString()) };
+						return str;
+					}).collect(Collectors.toList());
 
-		
-		var modelData = allModel().get(Utilities.unSlug(modelName));
-		ModelMap model1 = (ModelMap) modelData;
-		System.out.println(modelName);
-		model.addAttribute("modelData", modelData);
-		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
-		model.addAttribute("modelNames", modelNames);
-		model.addAttribute("modIds", model1.get("modIds"));
-		
-		breadCrumbs.start(modelName);
-//		breadCrumbs.start("Products");
-		model.addAttribute("links", breadCrumbs);
-		return "driveTest/table";
-	}
+					
+					var modelData = allModel().get(Utilities.unSlug(modelName));
+					ModelMap model1 = (ModelMap) modelData;
+//					System.out.println(modelName);
+					model.addAttribute("modelData", modelData);
+					model.addAttribute("currentModelName", Utilities.unSlug(modelName));
+					model.addAttribute("modelNames", modelNames);
+					model.addAttribute("modIds", model1.get("modIds"));
+					
+					breadCrumbs.start(modelName);
+					model.addAttribute("links", breadCrumbs);
+					model.addAttribute("isSetUser", Utilities.isSetUser(session, applicantDb, adminDb));
+					return "driveTest/table";
+				}catch(NullPointerException e) {
+					return "error";
+				}
+			}
+			return "redirect:/";
+		}
+		return "redirect:/admin";
+		}
 
 	// Dynamically return the built table for each model
-	@GetMapping("/app/{modelName}")
-	public String getModel(@PathVariable("modelName") String modelName, Model model) {
-		System.out.println(modelName);
-		var modelData = allModel().get(Utilities.unSlug(modelName));
-
-		model.addAttribute("modelData", modelData);
-		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
-		return "layouts/table_components/main_table";
-	}
+//	@GetMapping("/app/{modelName}")
+//	public String getModel(@PathVariable("modelName") String modelName, Model model) {
+//		System.out.println(modelName);
+//		var modelData = allModel().get(Utilities.unSlug(modelName));
+//
+//		model.addAttribute("modelData", modelData);
+//		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
+//		return "layouts/table_components/main_table";
+//	}
 
 	@GetMapping("/dashboard/{modelName}/search")
 	public String products(@PathVariable("modelName") String modelName, @RequestParam("search_id") String id,
 			Model model) {
-
-//		List<Question_Category> lq1 = questionCategoryDb.findAll().stream().filter(x-> (x.getCategoryId().getCat_id())== Integer.parseInt(id)).collect(Collectors.toList());
-//		List<Question> lq = questionDb.findAll().stream().filter(x-> {
-//			boolean t = false;
-//			for (Question_Category c : lq1) {
-//				if (c.getQuestionId().getQues_id() == x.getQues_id())
-//				t= true;
-//			}
-//			return t;
-//		} 
-//		).collect(Collectors.toList());
 		
-		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
-		modelData = fixModel(modelData, Utilities.unSlug(modelName), id);
-		model.addAttribute("modelData", modelData);
-		model.addAttribute("modIds", modelData.get("modIds"));
-//		model.addAttribute("modelData", lq);
-		model.addAttribute("currentModelName", Utilities.unSlug(modelName));
-		model.addAttribute("filter", id);
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
+				modelData = fixModel(modelData, Utilities.unSlug(modelName), id);
+				model.addAttribute("modelData", modelData);
+				model.addAttribute("modIds", modelData.get("modIds"));
+//				model.addAttribute("modelData", lq);
+				model.addAttribute("currentModelName", Utilities.unSlug(modelName));
+				model.addAttribute("filter", id);
 
-//		return "layouts/table_components/main_table";
-		return "driveTest/table";
+				//Breadcrumbs
+				breadCrumbs.start(Utilities.unSlug(modelName));
+				model.addAttribute("links", breadCrumbs);
+				model.addAttribute("isSetUser", Utilities.isSetUser(session, applicantDb, adminDb));
+				return "driveTest/table";
+			}
+				return "redirect:/";
+			}
+			return "redirect:/admin";
+		
 	}
 
 //	get detail
@@ -135,24 +162,31 @@ public class MainController {
 	public String getModelObjectDetail(@PathVariable("id") Integer id, @PathVariable("modelName") String modelName,
 			Model model) {
 
-		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
 
-		modelData = fixModel(modelData, Utilities.unSlug(modelName), id.toString());
+				modelData = fixModel(modelData, Utilities.unSlug(modelName), id.toString());
 
-		if (modelData.get(Utilities.unSlug(modelName)) != null) {
+				if (modelData.get(Utilities.unSlug(modelName)) != null) {
 
-			model.addAttribute("modelClass", modelData.get(Utilities.unSlug(modelName)));
-			model.addAttribute("prod_status", "detail");
-			model.addAttribute("modelName", modelName);
-			model.addAttribute("modelId", id);
-//			model.addAttribute("modelNav", new Navigate());
+					model.addAttribute("modelClass", modelData.get(Utilities.unSlug(modelName)));
+					model.addAttribute("prod_status", "detail");
+					model.addAttribute("modelName", modelName);
+					model.addAttribute("modelId", id);
+//					model.addAttribute("modelNav", new Navigate());
 
-			//Breadcrumbs
-			breadCrumbs.start(modelName + "_view");
-			model.addAttribute("links", breadCrumbs);
-			return "driveTest/view_detail";
+					//Breadcrumbs
+					breadCrumbs.start(modelName + "_view");
+					model.addAttribute("links", breadCrumbs);
+					model.addAttribute("isSetUser", Utilities.isSetUser(session, applicantDb, adminDb));
+					return "driveTest/view_detail";
+				}
+				return "error";
+			}
+			return "redirect:/";
 		}
-		return "error";
+		return "redirect:/admin";		
 	}
 
 	/**
@@ -165,58 +199,84 @@ public class MainController {
 	@GetMapping("/dashboard/{modelName}/delete/{id}")
 	public String deleteModelObject(@PathVariable("id") Integer id, @PathVariable("modelName") String modelName,
 			Model model) {
+		
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
 
-		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
+				modelData = fixModel(modelData, Utilities.unSlug(modelName), id.toString());
 
-		modelData = fixModel(modelData, Utilities.unSlug(modelName), id.toString());
+				if (modelData.get(Utilities.unSlug(modelName)) != null) {
 
-		if (modelData.get(Utilities.unSlug(modelName)) != null) {
+					model.addAttribute("modelClass", modelData.get(Utilities.unSlug(modelName)));
+					model.addAttribute("prod_status", "delete");
+					model.addAttribute("modelName", modelName);
+					model.addAttribute("modelId", id);
 
-			model.addAttribute("modelClass", modelData.get(Utilities.unSlug(modelName)));
-			model.addAttribute("prod_status", "delete");
-			model.addAttribute("modelName", modelName);
-			model.addAttribute("modelId", id);
+					//Breadcrumbs
+					breadCrumbs.start(modelName + "_delete");
+					model.addAttribute("links", breadCrumbs);
+					model.addAttribute("isSetUser", Utilities.isSetUser(session, applicantDb, adminDb));
 
-			//Breadcrumbs
-			breadCrumbs.start(modelName + "_delete");
-			model.addAttribute("links", breadCrumbs);
-
-			return "driveTest/view_detail";
+					return "driveTest/view_detail";
+				}
+				return "error";
+			}
+			return "redirect:/";
 		}
-		return "error";
+		return "redirect:/admin";	
+		
 	}
 	
 	@PostMapping("/dashboard/products/delete/{id}")
 	public String deleteProduct(@PathVariable("id") Integer id) {
 
-		if (productDb.findById(id).isPresent()) {
-			Product product = productDb.findById(id).get();
-			productDb.delete(product);
-			return "redirect:/dashboard/products";
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				if (productDb.findById(id).isPresent()) {
+					Product product = productDb.findById(id).get();
+					productDb.delete(product);
+					return "redirect:/dashboard/products";
+				}
+				return "error";
+			}
+			return "redirect:/";
 		}
-		return "error";
+		return "redirect:/admin";
 	}
 	
 	@PostMapping("/dashboard/categories/delete/{id}")
 	public String deleteCategory(@PathVariable("id") Integer id) {
 
-		if (categoryDb.findById(id).isPresent()) {
-			Category category = categoryDb.findById(id).get();
-			categoryDb.delete(category);
-			return "redirect:/dashboard/products";
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				if (categoryDb.findById(id).isPresent()) {
+					Category category = categoryDb.findById(id).get();
+					categoryDb.delete(category);
+					return "redirect:/dashboard/categories";
+				}
+				return "error";
+			}
+			return "redirect:/";
 		}
-		return "error";
+		return "redirect:/admin";
 	}
 	
 	@PostMapping("/dashboard/questions/delete/{id}")
 	public String deleteQuestions(@PathVariable("id") Integer id) {
 
-		if (questionDb.findById(id).isPresent()) {
-			Question question = questionDb.findById(id).get();
-			questionDb.delete(question);
-			return "redirect:/dashboard/questions";
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				if (questionDb.findById(id).isPresent()) {
+					Question question = questionDb.findById(id).get();
+					questionDb.delete(question);
+					return "redirect:/dashboard/questions";
+				}
+				return "error";
+			}
+			return "redirect:/";
 		}
-		return "error";
+		return "redirect:/admin";
 	}
 	
 	
@@ -225,24 +285,30 @@ public class MainController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/dashboard/{modelName}/view/{id}")
 	public String getModelObjectDetail(@Valid Navigate navigate, @PathVariable("modelName") String modelName) {
-		int id = navigate.getModelObjectId();
-		String btnDetail = navigate.getNext();
+		
+		if (Utilities.getUserSessionObject(session) != null) {
+			if (Utilities.getUserSessionObject(session).getAttribute("role").equals("Admin")) {
+				int id = navigate.getModelObjectId();
+				String btnDetail = navigate.getNext();
 
-		ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
+				ModelMap modelData = (ModelMap) allModel().get(Utilities.unSlug(modelName));
 
-		if (modelData != null) {
+				if (modelData != null) {
 
-			List<Integer> pint = (List<Integer>) modelData.get("modIds");
-			int i = pint.indexOf(id);
-			if (btnDetail.equals("Next") && pint.size() - 1 > i) {
-				i++;
-			} else if (btnDetail.equals("Previous") && i > 0) {
-				i--;
+					List<Integer> pint = (List<Integer>) modelData.get("modIds");
+					int i = pint.indexOf(id);
+					if (btnDetail.equals("Next") && pint.size() - 1 > i) {
+						i++;
+					} else if (btnDetail.equals("Previous") && i > 0) {
+						i--;
+					}
+					return "redirect:/dashboard/" + modelName + "/view/" + pint.get(i);
+				}
+				return "error";
 			}
-			return "redirect:/dashboard/" + modelName + "/view/" + pint.get(i);
+			return "redirect:/";
 		}
-		return "error";
-
+		return "redirect:/admin";
 	}
 	
 
@@ -331,19 +397,6 @@ public class MainController {
 
 	}
 	
-	// store board
-		@GetMapping("/store")
-		public String shoreStore(Model model) {
-			List<Product> storeproducts = productDb.findAll();
-
-			model.addAttribute("storeproducts", storeproducts);
-			model.addAttribute("modelData", null);
-//			return "layouts/dashboard_components/dashboard";
-			//Breadcrumbs
-//			breadCrumbs.resetBreadCrumbs();
-			breadCrumbs.start("Store");
-			model.addAttribute("links", breadCrumbs);
-			return "driveTest/store";
-		}
+	
 
 }

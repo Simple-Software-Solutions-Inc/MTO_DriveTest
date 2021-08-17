@@ -8,16 +8,17 @@
 	<div class="container mainBackground pb-5" th:fragment="main_content">
 		<div class="p-5 col text-center text-white appText">DriveTest
 			Application</div>
-		<div id="loginRequest" class=" col border border-round form-box mx-auto mb-5">
+		<div id="loginRequest" class=" col border border-round form-box mx-auto mb-5 bg-white">
 		<h5 class="text-justify">Login</h5>
 		
 		<span th:if="${loginErr} != null" th:text="${loginErr}" class="text-danger p-1"></span> 
 		
 			<form method="post" th:action="${action}"
-				th:object="${prospectLogin}">
+				th:object="${prospectLogin}"
+				onsubmit="return validateForm()">
 				<div class="form-group mb-3 text-start">
 					<label for="email">Username or Email</label> <input
-						class="form-control" aria-describedby="" type="text"  th:field="*{email}"
+						class="form-control" aria-describedby="" type="email" pattern="[^ @]*@[^ @]*" th:field="*{email}"
 						id="email" placeholder="Enter username or email" />
 						<span	th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 							class="text-danger p-1">Error</span>
@@ -29,13 +30,13 @@
 						<span	th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 							class="text-danger p-1">Error</span>
 				</div>
-				<div class="g-recaptcha mb-3" th:data-sitekey="" style="transform:scale(0.50);-webkit-transform:scale(0.50);transform-origin:0 0;-webkit-transform-origin:0 0;">Recaptcha</div>
+				<div class="g-recaptcha mb-3" th:data-sitekey="${@environment.getProperty('recaptcha.key')}" >Recaptcha</div>
 				<div class="row mb-3">
-					<div class="col text-start">
+					<div class="mb-2 col-sm col-md-6 text-center text-md-left">
 						<a id="cpwd1" class="text-danger" href="">Forgot Password?</a>
 					</div>
-					<div class="col text-right">
-						<input class="btn btn-success btn-sm" type="submit" value="Login" />
+					<div id="submitBtn_id" class="col-sm col-md-6 text-right">
+						<input class="btn btn-success btn-sm w-100" type="submit" value="Login" />
 					</div>
 				</div>
 				
@@ -48,7 +49,7 @@
 		</div>
 
 		<div id="requestPwd"
-			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
+			class="col border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
 			<h5 class="text-justify">Enter your email address to confirm
 				your identity</h5>
 			<form>
@@ -70,7 +71,7 @@
 
 
 		<div id="changePwd"
-			class="border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
+			class="col border border-round  mx-auto mb-5 p-3 bg-white text-start form-box d-none">
 			<h5 class="text-justify">Add new password</h5>
 			<!-- <form method="post" th:action=" @{'/change-password'}" th:object="${pwdUpdate}"> -->
 			<form>
@@ -105,17 +106,7 @@
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
 	<script type="text/javascript">
-		function validateForm(){
-			if(grecaptcha.getResponse())
-				{
-					return true;
-				}
-			else
-				{
-				 alert("Please prove that you're not robot");
-				 return false;
-				}
-		}
+		
 </script>
 <script src="/js/newsite.js"></script>
 </body>

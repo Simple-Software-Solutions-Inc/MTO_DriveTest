@@ -9,9 +9,10 @@
  	<main>
  		<div class="container bg-white" th:fragment="main_content">
  			<div>
- 				<h1 class="display-2">Ooops! </h1>
- 				<h3 class="display-6">Looks like you've spilled your coffee.</h3>
- 				<img alt="error image" src="/media/images/error.jpg">
+ 				<h1 class="display-2">Ooops! [[${errorCode}]]</h1>
+ 				<h3 class="display-6" >Looks like you've spilled your coffee.</h3>
+ 				<h3 class="display-6" >[[${errorMsg}]]</h3>
+ 				<img class="img-fluid" alt="error image" src="/media/images/error.jpg">
  				
  			</div>
  		</div>

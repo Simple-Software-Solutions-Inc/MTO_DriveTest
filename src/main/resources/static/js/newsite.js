@@ -201,10 +201,10 @@ var orderSum = 0;
 //const orderDetail = new Set()
 $('#storeProducts button').click(function(){
 	var product = {
-			name: $(this).prev().prev().text(),
+			name: $(this).parent().prev().text(),
 			value: parseFloat($(this).prev().text()),
 	};
-	console.log("" + $(this).prev().prev().text());
+	console.log("" + $(this).parent().prev().text());
 	console.log("" + $(this).prev().text());
 	console.log(product);
 	if(orderDetail.length>0){
@@ -345,15 +345,137 @@ var getLabel = (idName, inputType)=>{
 //	filled = filled && ($('#'+ elem).val().trim()!=='');
 //}
 
+var defaultRecaptcha = {
+		'transform': $('.g-recaptcha').css('transform'),
+			'-webkit-transform': $('.g-recaptcha').css('-webkit-transform'),
+			'transform-origin' : $('.g-recaptcha').css('transform-origin'),
+			'-webkit-transform-origin': $('.g-recaptcha').css('-webkit-transform-origin')
+};
+console.log(defaultRecaptcha['-webkit-transform'] );
 
-//var width = $('.g-recaptcha').parent().width();
-//if (width < 302) {
-//	var scale = width / 302;
-//	$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
-//	$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
-//	$('.g-recaptcha').css('transform-origin', '0 0');
-//	$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
-//}
+var width = $('.g-recaptcha').parent().width();
+if (width < 302) {
+	var scale = width / 302;
+	$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+	$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+	$('.g-recaptcha').css('transform-origin', '0 0');
+	$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+}
+
+$( window ).resize(function() {
+	var width = $('.g-recaptcha').parent().width();
+	if (width < 302) {
+		var scale = width / 302;
+		$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('transform-origin', '0 0');
+		$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+	}
+	else{
+		$('.g-recaptcha').css('transform', 'scale(1)');
+		$('.g-recaptcha').css('-webkit-transform', 'scale(1)');
+		$('.g-recaptcha').css('transform-origin', '0 0');
+		$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+		
+	}
+	});
+
+
+
+//Control the quiz session so that the user dkoesn't leave
+//$('#quizStart').click(function(event){
+//	// Store
+//	sessionStorage.setItem("quiz_start", true);
+//	// Retrieve
+////	document.getElementById("result").innerHTML = sessionStorage.getItem("lastname");
+//	console.log(sessionStorage.getItem("quiz_start"));
+////	event.preventDefault();
+//});
+
+if (window.location.href.includes('quiz/')){
+	
+	
+	$('a').click(function(event){
+		if ($(this).attr('href').includes( '/log-out')){
+			var aHref = $(this).attr('href');
+			var logout = $(this);
+			if (confirm("If you log-out your quiz session will end. Are you sure you are ready to submit your answers?")){
+				var radioVal = $('#options input[name=answer]:checked').val()=== undefined ? null : $('#options input[name=answer]:checked').val();
+
+				
+				const url = window.location.href;
+				const data = {
+					answer : radioVal,
+					next: 'SUBMIT QUIZ'
+				};
+				
+				logout.attr("data-toggle","modal");
+				logout.attr("data-target", "#exampleModalCenter"); 
+				
+				$.post(url, data, function(data, status) {
+					window.location.href =  window.location.origin + aHref
+				});
+					event.preventDefault();
+
+			}
+			else{
+				event.preventDefault();
+			}	
+		}
+		else if($(this).attr('data-lightbox') === undefined){
+			$(this).attr("data-toggle","modal");
+			$(this).attr("data-target", "#exampleModalCenterTest"); 
+			event.preventDefault();
+		}	
+	});
+//	console.log(window.location.href);
+}
+
+
+//Allow only one attempt once user has pass
+$('#result_table td img').each(function(){
+	if ($(this).attr('alt') === 'pass'){
+//		$('#quizStart').toggleClass('btn-success');
+//		$('#quizStart').toggleClass('btn-danger');
+		
+		$('#quizStart').click(function(evt){
+			if ($('#congratsMsg').length===0){
+				$("<span class='rounded bg-warning text-white p-2 mr-3' id='congratsMsg'><h5>Congratulations! You've already passed.</h5></span>").insertBefore('#quizStart').hide().fadeIn('slow', function(){
+					$('#congratsMsg').delay(3000).fadeOut('slow', function(){
+						$('#congratsMsg').remove();
+					});
+				});
+				
+			}
+			evt.preventDefault();
+		});
+	}
+});
+
+//Hide the tour button
+if (!window.location.href.includes('/main')){
+	$('#tourBtn').toggleClass('d-none');
+}
 
 //
 //console.log(width);
+
+//For login form recapture
+function validateForm(){
+	if(grecaptcha.getResponse())
+		{
+			return true;
+		}
+	else
+		{			 
+		 if ($('#robotMsg').length===0){
+			$("<span class='rounded bg-warning text-white p-1 mx-3 mb-3' id='robotMsg'><h5>Please prove that you're not robot.</h5></span>").insertBefore($('#submitBtn_id').prev()).hide().fadeIn('slow', function(){
+				$('#robotMsg').delay(3000).fadeOut('slow', function(){
+					$('#robotMsg').remove();
+				});
+			});
+			
+		}
+		 return false;
+		}
+}

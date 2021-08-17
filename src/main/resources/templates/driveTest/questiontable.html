@@ -6,36 +6,12 @@
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 
-	<div id="breadcrumbs" class="container">
-		<div class="row justify-content-between">
-			<div class="col-auto">
-				<ul class="breadcrumb m-0">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Pictures</a></li>
-					<li><a href="#">Summer 15</a></li>
-					<li>Italy</li>
-				</ul>
-			</div>
-			<div class="col-auto">
-				<form class="form-inline">
-					<div class="input-group input-group-sm m-2">
-						<input type="text" class="form-control" placeholder="Search"
-							aria-label="Search" aria-describedby="button-addon2" />
+	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 
-						<div class="input-group-append">
-							<input class="btn btn-primary btn-sm" type="submit"
-								id="button-addon2" value="Search" />
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
-	<div class="container p-5 bg-white" th:fragment="main_content">
+	<div class="container p-2 p-md-5 bg-white" th:fragment="main_content">
 		<div class="row">
 
-			<div class="col-8"
+			<div class="col-12 col-lg-8"
 				th:fragment="search_byID (modelName, modIds, filter)">
 				<form method="get"
 					th:action="@{'/dashboard/questions/search'}"
@@ -74,10 +50,8 @@
 
 
 
-			<div class=" col-4 mb-1 text-right">
-				<a class="btn btn-sm btn-outline-secondary mr-1"
-					th:href="@{/dashboard/products/thumbnail}">View Product
-					Thumbnail</a><a class="btn btn-sm btn-success"
+			<div class="col-12 col-lg-4 mb-1 text-left text-md-right">
+				<a class="btn btn-sm btn-success"
 					th:href="@{'/dashboard/questions/add-new'}">Add
 					New</a>
 			</div>
@@ -86,7 +60,7 @@
 		<div
 			th:fragment="table_build (modelData, fieldNames, currentModelName)">
 			<div class="table-responsive">
-				<table class="table table-sm table-bordered table-striped">
+				<table class="d-none d-md-block table table-sm table-bordered table-striped">
 					<thead class="table-dark">
 						<tr>
 							<th>ID</th>
@@ -110,6 +84,45 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<!-- <table class="d-none d-md-block table table-sm table-bordered table-striped">
+					<thead class="table-dark">
+						<tr>
+							<th>ID</th>
+							<th>Question</th>
+							<th>Answer</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+					<tbody> -->
+						<div class="d-md-none" th:each="data : ${modelData}">
+
+							<!-- <p class="bg-secondary text-dark p-2" th:each="d : ${data.fieldData()}" th:text="${d}"> -->
+							<p class="bg-light mx-2 border rounded">
+							<span class="p-2 font-weight-bold rounded text-white bg-dark d-block">Question #: 
+							[[${data.fieldData()[0]}]]
+							</span>
+							<span class="mb-1 px-2 d-block">
+							[[${data.fieldData()[1]}]]
+							</span>
+							<span class="bg-success rounded p-2 font-weight-bold text-white d-block">
+							Answer: [[${data.fieldData()[2]}]]
+							</span>
+							</p>
+							
+							<!-- Data 1</p> -->
+							<p class="text-center"><a
+								class="btn btn-sm btn-primary"
+								th:href="@{'/dashboard/questions/view/' + ${data.fieldData()[0]}}">
+									View </a> <a class="btn btn-sm btn-primary"
+								th:href="@{'/dashboard/questions/edit/' + ${data.fieldData()[0]}}">
+									Edit </a> <a class="btn btn-sm btn-danger"
+								th:href="@{'/dashboard/questions/delete/' + ${data.fieldData()[0]}}">
+									Delete </a></p>
+									<hr/>
+						</div>
+			<!-- 		</tbody>
+				</table> -->
 			</div>
 		</div>
 	</div>

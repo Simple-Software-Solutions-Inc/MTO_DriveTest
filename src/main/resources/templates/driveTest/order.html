@@ -8,11 +8,11 @@
 
 	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 
-	<div class="container p-5 bg-white">
+	<div class="container p-2 p-md-3 bg-white">
 			<div class="App">
-      <div id="order" class="row">
+      <div id="order" class="row mx-0">
       
-        <div id="orderInfo" class="col-8 m-0">
+        <div id="orderInfo" class="col-12 col-md-8 p-1 m-0">
           <h2 class="text-start mb-2">Shopping Cart</h2>
           <div class="row m-0">
           <span class="text-left h-6 col">Description</span>
@@ -41,16 +41,14 @@
           <hr>
           <h5 class="text-right mb-2" th:text="'Subtotal (' + ${count} + ' Items): $' +${totalcost} + ' CAD'">Subtotal (3 Items): $1,4000.00</h5>
         </div>
-        <div class="bg-secondary  rounded col-4">
+        <div class="bg-secondary p-1 rounded col-12 col-md-4">
           <div class="container">
             <div class="row">
-              <div style="height: 100%" class="
-                 col "><div id="paymentContainer"  th:data-total="${totalcost}" class="my-5 p-5
-               col bg-white align-self-end rounded">
+              <div class="p-0 col "><div id="paymentContainer"  th:data-total="${totalcost}" class="my-1 p-1 col bg-white align-self-end rounded">
                 <h5>Checkout with</h5>
                 <input class="btn btn-primary d-none" type="submit">
                 <script
-    src="https://www.paypal.com/sdk/js?client-id=key#"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
+    src="https://www.paypal.com/sdk/js?client-id=AROFM4aF_WgoAZNv_PDVxnz9cenv82H7Memr7R6MJa2AvKuR8BqyeKbs8KOxE903OMJ8j-ASPIjvTEwy"> // Required. Replace YOUR_CLIENT_ID with your sandbox client ID.
   </script>
 
   <div id="paypal-button-container"></div>

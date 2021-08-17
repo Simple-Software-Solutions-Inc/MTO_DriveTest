@@ -6,31 +6,8 @@
 <body>
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 
-	<div id="breadcrumbs" class="container">
-		<div class="row justify-content-between">
-			<div class="col-auto">
-				<ul class="breadcrumb m-0">
-					<li><a href="#">Home</a></li>
-					<li><a href="#">Pictures</a></li>
-					<li><a href="#">Summer 15</a></li>
-					<li>Italy</li>
-				</ul>
-			</div>
-			<div class="col-auto">
-				<form class="form-inline">
-					<div class="input-group input-group-sm m-2">
-						<input type="text" class="form-control" placeholder="Search"
-							aria-label="Search" aria-describedby="button-addon2" />
-
-						<div class="input-group-append">
-							<input class="btn btn-primary btn-sm" type="submit"
-								id="button-addon2" value="Search" />
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
+			
 
 	<div class="container p-5 bg-white" th:fragment="main_content">
 		<div class="App">
@@ -77,22 +54,22 @@
 				</div>
 
 			</form>
-			<div class="container row">
-				<div class="text-start">
+			<div class="container row m-0 p-0">
+				<div class="col-12 p-0 m-0 text-start">
 
 					<h5>
 						<u id="titleCategory">All Questions</u>
 					</h5>
 
-					<form class="row">
+					<form class="">
 						<div
 							class="form-inline col-12 p-1 bg-light rounded border-secondary border"
 							style="height: 300px;">
 							<div id="scroll" class="overflow-auto p-1 w-100 h-100">
 
-								<div class="col-auto input-group mb-3"
+								<div class="col-auto pl-0 input-group mb-3"
 									th:each="data : ${modelData}">
-									<div class="input-group-prepend col">
+									<div class="input-group-prepend col pl-0">
 										<div class="input-group-text">
 											<input type="checkbox"
 												th:id="${'chk_' + data.ques_id}" aria-label="Checkbox for following text input"
@@ -105,7 +82,7 @@
 											aria-label="Text input with checkbox">
 											<span th:text="${data.question}">Lorem Ipsum is simply
 												dummy text of the printing and typesetting industry.</span><span
-												th:text="'Ans: ' + ${data.answer}"></span>
+												 class="bg-success px-2 rounded text-white" th:text="'Ans: ' + ${data.answer}"></span>
 										</div>
 									</div>
 								</div>
@@ -113,7 +90,7 @@
 						</div>
 
 
-						<div class="container">
+						<div class="row-reverse">
 							<th:block th:if="'Unassigned'==${filter_action}">
 
 								<div class="row mt-2">

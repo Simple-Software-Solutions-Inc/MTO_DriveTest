@@ -2,7 +2,7 @@ ul.breadcrumb {
   /* padding: 10px 16px; */
   list-style: none;
   color:#FFFFFF;
-  background-color: #000;
+  background-color: transparent;
 }
 ul.breadcrumb li {
   display: inline;

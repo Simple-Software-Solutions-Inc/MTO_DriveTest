@@ -9,19 +9,20 @@
 		<div class="p-5 col text-center text-white appText">DriveTest
 			Application</div>
 		<div
-			class="bg-white  rounded border-secondary border p-3 mb-5 mx-auto col-10">
+			class="bg-white  rounded border-secondary border p-1 p-md-3 mb-5 mx-auto col-12 col-md-10">
 			<div class="row">
 				<h5 class="pl-4" th:text="'Question #' + ${questionNo}">Question
 					#1</h5>
 			</div>
 			<form method="post" th:action="@{'/quiz/' + ${questionNo}}"
 				th:object="${answerObj}">
-				<div class="row mt-1 mx-2">
-					<div class="col rounded border-secondary border mx-auto bg-light">
+				<div class="row mt-1 m-0 mx-md-2">
+					<div
+						class="col-12 col-lg mb-3 rounded border-secondary border mx-auto bg-light">
 						<span class="d-block" th:text="${ques.question}"> Question
 						</span>
 
-						<div class="d-block mt-5 mb-0">
+						<div class="d-block mt-1 mt-md-5 mb-0">
 							<span class="float-left">Click image to view</span>
 							<th:block th:switch="${ques.mediaType}">
 								<th:block th:case="'Video'">
@@ -30,12 +31,13 @@
 										<source th:src="${ques.mediaPath}" type="video/ogg">
 										Your browser does not support the video tag.
 									</video> -->
-									<iframe width="560" height="315"
-										th:src="${ques.mediaPath}"
-										title="YouTube video player" frameborder="0"
-										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-										allowfullscreen></iframe>
-
+									<div class="embed-responsive embed-responsive-16by9">
+										<iframe class="embed-responsive-item"
+											th:src="${ques.mediaPath}" title="YouTube video player"
+											frameborder="0"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowfullscreen></iframe>
+									</div>
 								</th:block>
 
 								<th:block th:case="'Image'">
@@ -57,58 +59,62 @@
 
 						</div>
 					</div>
-					<div class="col px-2 mx-auto" id="options">
+					<div class="col-12 col-lg px-0 px-lg-2 mx-auto" id="options">
 
-						<div class="col-auto input-group mb-3">
-							<div class="input-group-prepend col">
+						<div class="col-lg-auto input-group mb-3 p-0 ">
+							<div class="input-group-prepend col p-0">
 								<div class="input-group-text">
 									<input type="radio" value="A" name="answer"
 										th:checked="${questionAns =='A'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-								<div th:text="${ques.option_A}" class="input-group-text text-justify text-wrap bg-white col"
-								aria-label="Text input with radio"></div>
+								<div th:text="${ques.option_A}"
+									class="input-group-text text-justify text-wrap bg-white col"
+									aria-label="Text input with radio"></div>
 							</div>
-							
+
 						</div>
 
-						<div class="col-auto input-group mb-3">
-							<div class="input-group-prepend col">
+						<div class="col-lg-auto input-group mb-3 p-0 ">
+							<div class="input-group-prepend col p-0">
 								<div class="input-group-text">
 									<input type="radio" value="B" name="answer"
 										th:checked="${questionAns =='B'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-								<div th:text="${ques.option_B}"  class="input-group-text text-justify text-wrap bg-white col"
-								aria-label="Text input with radio"></div>
+								<div th:text="${ques.option_B}"
+									class="input-group-text text-justify text-wrap bg-white col"
+									aria-label="Text input with radio"></div>
 							</div>
-							
+
 						</div>
 
-						<div class="col-auto input-group mb-3">
-							<div class="input-group-prepend col">
+						<div class="col-lg-auto input-group mb-3 p-0 ">
+							<div class="input-group-prepend col p-0">
 								<div class="input-group-text">
 									<input type="radio" value="C" name="answer"
 										th:checked="${questionAns =='C'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-								<div th:text="${ques.option_C}"  class="input-group-text text-justify text-wrap bg-white col"
-								aria-label="Text input with radio"></div>
+								<div th:text="${ques.option_C}"
+									class="input-group-text text-justify text-wrap bg-white col"
+									aria-label="Text input with radio"></div>
 							</div>
-							
+
 						</div>
 
-						<div class="col-auto input-group mb-3">
-							<div class="input-group-prepend col">
+						<div class="col-lg-auto input-group mb-3 p-0 ">
+							<div class="input-group-prepend col p-0">
 								<div class="input-group-text">
 									<input type="radio" value="D" name="answer"
 										th:checked="${questionAns =='D'} ? 'True'"
 										aria-label="Checkbox for following text input">
 								</div>
-								<div th:text="${ques.option_D}"  class="input-group-text text-justify text-wrap bg-white col"
-								aria-label="Text input with radio"></div>
+								<div th:text="${ques.option_D}"
+									class="input-group-text text-justify text-wrap bg-white col"
+									aria-label="Text input with radio"></div>
 							</div>
-							
+
 						</div>
 
 
@@ -133,20 +139,94 @@
 				<div class="row mt-3">
 
 
-					<div class="col mx-2">
+					<div class="col-12 col-md mx-md-2 mb-2">
 						<input type="submit" value="PREVIOUS" name="next"
-							class="float-right btn btn-secondary btn-sm" />
+							class="col float-md-right btn btn-secondary btn-sm" />
 					</div>
-					<div th:if="${questionNo < QUESTION_COUNT}" class="col mx-2">
+					<div th:if="${questionNo < QUESTION_COUNT}"
+						class="col-12 col-md mx-md-2 mb-2">
 						<input type="submit" value="NEXT" name="next"
-							class=" btn btn-secondary btn-sm" />
+							class="col float-md-left btn btn-secondary btn-sm" />
 					</div>
-					<div th:if="${questionNo == QUESTION_COUNT}" class="col mx-2">
-						<input id="quiz-submit" type="submit" value="SUBMIT QUIZ"
-							name="next" class=" btn btn-primary btn-sm" />
+					<div th:if="${questionNo == QUESTION_COUNT}"
+						class="col-12 col-md mx-md-2 mb-2">
+						<input data-toggle= "modal"	data-target= "#exampleModalCenter" id="quiz-submit" type="submit" value="SUBMIT QUIZ"
+							name="next" class="col float-md-left btn btn-primary btn-sm" />
 					</div>
 				</div>
 			</form>
+		</div>
+		<div>
+
+
+
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTitle">Submitting Answers</h5>
+						</div>
+						<div class="modal-body">
+						<h6>Your result is being calculated...</h6>
+						<img  class="img-fluid" src="https://cdn.dribbble.com/users/102974/screenshots/2724184/vi_hedder_rubberduck.gif" alt="Loading"/>
+							<!-- <div class="spinner-border text-secondary" role="status">
+								<span class="sr-only">Loading...</span>
+							</div> -->
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenterTest" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTestTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTestTitle">Quiz In Progress</h5>
+						</div>
+						<div class="modal-body">
+						<img  class="img-fluid" src="/media/images/wmsg.png" alt="Loading"/>
+						<h6>Your quiz session is active. You are not allowed to leave the quiz until you have submitted your final answers...</h6>
+						
+							<!-- <div class="spinner-border text-secondary" role="status">
+								<span class="sr-only">Loading...</span>
+							</div> -->
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModalCenterTest" tabindex="-1"
+				role="dialog" aria-labelledby="exampleModalCenterTestTitle"
+				aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalCenterTestTitle">Quiz In Progress</h5>
+						</div>
+						<div class="modal-body">
+						<img  class="img-fluid" src="/media/images/wmsg.png" alt="Loading"/>
+						<h6>Your quiz session is active. You are not allowed to leave the quiz until you have submitted your final answers...</h6>
+						
+							<!-- <div class="spinner-border text-secondary" role="status">
+								<span class="sr-only">Loading...</span>
+							</div> -->
+						</div>
+						
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 	</div>

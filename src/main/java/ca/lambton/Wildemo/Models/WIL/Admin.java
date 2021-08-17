@@ -37,14 +37,14 @@ public class Admin {
 	@NotNull(message = "Admin must have a name")
 	@NotBlank(message = "Admin name can't be blank")
 	@Column(name="admin_name")
-	private String admin_name;
+	private String adminName;
 
 	@NonNull
 	@Size(min = 2, max = 30, message = "Admin role must be 2 - 30 characters")
 	@NotNull(message = "Admin must have a role")
 	@NotBlank(message = "Admin role can't be blank")
 	@Column(name="admin_role")
-	private String admin_role;
+	private String adminRole;
 
 	@NonNull
 	@Email()
@@ -57,12 +57,12 @@ public class Admin {
 	@NotNull(message = "Admin must have a status")
 	@NotBlank(message = "Admin status can't be blank")
 	@Column(name="admin_status")
-	private String admin_status;
+	private String adminStatus;
 
 
 	@Transient
 	public String toString() {
-		return this.admin_name + " " + this.admin_role + " " + this.admin_status;
+		return this.adminName + " " + this.adminRole + " " + this.adminStatus;
 	}
 
 	@Transient
@@ -75,8 +75,8 @@ public class Admin {
 	@Transient
 	public String[] fieldData() {
 		String[] fData = {
-				this.adminId.toString(), this.admin_name + " " + this.admin_role,
-				this.admin_status, this.adminEmail };
+				this.adminId.toString(), this.adminName + " " + this.adminRole,
+				this.adminStatus, this.adminEmail };
 		return fData;
 	}
 

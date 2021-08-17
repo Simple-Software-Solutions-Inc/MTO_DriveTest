@@ -18,6 +18,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.ui.ModelMap;
+
 import com.syncfusion.docio.*;
 import com.documents4j.api.DocumentType;
 import com.documents4j.api.IConverter;
@@ -32,6 +36,8 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 import ca.lambton.Wildemo.Models.WIL.MultipleChoice;
 import ca.lambton.Wildemo.Models.WIL.Question;
+import ca.lambton.Wildemo.Repositories.WIL.AdminRepository;
+import ca.lambton.Wildemo.Repositories.WIL.ApplicantRepository;
 
 public class Utilities {
 
@@ -179,7 +185,7 @@ public class Utilities {
 				String qText = q.getQuestion();
 				mq.setQuestion(qText.split("\n")[0]);
 				ObjectMapper objectMapper = new ObjectMapper();
-				System.out.println(qText.split("\n")[1]);
+//				System.out.println(qText.split("\n")[1]);
 				List<String> options = objectMapper.readValue(qText.split("\n")[1], new TypeReference<List<String>>() {
 				});
 				mq.setOption_A(options.get(0));
@@ -253,5 +259,29 @@ public class Utilities {
     }
 	
 	
+	public static ModelMap getUserSessionObject(HttpSession session) {
+		ModelMap activeUser = null;
+		if (session.getAttribute("Active_User") != null) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String p = session.getAttribute("Active_User").toString();
+			try {
+				activeUser = objectMapper.readValue(p, new TypeReference<ModelMap>() {
+				});
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
 
+		return activeUser;
+	}
+	
+	public static String isSetUser(HttpSession session, ApplicantRepository applicantDb, AdminRepository adminDb) {
+		if (getUserSessionObject(session) != null) {
+			if (getUserSessionObject(session).getAttribute("role").equals("Regular"))
+				return  applicantDb.findById((Integer) getUserSessionObject(session).getAttribute("uid")).get().getFirst_name();
+			else
+				return  adminDb.findById((Integer) getUserSessionObject(session).getAttribute("uid")).get().getAdminName();
+		}
+		return null;
+	}
 }

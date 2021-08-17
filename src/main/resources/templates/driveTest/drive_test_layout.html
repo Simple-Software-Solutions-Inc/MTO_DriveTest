@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Spring App</title>
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css" />
+<link rel="stylesheet" href="/js/introjs.css" />
+<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.css" />
 <link rel="stylesheet" href="/css/site.css" />
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet"	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="stylesheet" href="/css/footer.css" />
+<link rel="stylesheet" href="/css/header.css" />
 <link rel="stylesheet" href="/css/newsite.css" />
 <link rel="stylesheet" href="/css/admin.css" />
 
@@ -18,62 +19,91 @@
 <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="/lib/jquery-validate/jquery.validate.min.js"></script>
-<script
-	src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script type="text/javascript" th:src="@{/js/intro.js}"></script>  <!-- tour feature -->
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 <!-- jsPDF library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script> 
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
- <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript">
 	    $(document).ready(function() {
 	    	
 	    	 
 	    });
     	
-    </script>   
+    	//Tour feature
+    	function my_function(){
+		console.log("tour clicked");
+		introJs().start();
+		sessionStorage.setItem("tourStatus",true);
+		}
+    </script>
 </head>
 <body>
 	<header th:fragment="header">
 		<nav
-			class="navbar navbar-expand-sm navbar-toggleable-sm bg-white">
-			<div class="container  box-shadow pb-2 borderThick-b bg-white">
-				<div class="row pl-2">
-				<div class="imglogo">
-					<img class="imglogo" src="/media/images/ca1.png" alt="logo">
+			class="container p-0 navbar navbar-expand-sm navbar-toggleable-sm">
+			<div
+				class="container  px-2 py-3 col-12 box-shadow pb-2  borderThick-b bg-white">
+				<div class="row col-12 px-0 mx-0">
+					<a class="navbar-brand text-dark col-12 col-md-6 p-0 mx-0" href="/">
+
+						<span class="row gx-0"> <span
+							class="col-auto col-md-3 col-lg-3 ml-3 ml-md-0 mx-0 px-0">
+								<img src="/media/images/ca1.png" class="logo" alt="">
+						</span> <span class="col-8 col-md-8 row px-0 mx-0"> <span
+								class="col-12 p-0 text-left logotext-primary">Ontario</span> <span
+								class="col-12 p-0 text-left logotext-secondary">Ministry
+									of Transportation</span>
+						</span>
+					</span>
+
+					</a> <span
+						class="d-flex align-items-md-end flex-column  col-12 col-md-6 row mx-0 justify-content-md-end p-0 pt-1 pt-md-0">
+						<th:block th:if="${isSetUser} != null">
+						<span class=" d-block pr-md-2 pl-2 font-weight-bold"> Hi [[${isSetUser}]]! </span>
+						</th:block>
+						 <span class="d-block">
+						 <button id="tourBtn" onclick="my_function()" class="font-weight-bold btn btn-info btn-sm mx-1">
+					Take a Tour
+				</button> <!-- tour feature -->
+						<a href="/store"
+						class=" col-auto align-self-md-end font-weight-bold btn btn-sm btn-outline-primary mx-0 mx-md-1">
+							Visit Our Store </a> <th:block th:if="${isSetUser} != null">
+
+							<a href="/log-out"
+								class="col-auto  align-self-md-end btn btn-sm btn-outline-dark mx-1">
+								Log-out </a>
+						</th:block>
+					</span> 
+					</span>
+					
+	
+
 				</div>
-			<div class="col logoText">
-				<div class="logoFont">Ontario</div>
-				<div class="logoFont-sm">Ministry of Transportation</div>
-			</div>
-			</div>
-			<div class="text-right">
-			<a href="/store" class="font-weight-bold btn btn-sm btn-outline-primary mx-1">
-					Visit Our Store
-				</a>
-				<a href="/log-out" class="btn btn-sm btn-outline-dark mx-1">
-					Log-out
-				</a>
-				</div>
+
 			</div>
 		</nav>
- 	
+
 	</header>
-	
-	<div id="breadcrumbs" class="container" th:fragment="breadcrumbs (${links})">
+
+	<div id="breadcrumbs" class="container"
+		th:fragment="breadcrumbs (${links})">
 		<div class="row justify-content-between">
 			<div class="col-auto">
 				<ul id="breadcrumbsList" class="breadcrumb m-0">
-					<li th:each="tags : ${links.get()}"><a th:href="${tags.value}" th:text="${#strings.capitalize(tags.key)}">Home</a></li>
+					<li th:each="tags : ${links.get()}"><a th:href="${tags.value}"
+						th:text="${#strings.capitalize(tags.key)}">Home</a></li>
 					<!-- <li><a href="#">Pictures</a></li>
 					<li><a href="#">Summer 15</a></li>
 					<li>Italy</li> -->
 				</ul>
 			</div>
-			<div class="col-auto">
-				<form class="form-inline">
+			<div class="d-none d-md-block col-auto">
+				<form class="form-inline mt-1">
 					<div class="input-group input-group-sm m-2">
 						<input type="text" class="form-control" placeholder="Search"
 							aria-label="Search" aria-describedby="button-addon2" />
@@ -87,13 +117,14 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="container mt-0 mainBackground" th:fragment="main_content">
 		<main role="main" class="pb-3">
-			<div class="p-5 col text-center text-white">DriveTest Application</div>
+			<div class="p-5 col text-center text-white">DriveTest
+				Application</div>
 			<div class="row" th:fragment="main_content1"></div>
-			
-			
+
+
 		</main>
 	</div>
 
@@ -117,7 +148,8 @@
 			</div>
 		</div>
 	</footer> -->
-	<footer class="site-footer container borderThick-t" th:fragment="footer">
+	<footer class="site-footer container borderThick-t"
+		th:fragment="footer">
 		<!--<div class="site-footer container">
 		<div class="site-footer container borderThick-t bg-white">
 			<div class="row">
@@ -139,84 +171,85 @@
 			</div> -->
 
 
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-12 col-md-6">
-						<h6>About</h6>
-						<p class="text-justify">At DriveTest, our mission is to
-							support the Ministry of Transportation (MTO) in its commitment to
-							maintain and improve road user safety by providing driver
-							examination services that are customer-focused, professionally
-							delivered, and effectively managed.</p>
-					</div>
-
-					<div class="col-xs-6 col-md-3">
-						<h6>Categories</h6>
-						<ul class="footer-links">
-							<li><a href="https://drivetest.ca/tests/tests-overview.html">Tests
-									Overview</a></li>
-							<li><a
-								href="https://drivetest.ca/tests/official-drivers-handbooks.html">Driver's
-									Handbooks</a></li>
-							<li><a
-								href="https://drivetest.ca/tests/resources/education-and-resources.html">Education
-									& Resources</a></li>
-							<li><a href="https://drivetest.ca/tests/fees.html">Fees</a></li>
-							<li><a
-								href="https://drivetest.ca/licences/licence-exchanges/licence_exchange.html">Exchanges
-									& Foreign Licences</a></li>
-							<li><a href="https://drivetest.ca/home/news.html">News</a></li>
-						</ul>
-					</div>
-
-					<div class="col-xs-6 col-md-3">
-						<h6>Quick Links</h6>
-						<ul class="footer-links">
-							<li><a href="https://drivetest.ca/home/about-drivetest.html">About
-									Us</a></li>
-							<li><a href="https://drivetest.ca/home/contact_us.html">Contact
-									Us</a></li>
-							<li><a href="https://drivetest.ca/find-a-drive-test-centre">Find
-									a DriveTest centre</a></li>
-							<li><a
-								href="https://drivetest.ca/find-a-drive-test-centre/alphabetical_list.html">DriveTest
-									Centre List</a></li>
-							<li><a
-								href="https://drivetest.ca/find-a-drive-test-centre/service_disruptions.html">Service
-									Disruptions</a></li>
-						</ul>
-					</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-6">
+					<h6>About</h6>
+					<p class="text-justify">At DriveTest, our mission is to support
+						the Ministry of Transportation (MTO) in its commitment to maintain
+						and improve road user safety by providing driver examination
+						services that are customer-focused, professionally delivered, and
+						effectively managed.</p>
 				</div>
-				<hr>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-8 col-sm-6 col-xs-12">
-						<p class="copyright-text">
-							Copyright &copy; 2021 All Rights Reserved by <a href="#">Drivetest</a>.
-						</p>
-					</div>
 
-					<div class="col-md-4 col-sm-6 col-xs-12">
-						<ul class="social-icons">
-							<li><a target="_" class="facebook"
-								href="https://www.facebook.com/Drive-Test-1301405629878198/"><i
-									class="fa fa-facebook"></i></a></li>
-							<li><a target="_" class="twitter"
-								href="https://twitter.com/ONtransport?s=20"><i
-									class="fa fa-twitter"></i></a></li>
-							<li><a target="_" class="dribbble"
-								href="https://www.instagram.com/explore/tags/drivetest/?hl=en"><i
-									class="fa fa-instagram"></i></a></li>
-						</ul>
-					</div>
+				<div class="col-xs-6 col-md-3">
+					<h6>Categories</h6>
+					<ul class="footer-links">
+						<li><a href="https://drivetest.ca/tests/tests-overview.html">Tests
+								Overview</a></li>
+						<li><a
+							href="https://drivetest.ca/tests/official-drivers-handbooks.html">Driver's
+								Handbooks</a></li>
+						<li><a
+							href="https://drivetest.ca/tests/resources/education-and-resources.html">Education
+								& Resources</a></li>
+						<li><a href="https://drivetest.ca/tests/fees.html">Fees</a></li>
+						<li><a
+							href="https://drivetest.ca/licences/licence-exchanges/licence_exchange.html">Exchanges
+								& Foreign Licences</a></li>
+						<li><a href="https://drivetest.ca/home/news.html">News</a></li>
+					</ul>
+				</div>
+
+				<div class="col-xs-6 col-md-3">
+					<h6>Quick Links</h6>
+					<ul class="footer-links">
+						<li><a href="https://drivetest.ca/home/about-drivetest.html">About
+								Us</a></li>
+						<li><a href="https://drivetest.ca/home/contact_us.html">Contact
+								Us</a></li>
+						<li><a href="https://drivetest.ca/find-a-drive-test-centre">Find
+								a DriveTest centre</a></li>
+						<li><a
+							href="https://drivetest.ca/find-a-drive-test-centre/alphabetical_list.html">DriveTest
+								Centre List</a></li>
+						<li><a
+							href="https://drivetest.ca/find-a-drive-test-centre/service_disruptions.html">Service
+								Disruptions</a></li>
+					</ul>
 				</div>
 			</div>
-		
+			<hr>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 col-sm-6 col-xs-12">
+					<p class="copyright-text">
+						Copyright &copy; 2021 All Rights Reserved by <a href="#">Drivetest</a>.
+					</p>
+				</div>
+
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<ul class="social-icons">
+						<li><a target="_" class="facebook"
+							href="https://www.facebook.com/Drive-Test-1301405629878198/"><i
+								class="fa fa-facebook"></i></a></li>
+						<li><a target="_" class="twitter"
+							href="https://twitter.com/ONtransport?s=20"><i
+								class="fa fa-twitter"></i></a></li>
+						<li><a target="_" class="dribbble"
+							href="https://www.instagram.com/explore/tags/drivetest/?hl=en"><i
+								class="fa fa-instagram"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
 	</footer>
 	<script src="/lib/jquery/jquery.js"></script>
 	<script src="/lib/bootstrap/js/bootstrap.js"></script>
 	<script src="/js/site.js"></script>
 	
+
 </body>
 </html>

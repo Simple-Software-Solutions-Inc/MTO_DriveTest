@@ -97,7 +97,7 @@ public class Applicant {
 
 	@Transient
 	public String toString() {
-		return this.first_name + " " + this.last_name + " " + this.location_id.getZip_code();
+		return this.first_name + " " + this.last_name + " " + this.location_id;
 	}
 
 	@Transient

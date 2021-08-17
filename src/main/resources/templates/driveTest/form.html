@@ -9,8 +9,8 @@
 	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 
 
-	<div class="container p-5 bg-white" th:fragment="main_content">
-		<div class="w-50"
+	<div class="container py-3 p-md-5 bg-white" th:fragment="main_content">
+		<div class="col-sm-12 col-md-12 col-lg-10"
 		th:fragment="form_build (destination, method, modelClass, encoding)">
 		<form th:method="${method}" th:action="${destination}"
 			th:object="${modelClass}"
@@ -88,13 +88,13 @@
 			</div>
 
 
-			<div class="mt-3 row g-2">
-				<div class="col-1">
-					<input type="submit" class="btn btn-sm btn-success mr-5"
-						value="Submit" />
+			<div class="mt-3 row g-2 justify-content-between">
+				<div class="col-sm col-md-6 col-lg-4 ml-auto my-1">
+					<a class="btn btn-sm btn-danger w-100" th:href="@{'/'}">Cancel</a>
 				</div>
-				<div class="col-1">
-					<a class="btn btn-sm btn-danger ml-5" th:href="@{'/'}">Cancel</a>
+				<div class="col-sm col-md-6 col-lg-4 mb-3 mr-auto my-1">
+					<input type="submit" class="btn btn-sm btn-success w-100 mr-5"
+						value="Submit" />
 				</div>
 			</div>
 		</form>

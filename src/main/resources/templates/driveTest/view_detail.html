@@ -10,16 +10,14 @@
 
 	<div class="container p-5 bg-white" th:fragment="main_content">
 
-		<div class="h2 row pl-1"
-			th:text="'Detail View'">Product
-			detail: Item#</div>
-		<div class="mx-auto row p-2 border rounded bg-light">
-			<div class="col-3 mx-auto" th:each="item : ${modelClass.formBuilder()}" th:if="${item[2]} =='file'">
-				<a th:href="${modelClass.__${item[0]}__}"> <img class="img-thumbnail"
+		<div class="h2 row pl-1">[[${prod_status}]] View</div>
+		<div class="mx-auto justify-content-between row p-2 border rounded bg-light">
+			<div class="col-4" th:each="item : ${modelClass.formBuilder()}" th:if="${item[2]} =='file'">
+				<a th:href="${modelClass.__${item[0]}__}"> <img class="img-fluid"
 					th:alt="${modelClass.__${item[0]}__}" th:src="${modelClass.__${item[0]}__}" />
 				</a>
 			</div>
-			<div class="col-7 ml-5 mx-auto">
+			<div class="col-8">
 				
 				<table class="table table-striped table-sm">
 			<tbody>
@@ -40,18 +38,18 @@
 		</div>
 		<div class="mb-3" th:switch="${prod_status}">
 			<div class="m-3 row justify-content-center" th:case="'detail'">
-				<form method="post" th:object="${modelNav}"
+				<form class="col-12" method="post" th:object="${modelNav}"
 					th:action="@{'/dashboard/' + ${modelName} + '/view/' + ${modelId}}">
 					<input type="hidden" th:value="${modelId}"
 						th:name="modelObjectId">
 					<div class="row justify-content-center">
-						<div class="col-6">
+						<div class="col col-md-3">
 							<input type="submit"
-								class="btn btn-sm btn-primary float-right mr-5" name="next"
+								class="btn btn-sm btn-primary col" name="next"
 								value="Previous"\>
 						</div>
-						<div class="col-6">
-							<input type="submit" class="btn btn-sm btn-primary ml-5"
+						<div class="col col-md-3">
+							<input type="submit" class="btn btn-sm btn-primary col"
 								name="next" value="Next"\>
 						</div>
 					</div>

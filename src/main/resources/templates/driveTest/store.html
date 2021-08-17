@@ -8,36 +8,36 @@
 
 	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 
-	<div class="container p-5 bg-white" th:fragment="main_content">
-	<h5>Product List</h5>
-		<div id="storeProducts" class="row">
-			<div class="col-10">
+	<div class="container px-3 px-md-5 py-3 py-md-5 bg-white" th:fragment="main_content">
+	<h5 class="col-12 text-center text-md-left px-md-0">Product List</h5>
+		<div id="storeProducts" class="row m-0 p-0">
+			<div class="row mx-auto col-12  col-md-9 px-md-0">
 				<div th:each="product : ${storeproducts}"
-					class="col-auto btn btn-outline-secondary">
+					class="col-8 col-md-5 col-lg-3 p-md-1 my-2 mx-auto mx-md-1 btn btn-outline-secondary">
 					<a class="text-decoration-none"
 						th:href="@{'/dashboard/' + ${#strings.toLowerCase(product.name)}}"
 						data-bs-toggle="tooltip" data-bs-placement="bottom"
 						th:title="${#strings.capitalize(product.name)}"> <img
-						class="d-block" th:src="${product.image_file}" width="100"
-						height="100" th:alt="${product.name}" />
+						class="img-fluid" th:src="${product.image_file}"  th:alt="${product.name}" />
 					</a>
-					<div class="text-truncate" style="width: 100px;"
+					<div class="text-truncate bg-dark text-white"
 						th:text="${#strings.capitalize(product.name)}">Name</div>
-					<div class="text-truncate" style="width: 100px;"
-						th:text="${#strings.capitalize(product.price)}">Name</div>
+					<div class="text-truncate">
+					<span class="col-12 d-block text-center">[[${#strings.capitalize(product.price)}]]</span>
 					<button class="btn btn-primary">Add to Cart</button>
+					</div>
 				</div>
 			</div>
-			<div class="col-2 py-3 px-2 text-white text-center bg-secondary rounded">
-				<p class="pl-2 text-justify">
-					Total: <span id="itemCount" class="d-block">Number of Item</span> <span
-						id="totalCost" class="d-block">Total Cost</span>
+			<div class="col-12 col-md-3 p-md-0 ">
+			<div class="col-8 col-md-12 mx-auto m-md-0 py-3 px-1 p-lg-2 text-white text-left bg-secondary rounded">
+					Total: <span id="itemCount" class="text-left d-block">Number of Item</span> <span
+						id="totalCost" class="text-left d-block">Total Cost</span>
 				</p>
-				<form method="get" action="/store/checkout/">
+				<form class="text-center" method="get" action="/store/checkout/">
 					<input type="hidden" name="product">
 					<input  id="gotoCart" class="btn btn-warning" type="submit" value="Go to Cart" />
 				</form>
-				
+				</div>
 			</div>
 		</div>
 	</div>

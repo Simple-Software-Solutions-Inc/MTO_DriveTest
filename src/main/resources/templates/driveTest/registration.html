@@ -7,23 +7,23 @@
 	<header th:replace="driveTest/drive_test_layout :: header"> </header>
 	<div id="breadcrumbs" class="container" th:replace="driveTest/drive_test_layout :: breadcrumbs(links)"></div>
 	<div class="mt-0 container mainBackground pb-5" th:fragment="main_content">
-		<div class="p-5 col text-center text-white appText">DriveTest
+		<div class="p-5 col-sm-12 col-md-12 col-lg-12 text-center text-white appText">DriveTest
 			Application</div>
 		<div
-			class="bg-white rounded border border-secondary mx-auto col-10 mb-5 pt-5">
+			class="col-sm-12 col-md-12 col-lg-10 bg-white border border-secondary rounded mx-auto mb-5 pt-5">
 			<h5>Register to create a DriveTest account</h5>
 			<form id="registration" method="post" th:action=" @{'/registration'}"
 				th:object="${prospect}" enctype="multipart/form-data">
 				
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>First Name</label> <input class="form-control"
 							aria-describedby="" type="text"  id="first_name" th:field="*{applicant.first_name}"
 							placeholder="Enter first name" />
 							<span	th:if="${#fields.hasErrors('applicant.first_name')}" th:errors="*{applicant.first_name}"
 							class="text-danger p-1">Error</span>
 					</div>
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Last Name</label> <input class="form-control"
 							aria-describedby="" type="text"  id="last_name" th:field="*{applicant.last_name}"
 							placeholder="Enter last name" />
@@ -34,14 +34,14 @@
 				</div>
 
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Nationality</label> <input class="form-control"
 							aria-describedby="" type="text"  id="nationality" th:field="*{applicant.nationality}"
 							placeholder="Enter nationality" />
 							<span	th:if="${#fields.hasErrors('applicant.nationality')}" th:errors="*{applicant.nationality}"
 							class="text-danger p-1">Error</span>
 					</div>
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>D.O.B</label> <input class="form-control"
 							aria-describedby="" type="date"  id="dob" th:field="*{applicant.dob}"/>
 							<span	th:if="${#fields.hasErrors('applicant.dob')}" th:errors="*{applicant.dob}"
@@ -50,7 +50,7 @@
 				</div>
 
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Height</label> <input class="form-control"
 							aria-describedby="" type="number"  id="height" th:field="*{applicant.height}"
 							placeholder="Enter height in centimeters" />
@@ -58,7 +58,7 @@
 							class="text-danger p-1">Error</span>
 					</div>
 					
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<fieldset class="form-group">
 							<legend class="col-form-label">Gender</legend>
 							<div class="row ml-1">
@@ -81,14 +81,14 @@
 				</div>
 
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Address</label> <input class="form-control"
 							aria-describedby="" type="text" id="address" name="address"  th:field="*{applicant.address}"
 							placeholder="Enter street # and name" />
 							<span	th:if="${#fields.hasErrors('applicant.address')}" th:errors="*{applicant.address}"
 							class="text-danger p-1">Error</span>
 					</div>
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Zip Code</label> <!-- <input class="form-control"
 							aria-describedby="" type="text" name="zip" id="zip" th:field="*{applicant.location_id}"
 							placeholder="Enter zip code" /> -->
@@ -113,14 +113,14 @@
 				</div>
 
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Phone Number</label> <input class="form-control"
 							aria-describedby="" type="tel" id="phone" th:field="*{applicant.phone_no}"
 							placeholder="555-555-5555" />
 							<span	th:if="${#fields.hasErrors('applicant.phone_no')}" th:errors="*{applicant.phone_no}"
 							class="text-danger p-1">Error</span>
 					</div>
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Email</label> <input class="form-control"
 							aria-describedby="" type="email"  id="email" th:field="*{applicant.email}"
 							placeholder="example@mto.com" />
@@ -130,14 +130,14 @@
 				</div>
 
 				<div class="form row mb-2">
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Password</label> <input class="form-control"
 							aria-describedby="" type="password"  id="password" th:field="*{password}"
 							placeholder="Enter password" />
 							<span	th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 							class="text-danger p-1">Error</span>
 					</div>
-					<div class="col-6 form-group text-start">
+					<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 						<label>Confirm Password</label> <input class="form-control"
 							aria-describedby="" type="password" name="pwd2" id="pwd2"
 							placeholder="Confirm password" />
@@ -149,7 +149,7 @@
 				<fieldset class="form-group">
 					<legend class="col-form-label">Proof of Identity</legend>
 					<div class="form row mb-2">
-						<div class="col-6 form-group text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>ID Type</label> <input class="form-control"
 								aria-describedby="" type="text"  id="identification_type" th:field="*{proof.identification_type}"
 								placeholder="Enter type example Passport" />
@@ -157,7 +157,7 @@
 							class="text-danger p-1">Error</span>
 							
 						</div>
-						<div class="col-6 form-group text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>Serial Number</label> <input class="form-control"
 								aria-describedby="" type="text"  id="serial_no" th:field="*{proof.serial_no}"
 								placeholder="ID number" />
@@ -168,13 +168,13 @@
 
 
 					<div class="form row mb-2">
-						<div class="col-6 form-group text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>Date Issued</label> <input class="form-control"
 								aria-describedby="" type="date"  id="issue_date" th:field="*{proof.issue_date}"/>
 								<span	th:if="${#fields.hasErrors('proof.issue_date')}" th:errors="*{proof.issue_date}"
 							class="text-danger p-1">Error</span>
 						</div>
-						<div class="col-6 form-group text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>Expiry Date</label> <input class="form-control"
 								aria-describedby="" type="date"  id="expiry_date" th:field="*{proof.expiry_date}"/>
 								<span	th:if="${#fields.hasErrors('proof.expiry_date')}" th:errors="*{proof.expiry_date}"
@@ -184,7 +184,7 @@
 
 
 					<div class="form row mb-2">
-						<div class="col-6 form-group text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>Place of Issued</label> <input class="form-control"
 								aria-describedby="" type="text"  id="issued_location"
 								placeholder="Enter country/region" th:field="*{proof.issued_location}"/>
@@ -193,13 +193,13 @@
 						</div>
 						
 						
-						<!-- <div class="col-6 form-group text-start">
+						<!-- <div class="col-sm-12 col-md-6 col-lg-6 form-group text-start">
 							<label>Upload ID</label> <input class="form-control"
 								aria-describedby="" type="file" name="file" id="file"
 								placeholder="Upload file here" />
 						</div> -->
 						
-						<div class="col-6 form text-start">
+						<div class="col-sm-12 col-md-6 col-lg-6 form text-start">
 						<span class="form-row m-0 mb-2">Upload ID</span>
 						<div class="text-start custom-file">
 						<label class="custom-file-label" for="validatedCustomFile">Choose file...</label> 
@@ -219,14 +219,14 @@
 
 				<!-- proof section -->
 
-				<div class="form row mb-2">
-					<div class="col form-group text-start">
-						<a class="btn btn-danger btn-sm float-right"
+				<div class="form row mb-2 justify-content-between">
+					<div class="col-sm col-md-6 col-lg-4 form-group ml-auto">
+						<a class="btn btn-danger btn-sm w-100"
 							aria-describedby="" href="/drive_test" 
 							id="btn1" >Cancel</a>
 					</div>
-					<div class="col form-group text-start">
-						<input class="btn btn-success btn-sm " aria-describedby=""
+					<div class="col-sm col-md-6 col-lg-4 form-group mr-auto">
+						<input class="btn btn-success btn-sm w-100" aria-describedby=""
 							type="submit" name="submit" value="Submit" id="btn2" />
 					</div>
 				</div>

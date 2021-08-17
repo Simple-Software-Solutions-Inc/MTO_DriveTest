@@ -20,6 +20,17 @@
 					th:text="${#strings.capitalize(model[0])}">Name</div>
 			</a>
 		</div>
+		<div class="col-auto btn">
+			<a class="btn btn-outline-secondary text-decoration-none"
+				th:href="@{'/dashboard/report'}"
+				data-bs-toggle="tooltip" data-bs-placement="bottom"
+				th:title="${#strings.capitalize('reports')}"> <img
+				class="d-block" src="/media/images/image.png" width="100"
+				th:alt="'report'" />
+				<div class="text-truncate" style="width: 100px;"
+					>Report</div>
+			</a>
+		</div>
 	</div>
 	<footer th:replace="driveTest/drive_test_layout :: footer" />
 	<script src="/js/newsite.js"></script>
